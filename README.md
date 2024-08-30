@@ -11,7 +11,7 @@ O projeto Beauty Sys é um sistema de gerenciamento para salões de beleza, dese
 Além disso, pensando na evolução natural do sistema, projetamos o Beauty Sys para incluir funcionalidades de venda de produtos de beleza. Isso permitirá que os salões não apenas prestem serviços, mas também comercializem uma variedade de produtos, como xampus, condicionadores, cremes e acessórios. O objetivo é oferecer uma interface amigável que facilite e integre a experiência em salões de beleza e barbearias.
 
 ## 📒 Manual do projeto
-O manual completo e atualizado do projeto está disponível no link do notion a seguir: [![notion](https://img.shields.io/badge/notion-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://www.notion.so/Manual-do-projeto-Beauty-Sys-6e02a9e2732548599756547a09de520c?pvs=4)
+O manual completo e atualizado do projeto está disponível no link do notion a seguir: 
 https://www.notion.so/Manual-do-projeto-Beauty-Sys-6e02a9e2732548599756547a09de520c?pvs=4
 
 ## 📅 Cronograma do projeto
