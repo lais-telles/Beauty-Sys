@@ -2,7 +2,7 @@
 
 Repositório destinado a documentar a evolução do sistema Beauty Sys. 
 Este sistema está sendo desenvolvido como um trabalho na matéria de Laboratório de Engenharia de Software, presente na grade de graduação do curso de Análise e Desenvolvimento de Sistemas na Fatec Campinas.
-Equipe responsável: Dimas F. Silva, Gabriel P. M. de Freitas, Gabriel Odorcik, Lais M. T. Rangel, Rodrigo O. Feitosa.
+**Equipe responsável:** Dimas F. Silva, Gabriel P. M. de Freitas, Gabriel Odorcik, Lais M. T. Rangel, Rodrigo O. Feitosa.
 
 ## ‍ 📝 Sobre o sistema
 
