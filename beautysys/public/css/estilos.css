@@ -1,0 +1,122 @@
+
+body {
+    background-attachment: fixed;
+    font-family: 'Afacad';
+}
+
+
+html, body {
+    overflow-x: hidden;
+	height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.carousel-control-next, .carousel-control-prev {
+	width: 5%;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer ul li a {
+    float: left;
+}
+
+.btn-custom {
+    color: white;
+    background-color: #73005B;
+}
+
+.btn-custom:hover {
+	background: #730040;
+	color: #ffffff;
+}
+
+.btn-custom2 {
+    color: #ffffff;
+    background-color: #1E0056;
+}
+
+.btn-custom2:hover {
+    background-color: #1E0069;
+    color: #ffffff
+}
+
+.btn-custom3 {
+    color: #73005B;
+    background-color: transparent;
+    border: 2px solid #73005B;
+}
+
+.btn-custom3:hover {
+    color: #ffff;
+    background-color: #73005B;
+    border: 1px solid #73005B;
+}
+
+#caracteristicas h1, h2 {
+    color: #7c25f8;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+}
+
+.b-example-divider {
+    height: 0.1rem;
+    background-color: #DA70D6;
+  }
+
+.bg-card-restaurante {
+    background: url(../imagens/restaurante.png), #f05454;
+}
+.bg-card-mercado {
+    background: url(../imagens/frutasmercado.png);
+}
+
+.bg1 {
+    background: linear-gradient(50deg,#db0000,#01459f);
+}
+
+.card a {
+    text-decoration: none;
+    color: white;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card a:hover {
+    transform: translateX(5px);
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    width:50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: #00000090;
+    color: white;
+}
+
+.custom-input {
+    width: 50px;
+}
+#video-apresentacao {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+
+h1, h2, h3 {
+    color: #73005B;
+}
+
+#vantagens h3 {
+    color: #ffffff;
+    font-size: bold;
+}
