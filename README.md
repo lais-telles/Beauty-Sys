@@ -15,4 +15,5 @@ O manual completo e atualizado do projeto está disponível no link do notion a 
 https://delicate-weight-9bf.notion.site/Manual-do-projeto-Beauty-Sys-6e02a9e2732548599756547a09de520c?pvs=4
 
 ## 📅 Cronograma do projeto
-O cronograma atualizado está disponível no link do Jira a seguir:  
+O cronograma atualizado está disponível no link do Jira a seguir: 
+https://dfprata.atlassian.net/jira/software/projects/SCRUM/boards/1/timeline?shared=&atlOrigin=eyJpIjoiNmQyZTkyODIxMzE3NDI2ZmI5ZjViMmI0YjljZDVmYjEiLCJwIjoiaiJ9
