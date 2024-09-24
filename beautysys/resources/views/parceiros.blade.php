@@ -9,7 +9,7 @@
         <a href="{{ route('PaginaInicialPj') }}" class="btn btn-custom ms-4">Entrar</a>
     </li>
     <li class="nav-item">
-        <a href="{{ route('PaginaInicialProfissional') }}" class="btn btn-custom2 ms-4">Criar conta</a>
+        <a class="btn btn-custom2 ms-4" href="">Criar conta</a>
     </li>
 @endsection
 
