@@ -33,4 +33,8 @@ class IndexController extends Controller
     public function AdmProprietario() {
         return view('adm-proprietario');
     }
+
+    public function Agendamento() {
+        return view('finaliza-agendamento');
+    }
 }
