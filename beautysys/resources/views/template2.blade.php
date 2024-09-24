@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="{{ asset('css/estilos.css') }}" type="text/css" rel="stylesheet">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <div class="container">
@@ -43,7 +43,7 @@
     @yield('content')
     </main>
 
-    <footer class="text-white bg-dark pb-5">
+    <footer class="text-white bg-dark pb-5 mt-auto">
         <div class="container">
             <div class="d-flex flex-wrap justify-content-between align-items-center">
                 <p class="col-md-4 mb-0">&copy; 2024 BeautySys, Inc</p>
