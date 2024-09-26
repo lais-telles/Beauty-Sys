@@ -34,7 +34,60 @@
 @endsection
 
 @section('content')
-<section class="d-flex ms-5 me-5 mb-5 rounded align-items-center" style="margin-top: 15rem;">
+<section style="margin-top: 10rem;">
+    <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                <div class="container">
+                    <div class="carousel-caption text-start">
+                        <h1>Tudo em um lugar só.</h1>
+                        <p class="opacity-75">Aqui você agenda seus serviços, tem acesso ao whatsapp do estabelecimento e 
+                        pode visualizar o seu histórico de agendamentos.</p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ route ('agendamento') }}">Agende agora</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Conheça os estabelecimentos</h1>
+                        <p>Conheça os estabelecimentos cadastrados e escolha aquele que melhor lhe atende!</p>
+                        <p><a class="btn btn-lg btn-primary" href="#">Ver estabelecimentos</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/></svg>
+                <div class="container">
+                    <div class="carousel-caption text-end">
+                        <h1>Conheça os profissionais</h1>
+                        <p>Assim como os estabelecimentos cadastrados, certificamos que os profissionais também sejam da mais alta qualidade e 
+                            confiança.
+                        </p>
+                        <p><a class="btn btn-lg btn-primary" href="#">Ver profissionais</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</section>
+
+<section class="d-flex m-5 rounded align-items-center">
     <div class="container">
     <h1 class="fw-bold text-start mb-3">Os salões mais populares</h1>
         <div class="row align-self-center align-items-center pb-5 mb-5">
