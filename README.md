@@ -17,14 +17,58 @@ https://delicate-weight-9bf.notion.site/Manual-do-projeto-Beauty-Sys-6e02a9e2732
 ## 📅 Cronograma do projeto
 O cronograma atualizado está disponível no link do Jira a seguir: 
 https://dfprata.atlassian.net/jira/software/projects/SCRUM/boards/1/timeline?shared=&atlOrigin=eyJpIjoiNmQyZTkyODIxMzE3NDI2ZmI5ZjViMmI0YjljZDVmYjEiLCJwIjoiaiJ9
-11- sign in no github dentro do vscode
-12 - clonar repositório do github.com: https://github.com/lais-telles/Beauty-Sys
-13 - abrir terminal
-14 - cd beautysys
-15 - composer install   
-17 - copy .env.example .env 
-18 - php artisan key:generate
-19 - php artisan serve
+
+## Como executar o projeto na sua máquina
+
+### Pré-Requisitos
+Antes de começar, certifique-se de que você tem os seguintes softwares instalados em sua máquina:
+
+- PHP >= 8.0
+- Composer (https://getcomposer.org/)
+- MySQL ou PostgreSQL (ou outro banco de dados compatível)
+
+
+```bash
+  git clone https://github.com/seu-usuario/Beauty-sys.git
+```
+
+Vá até o diretório do projeto
+
+```bash
+  cd beautysys
+```
+
+Instale o composer:
+
+```bash
+  composer install
+```
+
+Copie o arquivo .env.example
+
+```bash
+  cp .env.example .env
+```
+
+Gere a chave da aplicação
+```bash
+  php artisan key:generate
+```
+
+Configure o banco de dados (.env)
+```bash
+  DB_CONNECTION=mysql
+  DB_HOST=127.0.0.1
+  DB_PORT=3306
+  DB_DATABASE=beauty_sys
+  DB_USERNAME=usuario
+  DB_PASSWORD=senha
+```
+
+Inicie o servidor de desenvolvimento
+```bash
+  php artisan serve
+```
 
 
  
