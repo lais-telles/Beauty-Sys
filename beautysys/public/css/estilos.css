@@ -120,3 +120,14 @@ h1, h2, h3 {
     color: #ffffff;
     font-size: bold;
 }
+
+/* Aumenta a altura do carrossel */
+#myCarousel .carousel-item {
+    height: 600px; /* Ajuste essa altura conforme a necessidade */
+}
+
+/* Garante que as imagens ocupem toda a altura do slide */
+#myCarousel .carousel-item svg {
+    height: 100%;
+    width: 100%;
+}
