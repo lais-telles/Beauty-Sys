@@ -17,3 +17,19 @@ https://delicate-weight-9bf.notion.site/Manual-do-projeto-Beauty-Sys-6e02a9e2732
 ## 📅 Cronograma do projeto
 O cronograma atualizado está disponível no link do Jira a seguir: 
 https://dfprata.atlassian.net/jira/software/projects/SCRUM/boards/1/timeline?shared=&atlOrigin=eyJpIjoiNmQyZTkyODIxMzE3NDI2ZmI5ZjViMmI0YjljZDVmYjEiLCJwIjoiaiJ9
+11- sign in no github dentro do vscode
+12 - clonar repositório do github.com: https://github.com/lais-telles/Beauty-Sys
+13 - abrir terminal
+14 - cd beautysys
+15 - composer install   
+17 - copy .env.example .env 
+18 - php artisan key:generate
+19 - php artisan serve
+
+
+ 
+
+
+
+
+
