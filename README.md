@@ -29,7 +29,7 @@ Antes de começar, certifique-se de que você tem os seguintes softwares instala
 
 
 ```bash
-  git clone https://github.com/seu-usuario/Beauty-sys.git
+  git clone https://github.com/lais-telles/Beauty-Sys.git
 ```
 
 Vá até o diretório do projeto
