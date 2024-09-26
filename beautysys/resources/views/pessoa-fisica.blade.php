@@ -105,6 +105,14 @@
                             <label for="floatingDate">Date of birth</label>
                         </div>
                         <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingCpf" name="cpf" placeholder="" required>
+                            <label for="floatingDate">CPF</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" required>
+                            <label for="floatingDate">Telefone</label>
+                        </div>
+                        <div class="form-floating mb-3">
                             <input type="email" class="form-control rounded-3" id="floatingInput" name="email" placeholder="name@example.com" required>
                             <label for="floatingInput">Email address</label>
                         </div>
