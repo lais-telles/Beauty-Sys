@@ -22,8 +22,8 @@
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i id="minhaConta" class='fas fa-user-alt' style="color: white;"></i></a>
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="">Minha conta</a></li>
-            <li><a class="dropdown-item" href="">Meus agendamentos</a></li>
-            <li><a class="dropdown-item" href="{{ route('DashboardPj') }}">Dashboard</a></li>
+            <li><a class="dropdown-item" href="">Meus pedidos</a></li>
+            <li><a class="dropdown-item" href="">Endereços</a></li>
             <li><a class="dropdown-item" href="">Log out</a></li>
         </ul>
     </li>
@@ -36,7 +36,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 d-flex align-items-center">
-                <img class="img-fluid" src="{{ asset ('/images/salao-logo-2.jpg') }}" style="width: 500px;">
+                <img class="img-fluid" src="{{ asset ('/images/beautysys-logo.png') }}" style="width: 500px;">
             </div>
             <div class="col-md-6">
                 <form id="formAgendamento">
