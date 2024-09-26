@@ -28,5 +28,5 @@ Route::get('/home-pf', [IndexController::class, 'HomePf'])->name('PaginaInicialP
 Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialPj');
 Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->name('PaginaInicialProfissional');
 Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
-Route::get('/AdmPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
-Route::get('/Agendamento', [IndexController::class, 'Agendamento'])->name('Agendamento');
+Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
+Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
