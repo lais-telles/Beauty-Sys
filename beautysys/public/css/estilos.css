@@ -91,18 +91,6 @@ footer ul li a {
     transform: translateX(5px);
 }
 
-.popup {
-    display: none;
-    position: fixed;
-    width:50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    background: #00000090;
-    color: white;
-}
-
 .custom-input {
     width: 50px;
 }
