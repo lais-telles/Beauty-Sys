@@ -18,10 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/beautysys', function () {
-    return view('index');
-});
-
+Route::get('/beautysys', [IndexController::class, 'Index'])->name('Index');
 Route::get('/pessoa-física', [IndexController::class, 'PessoaFisica'])->name('PessoaFisica');
 Route::get('/parceiros', [IndexController::class, 'Parceiro'])->name('Parceiro');
 Route::get('/home-pf', [IndexController::class, 'HomePf'])->name('PaginaInicialPf');
