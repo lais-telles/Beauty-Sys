@@ -5,12 +5,7 @@
 @section('body-class')
 
 @section('nav-buttons')
-    <li class="nav-item">
-        <a href="{{ route('PaginaInicialPj') }}" class="btn btn-custom ms-4">Entrar</a>
-    </li>
-    <li class="nav-item">
-        <a class="btn btn-custom2 ms-4" href="">Criar conta</a>
-    </li>
+    
 @endsection
 
 @section('content')
@@ -19,8 +14,8 @@
     <div class="container text-center">
         <h1 class="display-4">Beauty Sys</h1>
         <p class="lead">Aumente sua produtividade e a satisfação de seus clientes!</p>
-        <a href="{{ route('PaginaInicialProfissional') }}" class="btn btn-custom btn-lg mt-4">Sou um profissional</a>
-        <a href="{{ route('PaginaInicialPj') }}" class="btn btn-custom2 btn-lg mt-4">Proprietário</a>
+        <a href="" class="btn btn-custom btn-lg mt-4" data-bs-toggle="modal" data-bs-target="#signinModalProfissional">Sou um profissional</a>
+        <a href="" class="btn btn-custom2 btn-lg mt-4" data-bs-toggle="modal" data-bs-target="#signinModalProprietario">Proprietário</a>
     </div>
 </section>
 
@@ -101,4 +96,174 @@
     </div>
 </section>
 
+    <!-- Poup-up de cadastro pro proprietário-->
+    <div class="modal fade" id="signupModalProprietario" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <h1 class="fw-bold mb-0 fs-2">Cadastro de Estabelecimento</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5 pt-0">
+                    <form action="" method="POST">
+                        @csrf
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingRazaoSocial" name="razao_social" placeholder="Razão Social" required>
+                            <label for="floatingRazaoSocial">Razão Social</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingNomeFantasia" name="nome_fantasia" placeholder="Nome Fantasia" required>
+                            <label for="floatingNomeFantasia">Nome Fantasia</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" required>
+                            <label for="floatingTelefone">Telefone</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingCNPJ" name="CNPJ" placeholder="XX.XXX.XXX/XXXX-XX" required>
+                            <label for="floatingCNPJ">CNPJ</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingLogradouro" name="logradouro" placeholder="Logradouro" required>
+                            <label for="floatingLogradouro">Logradouro</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control rounded-3" id="floatingNumero" name="numero" placeholder="Número" required>
+                            <label for="floatingNumero">Número</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingBairro" name="bairro" placeholder="Bairro" required>
+                            <label for="floatingBairro">Bairro</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingCidade" name="cidade" placeholder="Cidade" required>
+                            <label for="floatingCidade">Cidade</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingEstado" name="estado" placeholder="UF" maxlength="2" required>
+                            <label for="floatingEstado">Estado</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingCEP" name="CEP" placeholder="XXXXX-XXX" required>
+                            <label for="floatingCEP">CEP</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="time" class="form-control rounded-3" id="floatingInicioExpediente" name="inicio_expediente" placeholder="Início do Expediente" required>
+                            <label for="floatingInicioExpediente">Início Expediente</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="time" class="form-control rounded-3" id="floatingTerminoExpediente" name="termino_expediente" placeholder="Término do Expediente" required>
+                            <label for="floatingTerminoExpediente">Término Expediente</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control rounded-3" id="floatingEmail" name="email" placeholder="name@example.com" required>
+                            <label for="floatingEmail">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Senha" required>
+                            <label for="floatingPassword">Senha</label>
+                        </div>
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
+                        <small class="text-body-secondary">Ao clicar em cadastrar, você concorda com os termos de uso.</small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Poup-up de login pro proprietário-->
+    <div class="modal fade" id="signinModalProprietario" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <h1 class="fw-bold mb-0 fs-2">Sign In</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5 pt-0">
+                    <form class="">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Email address</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+                        </div>
+                        <a data-bs-toggle="modal" data-bs-target="#signupModalProprietario">Não tenho conta</a> 
+                        <a href="{{ route('PaginaInicialPj') }}" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign In</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Poup-up de cadastro pro profissional-->
+    <div class="modal fade" id="signupModalProfissional" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <h1 class="fw-bold mb-0 fs-2">Sign up for free</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5 pt-0">
+                    <form action="" method="POST">
+                    @csrf
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingName" name="nome" placeholder="" required>
+                            <label for="floatingName">Username</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control rounded-3" id="floatingDate" name="data_nascimento" placeholder="" required>
+                            <label for="floatingDate">Date of birth</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingCpf" name="cpf" placeholder="" required>
+                            <label for="floatingDate">CPF</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control rounded-3" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" required>
+                            <label for="floatingDate">Telefone</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control rounded-3" id="floatingInput" name="email" placeholder="name@example.com" required>
+                            <label for="floatingInput">Email address</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password" required>
+                            <label for="floatingPassword">Password</label>
+                        </div>
+                        <a href="" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</a>
+                        <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Poup-up de login pro profissional-->
+    <div class="modal fade" id="signinModalProfissional" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header p-5 pb-4 border-bottom-0">
+                    <h1 class="fw-bold mb-0 fs-2">Sign In</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-5 pt-0">
+                    <form class="">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Email address</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
+                            <label for="floatingPassword">Password</label>
+                        </div>
+                        <a data-bs-toggle="modal" data-bs-target="#signupModalProfissional">Não tenho conta</a>
+                        <a href="{{ route('PaginaInicialProfissional') }}" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign In</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
