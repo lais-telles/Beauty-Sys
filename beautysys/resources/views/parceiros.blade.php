@@ -189,7 +189,9 @@
                             <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
                             <label for="floatingPassword">Password</label>
                         </div>
-                        <a data-bs-toggle="modal" data-bs-target="#signupModalProprietario">Não tenho conta</a> 
+                        <div class="text-center mb-3">
+                            <a class="" data-bs-toggle="modal" data-bs-target="#signupModalProprietario" style="cursor: pointer;">Não tenho conta</a> 
+                        </div>
                         <a href="{{ route('PaginaInicialPj') }}" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign In</a>
                     </form>
                 </div>
@@ -259,7 +261,9 @@
                             <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
                             <label for="floatingPassword">Password</label>
                         </div>
-                        <a data-bs-toggle="modal" data-bs-target="#signupModalProfissional">Não tenho conta</a>
+                        <div class="text-center mb-3">
+                            <a class="" data-bs-toggle="modal" data-bs-target="#signupModalProfissional" style="cursor: pointer;">Não tenho conta</a>
+                        </div>
                         <a href="{{ route('PaginaInicialProfissional') }}" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign In</a>
                     </form>
                 </div>
