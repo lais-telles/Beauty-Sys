@@ -120,7 +120,7 @@
                             <label for="floatingTelefone">Telefone</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingCNPJ" name="CNPJ" placeholder="XX.XXX.XXX/XXXX-XX" required>
+                            <input type="text" class="form-control rounded-3" id="floatingCNPJ" name="cnpj" placeholder="XX.XXX.XXX/XXXX-XX" required>
                             <label for="floatingCNPJ">CNPJ</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -144,7 +144,7 @@
                             <label for="floatingEstado">Estado</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingCEP" name="CEP" placeholder="XXXXX-XXX" required>
+                            <input type="text" class="form-control rounded-3" id="floatingCEP" name="cep" placeholder="XXXXX-XXX" required>
                             <label for="floatingCEP">CEP</label>
                         </div>
                         <div class="form-floating mb-3">
