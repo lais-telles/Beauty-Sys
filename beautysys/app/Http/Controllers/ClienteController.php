@@ -15,7 +15,7 @@ class ClienteController extends Controller
         $validatedData = $request->validate([
             'nome' => 'required|string|max:50',
             'data_nascimento' => 'required|date',
-            'CPF' => 'required|string|max:14',
+            'cpf' => 'required|string|max:14',
             'telefone' => 'required|string|max:15',
             'email' => 'required|string|email|max:255|unique:clientes',
             'senha' => 'required|string|min:8',
@@ -32,6 +32,6 @@ class ClienteController extends Controller
         ]);
 
         // Redireciona para a página index com uma mensagem de sucesso
-        return redirect()->route('PaginaInicialPf')->with('success', 'Cliente cadastrado com sucesso!');
+        return redirect()->route('PessoaFisica')->with('success', 'Cliente cadastrado com sucesso!');
     }
 }
