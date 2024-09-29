@@ -120,7 +120,7 @@
                             <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password" required>
                             <label for="floatingPassword">Password</label>
                         </div>
-                        <a href="" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</a>
+                        <button href="" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
                         <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
                     </form>
                 </div>
