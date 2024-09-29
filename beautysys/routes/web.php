@@ -27,3 +27,6 @@ Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->
 Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
 Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
+
+// Rota para cadastrar um cliente usando o método 'cadastrarCliente'
+Route::post('/clientes/cadastrar', [ClienteController::class, 'cadastrarCliente'])->name('cadastrarCliente');
