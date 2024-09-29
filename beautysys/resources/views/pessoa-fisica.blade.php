@@ -94,7 +94,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-5 pt-0">
-                    <form action="" method="POST">
+                    <form action="{{ route('cadastrarCliente') }}" method="POST">
                     @csrf
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control rounded-3" id="floatingName" name="nome" placeholder="" required>
