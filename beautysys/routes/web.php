@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ProfissionalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,6 @@ Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agend
 
 // Rota para cadastrar um cliente usando o método 'cadastrarCliente'
 Route::post('/clientes/cadastrar', [ClienteController::class, 'cadastrarCliente'])->name('cadastrarCliente');
+
+// Rota para cadastrar um profissional usando o método 'cadastrarProfissional'
+Route::post('/profissionais/cadastrar', [ProfissionalController::class, 'cadastrarProfissional'])->name('cadastrarProfissional');
