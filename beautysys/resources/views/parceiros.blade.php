@@ -180,19 +180,20 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-5 pt-0">
-                    <form class="">
+                    <form action="{{ route('loginEstab') }}" method="POST">
+                    @csrf
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com">
+                            <input type="email" class="form-control rounded-3" id="floatingInput" name="email" placeholder="name@example.com">
                             <label for="floatingInput">Email address</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
+                            <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password">
                             <label for="floatingPassword">Password</label>
                         </div>
                         <div class="text-center mb-3">
                             <a class="" data-bs-toggle="modal" data-bs-target="#signupModalProprietario" style="cursor: pointer;">Não tenho conta</a> 
                         </div>
-                        <a href="{{ route('PaginaInicialPj') }}" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign In</a>
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign In</button>
                     </form>
                 </div>
             </div>
