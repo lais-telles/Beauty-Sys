@@ -18,20 +18,20 @@ class EstabelecimentoController extends Controller
             'telefone' => 'required|string|max:15',
             'cnpj' => 'required|string|max:18',
             'logradouro' => 'required|string|max:40',
-            'numero' => 'required|int|max:11',
+            'numero' => 'required|string|max:10',
             'bairro' => 'required|string|max:40',
             'cidade' => 'required|string|max:40',
             'estado' => 'required|string|max:2',
             'cep' => 'required|string|max:9',
-            'inicio_expediente' => 'required|date_format: H:i:s',
-            'termino_expediente' => 'required|date_format: H:i:s',
+            'inicio_expediente' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
+            'termino_expediente' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
             'email' => 'required|string|email|max:255|unique:estabelecimentos',
             'senha' => 'required|string|min:8',
         ]);
 
         // Cria o cliente com os dados validados e criptografa a senha
         Estabelecimento::create([
-            'nome' => $validatedData['nome'],
+            'razao_social' => $validatedData['razao_social'],
             'nome_fantasia' => $validatedData['nome_fantasia'],
             'telefone' => $validatedData['telefone'],
             'CNPJ' => $validatedData['cnpj'],
@@ -48,6 +48,6 @@ class EstabelecimentoController extends Controller
         ]);
 
         // Redireciona para a página index com uma mensagem de sucesso
-        return redirect()->route('PaginaInicialPj')->with('success', 'Cliente cadastrado com sucesso!');
+        return redirect()->route('Parceiro')->with('success', 'Estabelecimento cadastrado com sucesso!');
     }
 }

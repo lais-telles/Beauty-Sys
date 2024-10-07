@@ -105,7 +105,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-5 pt-0">
-                    <form action="" method="POST">
+                    <form action="{{ route('cadastrarEstabelecimento') }}" method="POST">
                         @csrf
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control rounded-3" id="floatingRazaoSocial" name="razao_social" placeholder="Razão Social" required>
@@ -148,11 +148,11 @@
                             <label for="floatingCEP">CEP</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="time" class="form-control rounded-3" id="floatingInicioExpediente" name="inicio_expediente" placeholder="Início do Expediente" required>
+                            <input type="time" class="form-control rounded-3" id="floatingInicioExpediente" name="inicio_expediente" placeholder="Início do Expediente" required step ="1">
                             <label for="floatingInicioExpediente">Início Expediente</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="time" class="form-control rounded-3" id="floatingTerminoExpediente" name="termino_expediente" placeholder="Término do Expediente" required>
+                            <input type="time" class="form-control rounded-3" id="floatingTerminoExpediente" name="termino_expediente" placeholder="Término do Expediente" required step ="1">
                             <label for="floatingTerminoExpediente">Término Expediente</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -271,3 +271,36 @@
         </div>
     </div>
 @endsection
+
+<!-- <script> script para teste de cadastro de estabelecimento
+    document.addEventListener("DOMContentLoaded", function() {
+    // Função para preencher automaticamente o formulário
+    function autoFillForm() {
+        document.getElementById('floatingRazaoSocial').value = "Exemplo Comércio Ltda";
+        document.getElementById('floatingNomeFantasia').value = "Exemplo Barbershop";
+        document.getElementById('floatingTelefone').value = "(11) 98765-4321";
+        document.getElementById('floatingCNPJ').value = "12.345.678/0001-99";
+        document.getElementById('floatingLogradouro').value = "Rua dos Exemplos";
+        document.getElementById('floatingNumero').value = "123";
+        document.getElementById('floatingBairro').value = "Centro";
+        document.getElementById('floatingCidade').value = "São Paulo";
+        document.getElementById('floatingEstado').value = "SP";
+        document.getElementById('floatingCEP').value = "01000-000";
+        document.getElementById('floatingInicioExpediente').value = "08:00";
+        document.getElementById('floatingTerminoExpediente').value = "18:00";
+        document.getElementById('floatingEmail').value = "exemplo@empresa.com";
+        document.getElementById('floatingPassword').value = "senha123";
+    }
+
+    // Adicionar evento de clique em um botão para preencher o formulário automaticamente
+    const autoFillButton = document.createElement("button");
+    autoFillButton.textContent = "Preencher Formulário";
+    autoFillButton.classList.add("btn", "btn-secondary", "mb-3");
+    autoFillButton.addEventListener("click", autoFillForm);
+    
+    // Inserir o botão no modal, antes do formulário
+    const modalBody = document.querySelector("#signupModalProprietario .modal-body");
+    modalBody.insertBefore(autoFillButton, modalBody.firstChild);
+});
+
+    </script> -->
