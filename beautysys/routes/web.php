@@ -37,11 +37,8 @@ Route::post('/clientes/cadastrar', [ClienteController::class, 'cadastrarCliente'
 // Rota para cadastrar um profissional usando o método 'cadastrarProfissional'
 Route::post('/profissionais/cadastrar', [ProfissionalController::class, 'cadastrarProfissional'])->name('cadastrarProfissional');
 
-<<<<<<< HEAD
-// Rota para realizar login do cliente usando o método 'loginCliente
-Route::post('cliente/login', [ClienteController::class, 'loginCliente'])->name('loginCliente');
-=======
-
 // Rota para cadastrar um estabelecimento usando o método 'cadastrarEstabelecimento'
 Route::post('/estabelecimentos/cadastrar', [EstabelecimentoController::class, 'cadastrarEstabelecimento'])->name('cadastrarEstabelecimento');
->>>>>>> b2808b2a64d6fdc6e76549f71163202b3600251b
+
+// Rota para realizar login do cliente usando o método 'loginCliente
+Route::post('cliente/login', [ClienteController::class, 'loginCliente'])->name('loginCliente');
