@@ -60,5 +60,15 @@ class ClienteController extends Controller
             return back()->withErrors(['email' => 'Credenciais inválidas'])->withInput();
         }
     }
+
+    // Método de logout
+    public function logoutCliente(Request $request)
+    {
+        // Limpa a sessão do cliente
+        Session::flush();
+
+        // Redireciona para a página de login (ou qualquer outra página)
+        return view('index')->with('success', 'Logout realizado com sucesso!');
+    }
 }
 ?>

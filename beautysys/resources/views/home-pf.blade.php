@@ -24,7 +24,12 @@
             <li><a class="dropdown-item" href="">Minha conta</a></li>
             <li><a class="dropdown-item" href="">Meus pedidos</a></li>
             <li><a class="dropdown-item" href="">Endereços</a></li>
-            <li><a class="dropdown-item" href="">Log out</a></li>
+            <li>
+            <form action="{{ route('logoutCliente') }}" method="POST">
+                @csrf
+                <button type="submit" class="dropdown-item">Log out</button>
+            </form>
+            </li>
         </ul>
     </li>
     <li class="nav-item">

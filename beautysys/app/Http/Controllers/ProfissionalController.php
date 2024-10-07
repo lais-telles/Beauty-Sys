@@ -37,6 +37,7 @@ class ProfissionalController extends Controller
         return redirect()->route('Parceiro')->with('success', 'Profissional cadastrado com sucesso!');
     }
 
+    // Método de login
     public function loginProfissional (Request $request)
     {
         // Validação dos campos de entrada
@@ -58,5 +59,15 @@ class ProfissionalController extends Controller
             // Se falhar, redirecionar de volta com erro
             return back()->withErrors(['email' => 'Credenciais inválidas'])->withInput();
         }
+    }
+
+    // Método de logout
+    public function logoutProfissional(Request $request)
+    {
+        // Limpa a sessão do cliente
+        Session::flush();
+
+        // Redireciona para a página de login (ou qualquer outra página)
+        return view('index')->with('success', 'Logout realizado com sucesso!');
     }
 }

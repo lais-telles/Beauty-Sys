@@ -48,3 +48,12 @@ Route::post('estabelecimento/login', [EstabelecimentoController::class, 'loginEs
 
 // Rota para realizar login do profissional usando o método 'loginProfissional'
 Route::post('profissional/login', [ProfissionalController::class, 'loginProfissional'])->name('loginProfissional');
+
+// Rota para realizar logout do cliente usando o método 'logoutCliente'
+Route::post('cliente/logout', [ClienteController::class, 'logoutCliente'])->name('logoutCliente');
+
+// Rota para realizar logout do estabelecimento usando o método 'logoutEstab'
+Route::post('estabelecimento/logout', [EstabelecimentoController::class, 'logoutEstab'])->name('logoutEstab');
+
+// Rota para realizar logout do profissional usando o método 'logoutProfissional'
+Route::post('profissional/logout', [ProfissionalController::class, 'logoutProfissional'])->name('logoutProfissional');

@@ -24,7 +24,12 @@
             <li><a class="dropdown-item" href="{{ route('AdmProprietario') }}">Minha conta</a></li>
             <li><a class="dropdown-item" href="">Meus agendamentos</a></li>
             <li><a class="dropdown-item" href="{{ route('DashboardPj') }}">Dashboard</a></li>
-            <li><a class="dropdown-item" href="">Log out</a></li>
+            <li>
+                <form action="{{ route('logoutEstab') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="dropdown-item">Log out</button>
+                </form>
+            </li>
         </ul>
     </li>
 </ul>

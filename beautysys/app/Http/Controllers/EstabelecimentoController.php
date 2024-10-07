@@ -53,6 +53,7 @@ class EstabelecimentoController extends Controller
         return redirect()->route('Parceiro')->with('success', 'Estabelecimento cadastrado com sucesso!');
     }
 
+    // Método de login
     public function loginEstab(Request $request) 
     {
         // Validação dos campos de entrada
@@ -74,6 +75,16 @@ class EstabelecimentoController extends Controller
             // Se falhar, redirecionar de volta com erro
             return back()->withErrors(['email' => 'Credenciais inválidas'])->withInput();
         }
+    }
+
+    // Método de logout
+    public function logoutEstab(Request $request)
+    {
+        // Limpa a sessão do cliente
+        Session::flush();
+
+        // Redireciona para a página de login (ou qualquer outra página)
+        return view('index')->with('success', 'Logout realizado com sucesso!');
     }
 }
 ?>
