@@ -31,3 +31,4 @@ class Cliente extends Model
         'senha',
     ];
 }
+?>

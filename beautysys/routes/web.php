@@ -35,3 +35,6 @@ Route::post('/clientes/cadastrar', [ClienteController::class, 'cadastrarCliente'
 
 // Rota para cadastrar um profissional usando o método 'cadastrarProfissional'
 Route::post('/profissionais/cadastrar', [ProfissionalController::class, 'cadastrarProfissional'])->name('cadastrarProfissional');
+
+// Rota para realizar login do cliente usando o método 'loginCliente
+Route::post('cliente/login', [ClienteController::class, 'loginCliente'])->name('loginCliente');
