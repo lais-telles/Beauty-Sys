@@ -45,3 +45,6 @@ Route::post('cliente/login', [ClienteController::class, 'loginCliente'])->name('
 
 // Rota para realizar login do estabelecimento usando o método 'loginEstab'
 Route::post('estabelecimento/login', [EstabelecimentoController::class, 'loginEstab'])->name('loginEstab');
+
+// Rota para realizar login do profissional usando o método 'loginProfissional'
+Route::post('profissional/login', [ProfissionalController::class, 'loginProfissional'])->name('loginProfissional');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Profissional;  // Importe o modelo Profissional
 use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
+use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
+use Illuminate\Support\Facades\Session; // Para armazenar sessão
 
 class ProfissionalController extends Controller
 {
@@ -33,5 +35,28 @@ class ProfissionalController extends Controller
 
         // Redireciona para a página index com uma mensagem de sucesso
         return redirect()->route('Parceiro')->with('success', 'Profissional cadastrado com sucesso!');
+    }
+
+    public function loginProfissional (Request $request)
+    {
+        // Validação dos campos de entrada
+        $validatedData = $request->validate([
+            'email' => 'required|string|email|max:255',
+            'senha' => 'required|string|min:8',
+        ]);
+
+        // Recuperar o usuário do banco com base no e-mail
+        $user = DB::table('profissionais')->where('email', $request->input('email'))->first();
+
+        // Comparar a senha fornecida com a senha armazenada
+        if ($user && Hash::check($request->input('senha'), $user->senha)) {
+            // Login bem-sucedido
+            Session::put('id_profissional', $user->id_profissional);
+            Session::put('nome', $user->nome);
+            return view('home-profissional');
+        } else {
+            // Se falhar, redirecionar de volta com erro
+            return back()->withErrors(['email' => 'Credenciais inválidas'])->withInput();
+        }
     }
 }
