@@ -90,7 +90,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
                 <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Sign up for free</h1>
+                    <h1 class="fw-bold mb-0 fs-2">Cadastro de Cliente</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-5 pt-0">
@@ -98,11 +98,11 @@
                     @csrf
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control rounded-3" id="floatingName" name="nome" placeholder="" required>
-                            <label for="floatingName">Username</label>
+                            <label for="floatingName">Nome Completo</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="date" class="form-control rounded-3" id="floatingDate" name="data_nascimento" placeholder="" required>
-                            <label for="floatingDate">Date of birth</label>
+                            <label for="floatingDate">Data de Nascimento</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control rounded-3" id="floatingCpf" name="cpf" placeholder="" required>
@@ -118,9 +118,9 @@
                         </div>
                         <div class="form-floating mb-3">
                             <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password" required>
-                            <label for="floatingPassword">Password</label>
+                            <label for="floatingPassword">Senha</label>
                         </div>
-                        <button href="" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
+                        <button href="" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
                         <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
                     </form>
                 </div>
@@ -132,7 +132,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
                 <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Sign In</h1>
+                    <h1 class="fw-bold mb-0 fs-2">Log In Cliente</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-5 pt-0">
@@ -144,9 +144,9 @@
                         </div>
                         <div class="form-floating mb-3">
                             <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password">
-                            <label for="floatingPassword">Password</label>
+                            <label for="floatingPassword">Senha</label>
                         </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign In</button>
+                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
                     </form>
                 </div>
             </div>
