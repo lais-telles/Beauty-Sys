@@ -31,6 +31,7 @@ Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->
 Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
 
+
 // Rota para cadastrar um cliente usando o método 'cadastrarCliente'
 Route::post('/clientes/cadastrar', [ClienteController::class, 'cadastrarCliente'])->name('cadastrarCliente');
 
@@ -57,3 +58,6 @@ Route::post('estabelecimento/logout', [EstabelecimentoController::class, 'logout
 
 // Rota para realizar logout do profissional usando o método 'logoutProfissional'
 Route::post('profissional/logout', [ProfissionalController::class, 'logoutProfissional'])->name('logoutProfissional');
+
+// Rota para ir para a área de cadastro de grade horária usando o método 'gradeProf'
+Route::get('profissional/grade', [ProfissionalController::class, 'gradeProf'])->name('gradeProf');
