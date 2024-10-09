@@ -12,6 +12,9 @@ class Estabelecimento extends Model
     // Define a tabela associada
     protected $table = 'estabelecimentos';
 
+    // Defina a chave primária, se não for 'id'
+    protected $primaryKey = 'id_estabelecimento';
+
     // Define os campos que podem ser preenchidos em massa
     protected $fillable = [
         'razao_social',
