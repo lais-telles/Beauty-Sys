@@ -24,9 +24,9 @@ Route::get('/', function () {
 Route::get('/beautysys', [IndexController::class, 'Index'])->name('Index');
 Route::get('/pessoa-física', [IndexController::class, 'PessoaFisica'])->name('PessoaFisica');
 Route::get('/parceiros', [IndexController::class, 'Parceiro'])->name('Parceiro');
-Route::get('/home-pf', [IndexController::class, 'HomePf'])->name('PaginaInicialPf');
-Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialPj');
-Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->name('PaginaInicialProfissional');
+//Route::get('/home-pf', [IndexController::class, 'HomePf'])->name('PaginaInicialPf');
+//Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialPj');
+//Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->name('PaginaInicialProfissional');
 Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
 Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
@@ -57,3 +57,9 @@ Route::post('estabelecimento/logout', [EstabelecimentoController::class, 'logout
 
 // Rota para realizar logout do profissional usando o método 'logoutProfissional'
 Route::post('profissional/logout', [ProfissionalController::class, 'logoutProfissional'])->name('logoutProfissional');
+
+//Rota para a tela de perfil do estabelecimento com as respectivas informações do estabelecimento logado
+Route::get('estabelecimento/perfil', [EstabelecimentoController::class, 'buscar_estabelecimento'])->name('InfoCadastro');
+
+//Rota para alterações cadastrais
+Route::post('estabelecimento/atualiza', [EstabelecimentoController::class, 'alterar_cadastro']) ->name('AlteraCadastro');
