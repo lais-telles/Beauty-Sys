@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27/09/2024 às 04:12
+-- Tempo de geração: 09/10/2024 às 20:46
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_cliente` (IN `p_id_client
 UPDATE clientes SET telefone = p_telefone, email = p_email, senha = p_senha WHERE id_cliente = p_id_cliente; 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_estabelecimento` (IN `p_id_estabelecimento` INT, IN `p_razao_social` VARCHAR(40), IN `p_nome_fantasia` VARCHAR(40), IN `p_telefone` VARCHAR(15), IN `p_logradouro` VARCHAR(40), IN `p_numero` INT, IN `p_bairro` VARCHAR(40), IN `p_cidade` VARCHAR(40), IN `p_estado` VARCHAR(2), IN `p_cep` VARCHAR(9), IN `p_inicio_expediente` TIME, IN `p_termino_expediente` TIME, IN `p_email` VARCHAR(30), IN `p_senha` VARCHAR(255))   BEGIN  
+CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_estabelecimento` (IN `p_id_estabelecimento` INT, IN `p_nome_fantasia` VARCHAR(40), IN `p_telefone` VARCHAR(15), IN `p_logradouro` VARCHAR(40), IN `p_numero` INT, IN `p_bairro` VARCHAR(40), IN `p_cidade` VARCHAR(40), IN `p_estado` VARCHAR(2), IN `p_cep` VARCHAR(9), IN `p_inicio_expediente` TIME, IN `p_termino_expediente` TIME, IN `p_email` VARCHAR(30), IN `p_senha` VARCHAR(255))   BEGIN  
 UPDATE estabelecimentos SET razao_social = p_razao_social, nome_fantasia = p_nome_fantasia, telefone = p_telefone, logradouro = p_logradouro, numero = p_numero, bairro = p_bairro, cidade = p_cidade, estado = p_estado, cep = p_cep, inicio_expediente = p_inicio_expediente, termino_expediente = p_termino_expediente, email = p_email, senha = p_senha WHERE id_estabelecimento = p_id_estabelecimento;   
 END$$
 
@@ -464,7 +464,8 @@ CREATE TABLE `clientes` (
 INSERT INTO `clientes` (`id_cliente`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`) VALUES
 (1, 'João Almeida da Silva', '1990-01-01', '123.456.789-00', '(19) 98908-3696', 'Luis@gmail.com', 'senha@123'),
 (2, 'Amanda Cruz da Silva', '1991-01-01', '123.456.789-01', '(11) 98908-3691', 'amanda_silva@gmail.com', 'senha456'),
-(3, 'Luis Carlos da Silva', '1992-01-01', '123.456.789-02', '(11) 98908-3692', 'Luis@teste.com', 'senha789');
+(3, 'Luis Carlos da Silva', '1992-01-01', '123.456.789-02', '(11) 98908-3692', 'Luis@teste.com', 'senha789'),
+(4, 'Teste01', '2001-01-01', '49333379851', '19989085358', 'teste01@gmail.com', '$2y$12$v/7IJoM3Zlf1OMu6YXl6yuN98Sh61gA9TB4T4cR/ZAwarZvc4S13y');
 
 --
 -- Acionadores `clientes`
@@ -566,7 +567,10 @@ CREATE TABLE `estabelecimentos` (
 INSERT INTO `estabelecimentos` (`id_estabelecimento`, `razao_social`, `nome_fantasia`, `telefone`, `CNPJ`, `logradouro`, `numero`, `bairro`, `cidade`, `estado`, `CEP`, `inicio_expediente`, `termino_expediente`, `email`, `senha`) VALUES
 (1, 'Barbearia Auxiliadora ltda.', 'Barbearia ML', '(11) 97836-0100', '12.345.678/0001-00', 'Rua Odete Santos', 1780, 'Centro', 'Paulínia', 'SP', '09700-000', '08:00:00', '18:00:00', 'ml@exemplo.com', 'senha123'),
 (2, 'Salão de beleza Gilberto e Cia.', 'Espaço do Gigi', '(11) 97836-0101', '12.345.678/0001-01', 'Rua Alberto de Nóbrega', 100, 'Centro', 'Hortolândia', 'SP', '02000-000', '08:00:00', '17:00:00', 'gigi@teste.com', 'senha456'),
-(3, 'Espaço da beleza ltda.', 'Beleza e Cia.', '(11) 97836-0109', '12.345.678/0001-0', 'Avenida Drummond', 1850, 'Centro', 'Campinas', 'SP', '03700-000', '08:00:00', '17:30:00', 'beleza@exemplo.com', 'senha789');
+(3, 'Espaço da beleza ltda.', 'Beleza e Cia.', '(11) 97836-0109', '12.345.678/0001-0', 'Avenida Drummond', 1850, 'Centro', 'Campinas', 'SP', '03700-000', '08:00:00', '17:30:00', 'beleza@exemplo.com', 'senha789'),
+(4, 'Teste01 ltda.', 'Teste Fantasia', '(19) 96325-7896', '12.345.678/0001-08', 'Rua teste 01', 1, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '08:00:00', '18:00:00', 'teste_email@gmail.com', '$2y$12$cxoOV/XKGAn3FjEurMJKh.N3sjcCBAX5rwkTnHS0krmyQ4ovuJKY.'),
+(5, 'Teste02 ltda.', 'Teste Fantasia2', '19989085358', '12.345.678/0001-08', 'Rua teste 01', 120, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '07:00:00', '17:00:00', 'teste_email02@gmail.com', ''),
+(6, 'Teste03 ltda.', 'Teste Fantasia3', '19933333333', '12.345.678/0001-10', 'Rua teste 03', 123, 'Bairro 03', 'Cidade 03', 'EP', '12589-427', '07:30:00', '17:00:00', 'teste_email03@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC');
 
 --
 -- Acionadores `estabelecimentos`
@@ -765,7 +769,12 @@ INSERT INTO `historico_estabelecimentos` (`id_alteracao`, `id_estabelecimento`, 
 (9, 3, 'numero', '100', '1850', '2024-09-13 16:59:00'),
 (10, 3, 'cidade', 'Hortolândia', 'Campinas', '2024-09-13 16:59:00'),
 (11, 3, 'cep', '03000-000', '03700-000', '2024-09-13 16:59:00'),
-(12, 3, 'email', 'beleza@teste.com', 'beleza@exemplo.com', '2024-09-13 16:59:00');
+(12, 3, 'email', 'beleza@teste.com', 'beleza@exemplo.com', '2024-09-13 16:59:00'),
+(13, 5, 'numero', '111', '120', '2024-10-09 14:51:40'),
+(14, 5, 'senha', '$2y$12$FZBt4P3Vs7bidOaWbYSwVO8', '', '2024-10-09 14:51:40'),
+(15, 6, 'numero', '120', '123', '2024-10-09 15:02:17'),
+(16, 6, 'telefone', '19985085358', '19933333333', '2024-10-09 15:26:11'),
+(17, 6, 'inicio_expediente', '07:00:00', '07:30:00', '2024-10-09 15:26:11');
 
 -- --------------------------------------------------------
 
@@ -1232,7 +1241,7 @@ ALTER TABLE `categorias_servico`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `enderecos`
@@ -1244,7 +1253,7 @@ ALTER TABLE `enderecos`
 -- AUTO_INCREMENT de tabela `estabelecimentos`
 --
 ALTER TABLE `estabelecimentos`
-  MODIFY `id_estabelecimento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_estabelecimento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `formas_pagamentos`
@@ -1268,7 +1277,7 @@ ALTER TABLE `historico_clientes`
 -- AUTO_INCREMENT de tabela `historico_estabelecimentos`
 --
 ALTER TABLE `historico_estabelecimentos`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de tabela `historico_profissionais`
