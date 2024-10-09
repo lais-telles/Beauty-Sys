@@ -72,6 +72,18 @@ class ProfissionalController extends Controller
     }
 
     public function gradeProf() {
-        return view('grade-profissional');
+        // Recupera o ID do profissional armazenado na sessão
+        $idProfissional = session('id_profissional');
+
+        // Verifica se o ID está presente
+        if (!$idProfissional) {
+            return redirect()->route('login')->with('error', 'Profissional não autenticado');
+        }
+
+        // Chama o stored procedure passando o ID do profissional
+        $horarios = DB::select('CALL consulta_grade_horaria(?)', [$idProfissional]);
+
+        // Retorna a view 'grade-profissional' com os dados da grade
+        return view('grade-profissional', ['horarios' => $horarios]);
     }
 }

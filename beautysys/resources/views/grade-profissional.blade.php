@@ -2,6 +2,7 @@
 
 @section('title', 'Grade Horaria')
 
+
 @section('nav-buttons')
 <ul class="navbar-nav">
     <li class="nav-item">
@@ -36,39 +37,54 @@
 @endsection
 
 @section('content')
-<!--<div class="container">
-    <div class="form-section">
-        <h2>Cadastrar Grade Horária</h2>
-        <form>
-            <label for="profissional">Profissional:</label>
-            <input type="text" id="profissional" name="profissional" placeholder="Nome do profissional" required>
+<section class="d-flex" style="margin-top: 13rem; margin-bottom: 10rem;">
+    <div class="container">
+        <h1>Grade Horária Atual</h1>
 
-            <label for="dia">Dia da Semana:</label>
-            <select id="dia" name="dia" required>
-                <option value="segunda">Segunda-feira</option>
-                <option value="terca">Terça-feira</option>
-                <option value="quarta">Quarta-feira</option>
-                <option value="quinta">Quinta-feira</option>
-                <option value="sexta">Sexta-feira</option>
-                <option value="sabado">Sábado</option>
-                <option value="domingo">Domingo</option>
-            </select>
+        <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Dia da Semana</th>
+                    <th>Início Expediente</th>
+                    <th>Fim Expediente</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(count($horarios) > 0)
+                    @foreach($horarios as $horario)
+                        <tr>
+                            <td>
+                                @if($horario->dia_semana == '1')
+                                    Segunda-feira
+                                @elseif($horario->dia_semana == '2')
+                                    Terça-feira
+                                @elseif($horario->dia_semana == '3')
+                                    Quarta-feira
+                                @elseif($horario->dia_semana == '4')
+                                    Quinta-feira
+                                @elseif($horario->dia_semana == '5')
+                                    Sexta-feira
+                                @elseif($horario->dia_semana == '6')
+                                    Sábado
+                                @elseif($horario->dia_semana == '7')
+                                    Domingo
+                                @endif
+                            </td>
+                            <td>{{ $horario->hora_inicio }}</td>
+                            <td>{{ $horario->hora_termino }}</td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="3" class="text-center">Nenhuma grade cadastrada para este profissional.</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
 
-            <label for="horario">Horário:</label>
-            <input type="time" id="horario" name="horario" required>
-
-            <button type="submit">Cadastrar</button>
-        </form>
+            <a href="" class="btn btn-custom mt-3">Editar grade</a>
+        </div>
     </div>
-
-    <div class="schedule-section">
-        <h2>Grade Cadastrada</h2>
-        <ul class="schedule-list">
-            <li class="schedule-item">
-                <span>Segunda-feira, 08:00 - 12:00</span>
-                <button class="edit-button">Editar</button>
-            </li>
-        </ul>
-    </div>
-</div>-->
+</section>
 @endsection
