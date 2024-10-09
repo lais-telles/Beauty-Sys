@@ -15,23 +15,23 @@
             <!-- Coluna dos cards centralizados -->
             <div class="col-md-9">
                 <div class="row justify-content-center">
+                    <div class="col-md-4 mb-3">                        
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Agendamentos</h5>
+                                <p class="card-text">Gerencie os agendamentos realizados no seu estabelecimento.</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-4 mb-3">
                         <a href="{{ route('InfoCadastro') }}" class="text-decoration-none">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Agendamentos</h5>
-                                    <p class="card-text">Gerencie os agendamentos realizados no seu estabelecimento.</p>
+                                    <h5 class="card-title">Segurança</h5>
+                                    <p class="card-text">Gerencie sua senha, e-mail, CPF e número de celular.</p>
                                 </div>
                             </div>
                         </a>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Segurança</h5>
-                                <p class="card-text">Gerencie sua senha, e-mail, CPF e número de celular.</p>
-                            </div>
-                        </div>
                     </div>
                     <div class="col-md-4 mb-3">
                         <div class="card">
