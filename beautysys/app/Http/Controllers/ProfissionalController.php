@@ -70,4 +70,8 @@ class ProfissionalController extends Controller
         // Redireciona para a página de login (ou qualquer outra página)
         return view('index')->with('success', 'Logout realizado com sucesso!');
     }
+
+    public function gradeProf() {
+        return view('grade-profissional');
+    }
 }

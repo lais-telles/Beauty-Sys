@@ -63,7 +63,7 @@
             <div class="col-md-6">
                 <h3>Ferramentas Rápidas</h3>
                 <div class="d-flex flex-column">
-                    <a href="" class="btn btn-custom mb-2">Gerenciar Horários</a>
+                    <a href="{{ route('gradeProf') }}" class="btn btn-custom mb-2">Gerenciar Horários</a>
                     <a href="" class="btn btn-custom mb-2">Editar Perfil</a>
                     <a href="" class="btn btn-custom mb-2">Ver Estatísticas</a>
                     <a href="" class="btn btn-custom mb-2">Gerar Relatórios</a>

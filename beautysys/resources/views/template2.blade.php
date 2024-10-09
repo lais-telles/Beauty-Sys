@@ -33,14 +33,14 @@
                 </div>
 
                 <div  class="collapse navbar-collapse">
-                @yield('nav-buttons2')
+                    @yield('nav-buttons2')
                 </div>
             </div>
         </nav>
     </header>
 
     <main>
-    @yield('content')
+        @yield('content')
     </main>
 
     <footer class="text-white bg-dark pb-5 mt-auto">
