@@ -70,5 +70,27 @@ class ClienteController extends Controller
         // Redireciona para a página de login (ou qualquer outra página)
         return view('index')->with('success', 'Logout realizado com sucesso!');
     }
+
+    // Método para exibir os agendamentos
+    public function exibirAgendamentos(){
+        // Captura o id do cliente da sessão
+        $id = Session::get('id_cliente');
+
+        // Verifica se o id do cliente está presente na sessão
+        if (!$id) {
+            return redirect()->route('login')->with('error', 'É necessário estar logado para ver os agendamentos.');
+        }
+
+        // Chama a procedure armazenada e passa o id do estabelecimento
+        $agendamentos = DB::select('CALL exibir_agendamentos_cliente(?)', [$id]);
+
+        // Verifica se retornou agendamentos
+        if (empty($agendamentos)) {
+            return redirect()->back()->with('error', 'Nenhum agendamento encontrado para este estabelecimento.');
+        }
+
+        // Retorna a view com os agendamentos
+        return view('agendamentos-cliente', compact('agendamentos'));
+    }
 }
 ?>

@@ -31,7 +31,6 @@ Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->
 Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
 
-
 // Rota para cadastrar um cliente usando o método 'cadastrarCliente'
 Route::post('/clientes/cadastrar', [ClienteController::class, 'cadastrarCliente'])->name('cadastrarCliente');
 
@@ -82,3 +81,6 @@ Route::post('/cadastrar-servico', [EstabelecimentoController::class, 'cadastrarS
 
 //Rota para exibição dos agendamentos realizados no estabelecimento logado
 Route::get('/agendamentos', [EstabelecimentoController::class, 'exibirAgendamentos'])->name('exibirAgendamentos');
+
+// Rota para exibição dos agendamentos realizados pelo cliente
+Route::get('/agendamentosCliente', [ClienteController::class, 'exibirAgendamentos'])->name('visAgdCliente');
