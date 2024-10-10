@@ -1,39 +1,6 @@
-@extends('template2')
+@extends('template-profissional')
 
 @section('title', 'Profissional')
-
-@section('nav-buttons')
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="">Estabelecimentos</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="">Cursos</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="">Ajuda</a>
-        </li>
-    </ul>
-@endsection
-
-@section('nav-buttons2')
-    <ul class="navbar-nav ms-auto">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i id="minhaConta" class='fas fa-user-alt' style="color: white;"></i></a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="">Minha conta</a></li>
-                <li><a class="dropdown-item" href="">Meus agendamentos</a></li>
-                <li><a class="dropdown-item" href="{{ route('DashboardPj') }}">Dashboard</a></li>
-                <li>
-                    <form action="{{ route('logoutProfissional') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="dropdown-item">Log out</button>
-                    </form>
-                </li>
-            </ul>
-        </li>
-    </ul>
-@endsection
 
 @section('content')
 <section class="d-flex" style="margin-top: 20rem; margin-bottom: 10rem;">
