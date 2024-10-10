@@ -73,6 +73,7 @@ class EstabelecimentoController extends Controller
         return view('index')->with('success', 'Logout realizado com sucesso!');
     }
 
+
     public function buscar_estabelecimento(Request $request){
         // Captura o id do estabelecimento da sessão
         $id_estabelecimento = Session::get('id_estabelecimento');
@@ -88,6 +89,7 @@ class EstabelecimentoController extends Controller
         // Retorna a view com o registro
         return view('info-cadEstab', compact('registro'));
     }
+
 
     public function alterar_cadastro(Request $request) {
         // Captura o id do estabelecimento da sessão
@@ -135,8 +137,6 @@ class EstabelecimentoController extends Controller
         // Obtendo o id_estabelecimento da sessão
         $id_estabelecimento = session('id_estabelecimento');
     
-        
-    
         // Chamada do método do modelo para cadastrar o serviço
         Servico::cadastrarServico(
             $request->nome,
@@ -149,5 +149,28 @@ class EstabelecimentoController extends Controller
         // Redirecionar ou retornar uma resposta
         return redirect()->back()->with('success', 'Serviço cadastrado com sucesso!');
     }
+
+    public function exibirAgendamentos(){
+        // Captura o id do estabelecimento da sessão
+        $id_estabelecimento = Session::get('id_estabelecimento');
+
+        // Verifica se o id do estabelecimento está presente na sessão
+        if (!$id_estabelecimento) {
+            return redirect()->route('login')->with('error', 'É necessário estar logado para ver os agendamentos.');
+        }
+
+        // Chama a procedure armazenada e passa o id do estabelecimento
+        $agendamentos = DB::select('CALL exibir_agendamentos_estabelecimento(?)', [$id_estabelecimento]);
+
+        // Verifica se retornou agendamentos
+        if (empty($agendamentos)) {
+            return redirect()->back()->with('error', 'Nenhum agendamento encontrado para este estabelecimento.');
+        }
+
+        // Retorna a view com os agendamentos
+        return view('agendamentos', compact('agendamentos'));
+    }
+
+    
 }    
 ?>
