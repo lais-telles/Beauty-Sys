@@ -47,7 +47,7 @@
         <div class="row">
             <div class="col-md-4">
                 <label for="dia_semana">Dia da Semana:</label>
-                <select id="dia_semana" name="dia_semana" class="form-control" required>
+                <select id="dia_semana" name="dia_semana" class="form-select" required>
                     <option value="1">Segunda-feira</option>
                     <option value="2">Terça-feira</option>
                     <option value="3">Quarta-feira</option>
@@ -70,6 +70,17 @@
             </div>
         </div>
     </form>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="mt-2 alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <!-- Tabela de Horários Cadastrados -->
     <div class="mt-5">

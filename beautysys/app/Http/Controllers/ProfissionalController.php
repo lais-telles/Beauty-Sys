@@ -113,6 +113,14 @@ class ProfissionalController extends Controller
         
         // Recupera o ID do profissional armazenado na sessão
         $id = Session::get('id_profissional');
+
+        // Verifica se já existe uma grade cadastrada para o mesmo dia da semana
+        $gradeExistente = Grade::where('id_profissional', $id)
+        ->where('dia_semana', $validatedData['dia_semana'])->first();
+
+        if ($gradeExistente) {
+            return redirect()->route('gradeProf')->with('error', 'Já existe um horário cadastrado para este dia da semana.');
+        }
         
         // Cria a grade
         Grade::create([
