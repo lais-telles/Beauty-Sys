@@ -80,3 +80,5 @@ Route::get('proprietario/servicos', [EstabelecimentoController::class, 'listaSer
 //Rota para a realização do cadastro de serviços
 Route::post('/cadastrar-servico', [EstabelecimentoController::class, 'cadastrarServico'])->name('cadastrarServico');
 
+//Rota para exibição dos agendamentos realizados no estabelecimento logado
+Route::get('/agendamentos', [EstabelecimentoController::class, 'exibirAgendamentos'])->name('exibirAgendamentos');
