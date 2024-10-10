@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 
 class Servico extends Model
 {
@@ -26,5 +27,16 @@ class Servico extends Model
 
     // Desativa os timestamps automáticos
     public $timestamps = false;
+
+    public static function cadastrarServico($nome, $valor, $duracao, $id_categoria, $id_estabelecimento)
+    {
+        return DB::select('CALL cadastrar_servico(?, ?, ?, ?, ?)', [
+            $nome,
+            $valor,
+            $duracao,
+            $id_categoria,
+            $id_estabelecimento,
+        ]);
+    }
     
 }
