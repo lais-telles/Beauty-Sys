@@ -122,5 +122,32 @@ class EstabelecimentoController extends Controller
         return view('servicos-cad', compact('servicos'));
     }   
 
-}
+    public function cadastrarServico(Request $request)
+    {
+        // Validação dos dados de entrada
+        $request->validate([
+            'nome' => 'required|string|max:30',
+            'valor' => 'required|numeric',
+            'duracao' => 'required|string',
+            'id_categoria' => 'required|integer',
+        ]);
+    
+        // Obtendo o id_estabelecimento da sessão
+        $id_estabelecimento = session('id_estabelecimento');
+    
+        
+    
+        // Chamada do método do modelo para cadastrar o serviço
+        Servico::cadastrarServico(
+            $request->nome,
+            $request->valor,
+            $request->duracao,
+            $request->id_categoria,
+            $id_estabelecimento
+        );
+    
+        // Redirecionar ou retornar uma resposta
+        return redirect()->back()->with('success', 'Serviço cadastrado com sucesso!');
+    }
+}    
 ?>
