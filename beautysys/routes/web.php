@@ -73,3 +73,12 @@ Route::delete('profissional/grade/{id}', [ProfissionalController::class, 'deleta
 
 // Rota para salvar um horário com o método 'salvarGrade'
 Route::post('profissional/salvarG', [ProfissionalController::class, 'salvarGrade'])->name('salvarGrade');
+
+//Rota para a página de serviços
+Route::get('proprietario/servicos', [EstabelecimentoController::class, 'listaServicos'])->name('listaServicos');
+
+//Rota para a realização do cadastro de serviços
+Route::post('/cadastrar-servico', [EstabelecimentoController::class, 'cadastrarServico'])->name('cadastrarServico');
+
+//Rota para exibição dos agendamentos realizados no estabelecimento logado
+Route::get('/agendamentos', [EstabelecimentoController::class, 'exibirAgendamentos'])->name('exibirAgendamentos');
