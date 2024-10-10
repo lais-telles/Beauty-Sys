@@ -49,6 +49,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('AdmProprietario') }}">Minha conta</a></li>
                                 <li><a class="dropdown-item" href="">Meus agendamentos</a></li>
+                                <li><a class="dropdown-item" href="{{ route('listaServicos') }}">Meus serviços</a></li>
                                 <li><a class="dropdown-item" href="{{ route('DashboardPj') }}">Dashboard</a></li>
                                 <li>
                                     <form action="{{ route('logoutEstab') }}" method="POST">
