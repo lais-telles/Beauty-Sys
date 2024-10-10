@@ -50,7 +50,6 @@
 @endsection
 
 
-<!-- Poup-up de cadastro pro proprietário-->
 <div class="modal fade" id="cadServico" tabindex="-1" aria-labelledby="cadServico" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">
@@ -59,35 +58,33 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-5 pt-0">
-                    <form action=" {{ route('cadastrarServico') }} " method="POST">
-                        @csrf
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingNome" name="nome" placeholder="nome do serviço" required>
-                            <label for="floatingNome">Nome</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingValor" name="valor" placeholder="R$ 0,00" required>
-                            <label for="floatingValor">Valor</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="time" class="form-control rounded-3" id="floatingDuracao" name="Duracao" required step="1">
-                            <label for="floatingDuracao">Duracao</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <select id="id_categoria" name="id_categoria" class="form-select" required>
-                                <option value="" disabled selected>Selecione uma categoria</option> <!-- Opção padrão não selecionável -->
-                                <option value="1">Cabelo</option>
-                                <option value="2">Estética facial</option>
-                                <option value="3">Unhas</option>
-                                <option value="4">Combo</option>
-                            </select>
-                            <label for="categoria">Categoria</label>
-                        </div>
-                        <input type="hidden" name="id_estabelecimento" value="{{ session('id_estabelecimento') }}">
+                <form action="{{ route('cadastrarServico') }}" method="POST">
+    @csrf
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control rounded-3" id="floatingNome" name="nome" placeholder="nome do serviço" required>
+        <label for="floatingNome">Nome</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control rounded-3" id="floatingValor" name="valor" placeholder="R$ 0,00" required>
+        <label for="floatingValor">Valor</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="time" class="form-control rounded-3" id="floatingDuracao" name="duracao" required step="1">
+        <label for="floatingDuracao">Duração</label>
+    </div>
+    <div class="form-floating mb-3">
+        <select id="id_categoria" name="id_categoria" class="form-select" required>
+            <option value="" disabled selected>Selecione uma categoria</option>
+            <option value="1">Cabelo</option>
+            <option value="2">Estética facial</option>
+            <option value="3">Unhas</option>
+            <option value="4">Combo</option>
+        </select>
+        <label for="id_categoria">Categoria</label>
+    </div>
+    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
+</form>
 
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
-                        <small class="text-body-secondary">Ao clicar em cadastrar, você concorda com os termos de uso.</small>
-                    </form>
                 </div>
             </div>
         </div>
