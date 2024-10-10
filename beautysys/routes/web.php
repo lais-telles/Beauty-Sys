@@ -68,3 +68,8 @@ Route::post('estabelecimento/atualiza', [EstabelecimentoController::class, 'alte
 // Rota para ir para a área de cadastro de grade horária usando o método 'gradeProf'
 Route::get('profissional/grade', [ProfissionalController::class, 'gradeProf'])->name('gradeProf');
 
+// Rota para deletar um horário com o método 'deletarHorario'
+Route::delete('profissional/grade/{id}', [ProfissionalController::class, 'deletarHorario'])->name('deletarHorario');
+
+// Rota para salvar um horário com o método 'salvarGrade'
+Route::post('profissional/salvarG', [ProfissionalController::class, 'salvarGrade'])->name('salvarGrade');

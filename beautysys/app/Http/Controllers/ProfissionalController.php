@@ -7,6 +7,7 @@ use App\Models\Profissional;  // Importe o modelo Profissional
 use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
 use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
+use App\Models\Grade;  // Importe o modelo Grade
 
 class ProfissionalController extends Controller
 {
@@ -23,7 +24,7 @@ class ProfissionalController extends Controller
             'senha' => 'required|string|min:8',
         ]);
 
-        // Cria o cliente com os dados validados e criptografa a senha
+        // Cria o profissional com os dados validados e criptografa a senha
         Profissional::create([
             'nome' => $validatedData['nome'],
             'data_nasc' => $validatedData['data_nascimento'],
@@ -71,9 +72,10 @@ class ProfissionalController extends Controller
         return view('index')->with('success', 'Logout realizado com sucesso!');
     }
 
+    // Método de exibição da grade horária
     public function gradeProf() {
         // Recupera o ID do profissional armazenado na sessão
-        $idProfissional = session('id_profissional');
+        $idProfissional = Session::get('id_profissional');
 
         // Verifica se o ID está presente
         if (!$idProfissional) {
@@ -85,5 +87,41 @@ class ProfissionalController extends Controller
 
         // Retorna a view 'grade-profissional' com os dados da grade
         return view('grade-profissional', ['horarios' => $horarios]);
+    }
+
+    // Método para deletar horário
+    public function deletarHorario($id)
+    {
+        // Lógica para encontrar e deletar o horário pelo ID
+        $horario = DB::table('grades_horario')->where('id_grade', $id)->first();
+
+        if ($horario) {
+            DB::table('grades_horario')->where('id_grade', $id)->delete();
+            return redirect()->route('gradeProf')->with('success', 'Horário deletado com sucesso.');
+        }
+
+        return redirect()->route('gradeProf')->with('error', 'Horário não encontrado.');
+    }
+
+    public function salvarGrade(Request $request) {
+        // Valida os dados enviados pelo modal
+        $validatedData = $request->validate([
+            'dia_semana' => 'required|string|max:10',
+            'hora_inicio' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
+            'hora_termino' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
+        ]);
+        
+        // Recupera o ID do profissional armazenado na sessão
+        $id = Session::get('id_profissional');
+        
+        // Cria a grade
+        Grade::create([
+            'id_profissional' => $id,
+            'dia_semana' => $validatedData['dia_semana'],
+            'hora_inicio' => $validatedData['hora_inicio'],
+            'hora_termino' => $validatedData['hora_termino']
+        ]);
+
+        return redirect()->route('gradeProf')->with('success', 'Grade cadastrada com sucesso!');
     }
 }

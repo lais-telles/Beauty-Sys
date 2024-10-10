@@ -38,16 +38,49 @@
 
 @section('content')
 <section class="d-flex" style="margin-top: 13rem; margin-bottom: 10rem;">
-    <div class="container">
-        <h1>Grade Horária Atual</h1>
+<div class="container mt-4">
+    <h2 class="mb-3">Cadastro de Grade Horária</h2>
 
-        <div class="col-md-12">
-        <table class="table table-striped">
+    <!-- Formulário de Cadastro/Edicão -->
+    <form id="form-grade-horario" action="{{ route('salvarGrade') }}" method="POST">
+        @csrf
+        <div class="row">
+            <div class="col-md-4">
+                <label for="dia_semana">Dia da Semana:</label>
+                <select id="dia_semana" name="dia_semana" class="form-control" required>
+                    <option value="1">Segunda-feira</option>
+                    <option value="2">Terça-feira</option>
+                    <option value="3">Quarta-feira</option>
+                    <option value="4">Quinta-feira</option>
+                    <option value="5">Sexta-feira</option>
+                    <option value="6">Sábado</option>
+                    <option value="7">Domingo</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="hora_inicio">Hora de Início:</label>
+                <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" step="1" required>
+            </div>
+            <div class="col-md-3">
+                <label for="hora_termino">Hora de Término:</label>
+                <input type="time" id="hora_termino" name="hora_termino" class="form-control" step="1" required>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Salvar</button>   
+            </div>
+        </div>
+    </form>
+
+    <!-- Tabela de Horários Cadastrados -->
+    <div class="mt-5">
+        <h3>Horários Cadastrados</h3>
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Dia da Semana</th>
                     <th>Início Expediente</th>
                     <th>Fim Expediente</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,18 +106,24 @@
                             </td>
                             <td>{{ $horario->hora_inicio }}</td>
                             <td>{{ $horario->hora_termino }}</td>
+                            <td>
+                                <form action="{{ route('deletarHorario', $horario->id_grade) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este horário?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="3" class="text-center">Nenhuma grade cadastrada para este profissional.</td>
+                        <td colspan="4" class="text-center">Nenhuma grade cadastrada para este profissional.</td>
                     </tr>
                 @endif
             </tbody>
         </table>
-
-            <a href="" class="btn btn-custom mt-3">Editar grade</a>
-        </div>
     </div>
+</div>
+
 </section>
 @endsection
