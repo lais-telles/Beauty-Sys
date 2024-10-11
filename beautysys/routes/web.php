@@ -80,7 +80,7 @@ Route::get('proprietario/servicos', [EstabelecimentoController::class, 'listaSer
 Route::post('/cadastrar-servico', [EstabelecimentoController::class, 'cadastrarServico'])->name('cadastrarServico');
 
 //Rota para exibição dos agendamentos realizados no estabelecimento logado
-Route::get('/agendamentos', [EstabelecimentoController::class, 'exibirAgendamentos'])->name('exibirAgendamentos');
+Route::get('/agendamentos', [EstabelecimentoController::class, 'exibirAgendamentosEstab'])->name('exibirAgendamentos');
 
 // Rota para exibição dos agendamentos realizados pelo cliente
 Route::get('/agendamentosCliente', [ClienteController::class, 'exibirAgendamentos'])->name('visAgdCliente');
