@@ -79,6 +79,9 @@ Route::get('proprietario/servicos', [EstabelecimentoController::class, 'listaSer
 //Rota para a realização do cadastro de serviços
 Route::post('/cadastrar-servico', [EstabelecimentoController::class, 'cadastrarServico'])->name('cadastrarServico');
 
+// Rota para deletar um horário com o método 'deletarHorario'
+Route::delete('profissional/servico/{id}', [ProfissionalController::class, 'deletarServico'])->name('deletarServico');
+
 //Rota para exibição dos agendamentos realizados no estabelecimento logado
 Route::get('/agendamentos/estab', [EstabelecimentoController::class, 'exibirAgendamentosEstab'])->name('exibirAgendamentosEstab');
 

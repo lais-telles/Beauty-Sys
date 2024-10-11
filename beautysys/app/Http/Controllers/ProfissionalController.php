@@ -163,6 +163,20 @@ class ProfissionalController extends Controller
             return redirect()->back()->with('error', 'Status inválido.');
         }
     }
+
+    // Método para deletar horário
+    public function deletarServico($id)
+    {
+        // Lógica para encontrar e deletar o horário pelo ID
+        $horario = DB::table('servicos')->where('id_servico', $id)->first();
+
+        if ($horario) {
+            DB::table('servicos')->where('id_servico', $id)->delete();
+            return redirect()->route('listaServicos')->with('success', 'Horário deletado com sucesso.');
+        }
+
+        return redirect()->route('listaServicos')->with('error', 'Horário não encontrado.');
+    }
     
 }
 ?>

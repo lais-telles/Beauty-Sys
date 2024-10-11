@@ -38,7 +38,7 @@
                         <td>{{ $servico->duracao }}</td>
                         <td>{{ $servico->id_categoria }}</td>
                         <td>
-                            <form action="" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este serviço?');">
+                            <form action="{{ route('deletarServico', $servico->id_servico) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este serviço?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
