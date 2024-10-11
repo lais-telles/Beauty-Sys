@@ -7,6 +7,17 @@
     <div class="container my-5">
         <div class="row align-items-center">
             <div class="col-md-12">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
                 <form action="{{ route ('AlteraCadastro') }}" method="POST">
                     @csrf
                     <div class="row">

@@ -7,6 +7,17 @@
     <div class="mt-5">
         <h2>Agendamentos</h2>
 
+        <!-- Exibir a mensagem de sucesso ou erro -->
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @elseif (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         @if(!empty($agendamentos))
             <table class="table table-bordered text-center">
                 <thead>
@@ -50,7 +61,6 @@
                                         @endforeach
                                     </select>
                                 </form>
-
                             </td>
                         </tr>
                     @endforeach
