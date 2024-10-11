@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Profissional;  // Importe o modelo Profissional
 use App\Models\Agendamento;  // Importe o modelo Agendamento
+use App\Models\Servico;  // Importe o modelo Servico
+use App\Models\Formas_pagamento;  // Importe o modelo Formas_pagamento
 use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
 use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
@@ -138,16 +140,20 @@ class ProfissionalController extends Controller
     public function exibirAgendamentosProf() {
         // Captura o id do estabelecimento da sessão
         $id_profissional = Session::get('id_profissional');
-
+    
         // Buscando todos os status disponíveis no banco de dados
         $statusAgendamentos = DB::table('status_agendamentos')->get();
-
+    
         // Chama a procedure armazenada e passa o id do estabelecimento
         $agendamentos = DB::select('CALL exibir_agendamentos_profissional(?)', [$id_profissional]);
-
-        // Retorna a view com os agendamentos
-        return view('agendamentos-prof', compact('agendamentos', 'statusAgendamentos'));
+    
+        // Obtém os serviços disponíveis
+        $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
+    
+        // Retorna a view com os agendamentos e serviços
+        return view('agendamentos-prof', compact('agendamentos', 'statusAgendamentos', 'servicos'));
     }
+    
 
     public function atualizarStatusAgendamentos(Request $request) {
         $statusDescricao = $request->input('status'); // 'Ausência' ou outro status descritivo
@@ -176,6 +182,18 @@ class ProfissionalController extends Controller
         }
 
         return redirect()->route('listaServicos')->with('error', 'Horário não encontrado.');
+    }
+    
+
+    public function servicosDisponiveis(){
+        // Captura o id do estabelecimento da sessão
+        $id_profissional = Session::get('id_profissional');
+    
+        // Obtém os serviços disponíveis
+        $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
+    
+        // Retorna a view com os serviços disponíveis para aquele profissional
+        return view('agendamentos-prof', compact('servicos', 'pags'));
     }
     
 }
