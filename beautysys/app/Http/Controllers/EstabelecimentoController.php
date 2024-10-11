@@ -150,7 +150,7 @@ class EstabelecimentoController extends Controller
         return redirect()->back()->with('success', 'Serviço cadastrado com sucesso!');
     }
 
-    public function exibirAgendamentos(){
+    public function exibirAgendamentosEstab(){
         // Captura o id do estabelecimento da sessão
         $id_estabelecimento = Session::get('id_estabelecimento');
 
@@ -158,7 +158,7 @@ class EstabelecimentoController extends Controller
         $agendamentos = DB::select('CALL exibir_agendamentos_estabelecimento(?)', [$id_estabelecimento]);
 
         // Retorna a view com os agendamentos
-        return view('agendamentos', compact('agendamentos'));
+        return view('agendamentos-estab', compact('agendamentos'));
     }
 
     

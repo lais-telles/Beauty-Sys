@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Profissional;  // Importe o modelo Profissional
+use App\Models\Agendamento;  // Importe o modelo Agendamento
+use App\Models\Servico;  // Importe o modelo Servico
+use App\Models\Formas_pagamento;  // Importe o modelo Formas_pagamento
 use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
 use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
@@ -131,48 +134,5 @@ class ProfissionalController extends Controller
         ]);
 
         return redirect()->route('gradeProf')->with('success', 'Grade cadastrada com sucesso!');
-    }
-
-    // Método para ir para a página de adm
-    public function admProf(Request $request) {
-        // Recupera o nome do profissional
-        $nome = Session::get('nome');
-        
-        return view('adm-profissional', ['nome' => $nome]);
-    }
-
-    // Método para buscar profissional
-    public function buscar_profissional(Request $request){
-        // Captura o id do estabelecimento da sessão
-        $id_profissional = Session::get('id_profissional');
-   
-        // Obtém o registro do estabelecimento
-        $registro = Profissional::find($id_profissional);
-   
-        // Verifica se o registro foi encontrado
-        if (!$registro) {
-            return redirect()->route('admProf')->with('error', 'Profissional não encontrado.');
-        }
-   
-        // Retorna a view com o registro
-        return view('info-cadProf', compact('registro'));
-    }
-
-    // Método para salvar alterações
-    public function alterar_cadastro(Request $request) {
-        // Captura o id do estabelecimento da sessão
-        $id_profissional = Session::get('id_profissional');
-        $telefone = $request->input('telefone');
-        $email = $request->input('email');
-        $senha = NULL;
-
-        DB::select('CALL atualizar_profissional(?, ?, ?, ?)', [
-            $id_profissional,
-            $telefone,
-            $email,
-            $senha
-        ]);
-
-        return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }
 }

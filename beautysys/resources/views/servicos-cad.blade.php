@@ -6,6 +6,17 @@
 <section class="d-flex flex-column" style="margin:10rem">
     <!-- Tabela de Serviços Cadastrados -->
     <div class="mt-5">
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
         <h3>Serviços Cadastrados</h3>
         <table class="table table-bordered text-center">
             <thead>
@@ -27,7 +38,7 @@
                         <td>{{ $servico->duracao }}</td>
                         <td>{{ $servico->id_categoria }}</td>
                         <td>
-                            <form action="" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este serviço?');">
+                            <form action="{{ route('deletarServico', $servico->id_servico) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este serviço?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
@@ -59,32 +70,31 @@
                 </div>
                 <div class="modal-body p-5 pt-0">
                 <form action="{{ route('cadastrarServico') }}" method="POST">
-    @csrf
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control rounded-3" id="floatingNome" name="nome" placeholder="nome do serviço" required>
-        <label for="floatingNome">Nome</label>
-    </div>
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control rounded-3" id="floatingValor" name="valor" placeholder="R$ 0,00" required>
-        <label for="floatingValor">Valor</label>
-    </div>
-    <div class="form-floating mb-3">
-        <input type="time" class="form-control rounded-3" id="floatingDuracao" name="duracao" required step="1">
-        <label for="floatingDuracao">Duração</label>
-    </div>
-    <div class="form-floating mb-3">
-        <select id="id_categoria" name="id_categoria" class="form-select" required>
-            <option value="" disabled selected>Selecione uma categoria</option>
-            <option value="1">Cabelo</option>
-            <option value="2">Estética facial</option>
-            <option value="3">Unhas</option>
-            <option value="4">Combo</option>
-        </select>
-        <label for="id_categoria">Categoria</label>
-    </div>
-    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
-</form>
-
+                    @csrf
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3" id="floatingNome" name="nome" placeholder="nome do serviço" required>
+                        <label for="floatingNome">Nome</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3" id="floatingValor" name="valor" placeholder="R$ 0,00" required>
+                        <label for="floatingValor">Valor</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="time" class="form-control rounded-3" id="floatingDuracao" name="duracao" required step="1">
+                        <label for="floatingDuracao">Duração</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select id="id_categoria" name="id_categoria" class="form-select" required>
+                            <option value="" disabled selected>Selecione uma categoria</option>
+                            <option value="1">Cabelo</option>
+                            <option value="2">Estética facial</option>
+                            <option value="3">Unhas</option>
+                            <option value="4">Combo</option>
+                        </select>
+                        <label for="id_categoria">Categoria</label>
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
+                </form>
                 </div>
             </div>
         </div>

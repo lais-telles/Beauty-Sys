@@ -23,7 +23,7 @@
                         <span class="badge bg-primary rounded-pill">Quinta - 16:00</span>
                     </li>
                 </ul>
-                <a href="" class="btn btn-custom mt-3">Ver todos os agendamentos</a>
+                <a href="{{ route('exibirAgendamentosProf') }}" class="btn btn-custom mt-3">Ver todos os agendamentos</a>
             </div>
 
             <!-- Painel de Acesso Rápido -->
