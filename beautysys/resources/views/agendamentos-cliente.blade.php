@@ -6,9 +6,8 @@
 <section class="d-flex flex-column" style="margin:10rem">
     <div class="mt-5">
         <h2>Agendamentos</h2>
-
-        @if(!empty($agendamentos))
             <table class="table table-bordered text-center">
+                @if(!empty($agendamentos))
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -33,12 +32,14 @@
                             <td>{{ $agendamento->valor_total }}</td>
                             <td>{{ $agendamento->forma_pagamento }}</td>
                         </tr>
-                    @endforeach
+                    @endforeach   
+                @else
+                    <tr>
+                        <td colspan="4" class="text-center">Nenhum agendamento realizado.</td>
+                    </tr>
+                @endif 
                 </tbody>
             </table>
-        @else
-            <p>Nenhum agendamento encontrado.</p>
-        @endif
     </div>
 </section>
 @endsection

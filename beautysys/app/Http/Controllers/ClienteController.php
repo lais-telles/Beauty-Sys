@@ -84,11 +84,6 @@ class ClienteController extends Controller
         // Chama a procedure armazenada e passa o id do estabelecimento
         $agendamentos = DB::select('CALL exibir_agendamentos_cliente(?)', [$id]);
 
-        // Verifica se retornou agendamentos
-        if (empty($agendamentos)) {
-            return redirect()->back()->with('error', 'Nenhum agendamento encontrado para este estabelecimento.');
-        }
-
         // Retorna a view com os agendamentos
         return view('agendamentos-cliente', compact('agendamentos'));
     }
