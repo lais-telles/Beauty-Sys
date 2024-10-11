@@ -178,5 +178,59 @@ class ProfissionalController extends Controller
 
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }
+
+    public function exibirAgendamentosProf() {
+        // Captura o id do profissional da sessão
+        $id_profissional = Session::get('id_profissional');
+
+        // Buscando todos os status disponíveis no banco de dados
+        $statusAgendamentos = DB::table('status_agendamentos')->get();
+
+        // Chama a procedure armazenada e passa o id do profissional
+        $agendamentos = DB::select('CALL exibir_agendamentos_profissional(?)', [$id_profissional]);
+
+        // Obtém os serviços disponíveis
+        $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
+        $servicos = $this->servicosDisponiveis($id_profissional);
+
+        // Retorna a view com os agendamentos e serviços
+        return view('agendamentos-prof', compact('agendamentos', 'statusAgendamentos', 'servicos'));
+    }
+
+    // Função separada para obter serviços disponíveis
+    private function servicosDisponiveis($id_profissional) {
+        // Obtém os serviços disponíveis
+        return DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
+    }
+
+
+    public function atualizarStatusAgendamentos(Request $request) {
+        $statusDescricao = $request->input('status'); // 'Ausência' ou outro status descritivo
+        $id_agendamento = $request->input('id_agendamento');
+
+        // Busca o ID do status correspondente
+        $status = DB::table('status_agendamentos')->where('descricao', $statusDescricao)->first();
+
+        if ($status) {
+            Agendamento::atualizarStatus($id_agendamento, $status->id_status); // Usa o ID encontrado
+            return redirect()->back()->with('success', 'Status atualizado com sucesso!');
+        } else {
+            return redirect()->back()->with('error', 'Status inválido.');
+        }
+    }
+
+    // Método para deletar horário
+    public function deletarServico($id)
+    {
+        // Lógica para encontrar e deletar o horário pelo ID
+        $horario = DB::table('servicos')->where('id_servico', $id)->first();
+
+        if ($horario) {
+            DB::table('servicos')->where('id_servico', $id)->delete();
+            return redirect()->route('listaServicos')->with('success', 'Horário deletado com sucesso.');
+        }
+
+        return redirect()->route('listaServicos')->with('error', 'Horário não encontrado.');
+    }
 }
 ?>
