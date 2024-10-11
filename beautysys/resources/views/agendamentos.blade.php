@@ -36,11 +36,13 @@
                             <td>{{ $agendamento->forma_pagamento }}</td>
                         </tr>
                     @endforeach
+                @else
+                <tr>
+                    <td colspan="6" class="text-center">Nenhum agendamento realizado.</td>
+                </tr>
+                @endif
                 </tbody>
             </table>
-        @else
-            <p>Nenhum agendamento encontrado.</p>
-        @endif
     </div>
 </section>
 @endsection

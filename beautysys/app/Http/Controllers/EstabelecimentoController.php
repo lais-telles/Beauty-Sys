@@ -154,18 +154,8 @@ class EstabelecimentoController extends Controller
         // Captura o id do estabelecimento da sessão
         $id_estabelecimento = Session::get('id_estabelecimento');
 
-        // Verifica se o id do estabelecimento está presente na sessão
-        if (!$id_estabelecimento) {
-            return redirect()->route('login')->with('error', 'É necessário estar logado para ver os agendamentos.');
-        }
-
         // Chama a procedure armazenada e passa o id do estabelecimento
         $agendamentos = DB::select('CALL exibir_agendamentos_estabelecimento(?)', [$id_estabelecimento]);
-
-        // Verifica se retornou agendamentos
-        if (empty($agendamentos)) {
-            return redirect()->back()->with('error', 'Nenhum agendamento encontrado para este estabelecimento.');
-        }
 
         // Retorna a view com os agendamentos
         return view('agendamentos', compact('agendamentos'));
