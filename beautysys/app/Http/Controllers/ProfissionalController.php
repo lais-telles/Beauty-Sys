@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Profissional;  // Importe o modelo Profissional
+use App\Models\Agendamento;  // Importe o modelo Agendamento
 use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
 use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
@@ -132,4 +133,36 @@ class ProfissionalController extends Controller
 
         return redirect()->route('gradeProf')->with('success', 'Grade cadastrada com sucesso!');
     }
+
+
+    public function exibirAgendamentosProf() {
+        // Captura o id do estabelecimento da sessão
+        $id_profissional = Session::get('id_profissional');
+
+        // Buscando todos os status disponíveis no banco de dados
+        $statusAgendamentos = DB::table('status_agendamentos')->get();
+
+        // Chama a procedure armazenada e passa o id do estabelecimento
+        $agendamentos = DB::select('CALL exibir_agendamentos_profissional(?)', [$id_profissional]);
+
+        // Retorna a view com os agendamentos
+        return view('agendamentos-prof', compact('agendamentos', 'statusAgendamentos'));
+    }
+
+    public function atualizarStatusAgendamentos(Request $request) {
+        $statusDescricao = $request->input('status'); // 'Ausência' ou outro status descritivo
+        $id_agendamento = $request->input('id_agendamento');
+    
+        // Busca o ID do status correspondente
+        $status = DB::table('status_agendamentos')->where('descricao', $statusDescricao)->first();
+    
+        if ($status) {
+            Agendamento::atualizarStatus($id_agendamento, $status->id_status); // Usa o ID encontrado
+            return redirect()->back()->with('success', 'Status atualizado com sucesso!');
+        } else {
+            return redirect()->back()->with('error', 'Status inválido.');
+        }
+    }
+    
 }
+?>

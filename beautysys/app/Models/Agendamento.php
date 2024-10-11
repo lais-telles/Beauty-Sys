@@ -13,6 +13,8 @@ class Agendamento extends Model
      // Define a tabela associada
      protected $table = 'agendamentos';
 
+     protected $primaryKey = 'id_agendamento';
+
      // Define os campos que podem ser preenchidos em massa
      protected $fillable = [
          'id_cliente',
@@ -29,4 +31,19 @@ class Agendamento extends Model
 
      // Desativa os timestamps automáticos
     public $timestamps = false;
+
+    public static function atualizarStatus($id_agendamento, $novoStatus) {
+        $agendamento = self::find($id_agendamento);
+        
+        if ($agendamento) {
+            // Atualiza o status usando o ID correto
+            $agendamento->id_status = $novoStatus;
+            $agendamento->save();
+            return true;
+        }
+    
+        return false;
+    }
+    
+    
 }
