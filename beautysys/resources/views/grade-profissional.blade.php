@@ -37,7 +37,7 @@
         </div>
     </form>
     @if (session('success'))
-        <div class="alert alert-success">
+        <div class="mt-2 alert alert-success">
             {{ session('success') }}
         </div>
     @endif

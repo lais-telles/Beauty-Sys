@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/10/2024 às 20:56
+-- Tempo de geração: 11/10/2024 às 15:11
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -72,6 +72,18 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cadastrar_servico` (IN `p_nome` VARCHAR(30), IN `p_valor` FLOAT, IN `p_duracao` TIME, IN `p_id_categoria` INT, IN `p_id_estabelecimento` INT)   BEGIN 
 INSERT INTO servicos (nome, valor, duracao, id_categoria, id_estabelecimento) VALUES (p_nome, p_valor, p_duracao, p_id_categoria, p_id_estabelecimento); 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_grade_horaria` (IN `id_profissional_param` INT)   BEGIN
+    SELECT 
+    	id_grade,
+        dia_semana,
+        hora_inicio,
+        hora_termino
+    FROM 
+        grades_horario
+    WHERE 
+        id_profissional = id_profissional_param;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_cliente` (IN `p_id_cliente` INT)   BEGIN
@@ -709,7 +721,10 @@ INSERT INTO `grades_horario` (`id_grade`, `id_profissional`, `dia_semana`, `hora
 (16, 5, '2', '08:00:00', '17:00:00'),
 (17, 6, '2', '08:00:00', '16:30:00'),
 (18, 6, '4', '08:00:00', '16:30:00'),
-(19, 7, '5', '08:00:00', '16:00:00');
+(19, 7, '5', '08:00:00', '16:00:00'),
+(20, 8, '1', '08:00:00', '17:00:00'),
+(21, 8, '4', '13:00:00', '17:00:00'),
+(22, 8, '3', '10:00:00', '18:00:00');
 
 -- --------------------------------------------------------
 
@@ -901,7 +916,8 @@ INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `tel
 (4, 'Sheila Almeida', '1998-11-23', '987.654.321-02', '(11) 90981-054', 'sheila@teste.com', 'senha123', 2),
 (5, 'Juriscleison da Costa', '1993-04-01', '132.256.456-02', '1908007070', 'jusriscleison@gmail.com', 'senha123', 1),
 (6, 'Otávio Ferreira', '1975-12-31', '256.145.486-01', '199995452', 'tavinho@outlook.com', 'senha123', 2),
-(7, 'Bruce Lee', '1968-05-06', '456.256.324-15', '1965165655', 'kungfu@yahoo.com', 'senha123', 1);
+(7, 'Bruce Lee', '1968-05-06', '456.256.324-15', '1965165655', 'kungfu@yahoo.com', 'senha123', 1),
+(8, 'Ronaldo Silveira', '1999-03-12', '65561561', '195226512', 'ronaldo@teste.com', '$2y$12$o/SwkMeE3/Kp4HSOL2gnIucs35o1TvFQFkgi.aMLCfwrEW7sjuVsu', NULL);
 
 --
 -- Acionadores `profissionais`
@@ -1266,7 +1282,7 @@ ALTER TABLE `formas_pagamentos`
 -- AUTO_INCREMENT de tabela `grades_horario`
 --
 ALTER TABLE `grades_horario`
-  MODIFY `id_grade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_grade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de tabela `historico_clientes`
@@ -1302,7 +1318,7 @@ ALTER TABLE `produtos`
 -- AUTO_INCREMENT de tabela `profissionais`
 --
 ALTER TABLE `profissionais`
-  MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `servicos`
