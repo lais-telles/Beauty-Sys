@@ -138,21 +138,28 @@ class ProfissionalController extends Controller
 
 
     public function exibirAgendamentosProf() {
-        // Captura o id do estabelecimento da sessão
+        // Captura o id do profissional da sessão
         $id_profissional = Session::get('id_profissional');
     
         // Buscando todos os status disponíveis no banco de dados
         $statusAgendamentos = DB::table('status_agendamentos')->get();
     
-        // Chama a procedure armazenada e passa o id do estabelecimento
+        // Chama a procedure armazenada e passa o id do profissional
         $agendamentos = DB::select('CALL exibir_agendamentos_profissional(?)', [$id_profissional]);
     
         // Obtém os serviços disponíveis
-        $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
+        $servicos = $this->servicosDisponiveis($id_profissional);
     
         // Retorna a view com os agendamentos e serviços
         return view('agendamentos-prof', compact('agendamentos', 'statusAgendamentos', 'servicos'));
     }
+    
+    // Função separada para obter serviços disponíveis
+    private function servicosDisponiveis($id_profissional) {
+        // Obtém os serviços disponíveis
+        return DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
+    }
+    
     
 
     public function atualizarStatusAgendamentos(Request $request) {
@@ -183,18 +190,5 @@ class ProfissionalController extends Controller
 
         return redirect()->route('listaServicos')->with('error', 'Horário não encontrado.');
     }
-    
-
-    public function servicosDisponiveis(){
-        // Captura o id do estabelecimento da sessão
-        $id_profissional = Session::get('id_profissional');
-    
-        // Obtém os serviços disponíveis
-        $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
-    
-        // Retorna a view com os serviços disponíveis para aquele profissional
-        return view('agendamentos-prof', compact('servicos', 'pags'));
-    }
-    
 }
 ?>
