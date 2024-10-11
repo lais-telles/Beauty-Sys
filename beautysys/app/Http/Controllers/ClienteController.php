@@ -87,5 +87,48 @@ class ClienteController extends Controller
         // Retorna a view com os agendamentos
         return view('agendamentos-cliente', compact('agendamentos'));
     }
+
+    // Método para ir para a página de adm
+    public function admCliente() {
+        // Recupera o nome do cliente
+        $nome = Session::get('nome');
+
+        return view('adm-cliente', ['nome' => $nome]);
+    }
+
+    // Método para buscar cliente
+    public function buscar_cliente(Request $request){
+        // Captura o id do estabelecimento da sessão
+        $id_cliente = Session::get('id_cliente');
+   
+        // Obtém o registro do estabelecimento
+        $registro = Cliente::find($id_cliente);
+   
+        // Verifica se o registro foi encontrado
+        if (!$registro) {
+            return redirect()->route('admCliente')->with('error', 'Profissional não encontrado.');
+        }
+   
+        // Retorna a view com o registro
+        return view('info-cadCli', compact('registro'));
+    }
+
+    // Método para salvar alterações
+    public function alterar_cadastro(Request $request) {
+        // Captura o id do cliente da sessão
+        $id_cliente = Session::get('id_cliente');
+        $telefone = $request->input('telefone');
+        $email = $request->input('email');
+        $senha = NULL;
+
+        DB::select('CALL atualizar_cliente(?, ?, ?, ?)', [
+            $id_cliente,
+            $telefone,
+            $email,
+            $senha
+        ]);
+
+        return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
+    }
 }
 ?>

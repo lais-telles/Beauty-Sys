@@ -33,8 +33,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_estabelecimento` (IN `p_i
 UPDATE estabelecimentos SET nome_fantasia = p_nome_fantasia, telefone = p_telefone, logradouro = p_logradouro, numero = p_numero, bairro = p_bairro, cidade = p_cidade, estado = p_estado, cep = p_cep, inicio_expediente = p_inicio_expediente, termino_expediente = p_termino_expediente, email = p_email, senha = p_senha WHERE id_estabelecimento = p_id_estabelecimento;   
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_profissional` (IN `p_id_profissional` INT, IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30), IN `p_senha` VARCHAR(50), IN `p_id_estab_vinculado` INT)   BEGIN 
-UPDATE profissionais SET telefone = p_telefone, email = p_email, senha = p_senha , estabel_vinculado = p_id_estab_vinculado WHERE id_profissional = p_id_profissional; 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_profissional` (IN `p_id_profissional` INT, IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30), IN `p_senha` VARCHAR(50))   BEGIN 
+UPDATE profissionais SET telefone = p_telefone, email = p_email, senha = p_senha WHERE id_profissional = p_id_profissional; 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cadastrar_cliente` (IN `p_nome` VARCHAR(30), IN `p_data_nasc` DATE, IN `p_CPF` VARCHAR(14), IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30), IN `p_senha` VARCHAR(50))   BEGIN

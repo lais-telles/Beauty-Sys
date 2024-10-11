@@ -47,7 +47,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i id="minhaConta" class='fas fa-user-alt' style="color: white;"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="">Minha conta</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admCliente') }}">Minha conta</a></li>
                                 <li><a class="dropdown-item" href="{{ route('visAgdCliente') }}">Meus agendamentos</a></li>
                                 <li><a class="dropdown-item" href="">Endereços</a></li>
                                 <li>

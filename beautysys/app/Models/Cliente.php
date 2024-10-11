@@ -9,6 +9,9 @@ class Cliente extends Model
 {
     use HasFactory;
 
+    // Defina a chave primária, se não for 'id'
+    protected $primaryKey = 'id_cliente';
+
     // Define a tabela associada
     protected $table = 'clientes';
 

@@ -85,9 +85,6 @@ Route::get('/agendamentos', [EstabelecimentoController::class, 'exibirAgendament
 // Rota para exibição dos agendamentos realizados pelo cliente
 Route::get('/agendamentosCliente', [ClienteController::class, 'exibirAgendamentos'])->name('visAgdCliente');
 
-// Rota para administração de conta do Cliente com o método 'admCliente'
-Route::get('/admCliente', [ClienteController::class, 'admCliente'])->name('admCliente');
-
 // Rota para administração de conta do Profissional com o método 'admProf'
 Route::get('/admProfissional', [ProfissionalController::class, 'admProf'])->name('admProf');
 
@@ -96,3 +93,12 @@ Route::get('profissional/perfil', [ProfissionalController::class, 'buscar_profis
 
 //Rota para salvar alterações de cadastro
 Route::post('profissional/atualiza', [ProfissionalController::class, 'alterar_cadastro'])->name('alteraCadastroProf');
+
+// Rota para administração de conta do cliente com o método 'admCliente'
+Route::get('/admCliente', [ClienteController::class, 'admCliente'])->name('admCliente');
+
+//Rota para a tela de perfil do cliente com as respectivas informações do cliente logado
+Route::get('cliente/perfil', [ClienteController::class, 'buscar_cliente'])->name('infoCadastroCli');
+
+//Rota para salvar alterações de cadastro
+Route::post('cliente/atualiza', [ClienteController::class, 'alterar_cadastro'])->name('alteraCadastroCli');
