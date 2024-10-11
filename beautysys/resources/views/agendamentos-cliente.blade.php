@@ -18,6 +18,7 @@
                         <th>Horário de Término</th>
                         <th>Valor Total</th>
                         <th>Forma de Pagamento</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +32,7 @@
                             <td>{{ $agendamento->horario_termino }}</td>
                             <td>{{ $agendamento->valor_total }}</td>
                             <td>{{ $agendamento->forma_pagamento }}</td>
+                            <td>{{ $agendamento->status }}</td>
                         </tr>
                     @endforeach   
                 @else
