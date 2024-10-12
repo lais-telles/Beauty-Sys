@@ -98,6 +98,7 @@
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script
 <canvas id="agendamentosChart" width="400" height="200"></canvas>
 
 <script>
@@ -141,14 +142,21 @@
         }
     });
 
+    // Coleta os dados dos serviços populares da variável 'data'
+    var servicosPopulares = @json($data['servicos_populares']);
+    
+    // Mapeia os nomes dos serviços e os totais de agendamentos
+    var labels = servicosPopulares.map(servico => servico.serviço);
+    var dataValues = servicosPopulares.map(servico => servico.total_agendamentos);
+
     var ctx2 = document.getElementById('servicosChart').getContext('2d');
     var servicosChart = new Chart(ctx2, {
         type: 'bar',
         data: {
-            labels: ['Corte', 'Coloração', 'Manicure', 'Pedicure', 'Massagem', 'Maquiagem'],
+            labels: labels, // Usa os nomes dos serviços coletados
             datasets: [{
                 label: 'Número de Serviços',
-                data: [15, 20, 10, 5, 8, 12],
+                data: dataValues, // Usa os totais de agendamentos coletados
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.2)',
                     'rgba(75, 192, 192, 0.2)',
@@ -169,12 +177,24 @@
             }]
         },
         options: {
+            plugins: {
+                datalabels: {
+                    anchor: 'end',
+                    align: 'end',
+                    color: '#000',
+                    formatter: (value) => {
+                        return value; // Exibe o valor
+                    }
+                }
+            },
             scales: {
                 y: {
                     beginAtZero: true
                 }
             }
-        }
+        },
+    
     });
+
 </script>
 @endsection
