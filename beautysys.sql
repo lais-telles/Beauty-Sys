@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 12, 2024 at 09:00 PM
+-- Generation Time: Oct 13, 2024 at 12:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -94,6 +94,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_grade_horaria` (IN `id_pro
         id_profissional = id_profissional_param;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `contagem_agendamentos` (IN `p_id_estabelecimento` INT)   BEGIN
+    -- Exibe a contagem de agendamentos por mês
+    SELECT 
+        MONTH(a.data_realizacao) AS mes, 
+        COUNT(*) AS total_agendamentos
+    FROM agendamentos a
+    WHERE a.id_profissional IN (
+        SELECT p.id_profissional
+        FROM profissionais p
+        WHERE p.estabel_vinculado = p_id_estabelecimento
+    )
+    GROUP BY MONTH(a.data_realizacao)
+    ORDER BY mes;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_cliente` (IN `p_id_cliente` INT)   BEGIN
 SELECT a.id_agendamento, a.id_profissional, p.nome AS 'profissional', fp.descricao AS 'forma_pagamento', a.data_realizacao, a.horario_inicio, a.horario_termino, a.valor_total, s.nome AS 'servico',
 sa.descricao AS status
@@ -130,7 +145,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_estabelecimento
     JOIN formas_pagamentos AS fp ON a.id_opcaopag = fp.id_opcaopag
     JOIN status_agendamentos AS sa ON a.id_status = sa.id_status
     WHERE p.estabel_vinculado = p_id_estabelecimento;  
-
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_profissional` (IN `p_id_profissional` INT)   BEGIN
@@ -444,7 +458,7 @@ INSERT INTO `agendamentos` (`id_agendamento`, `id_cliente`, `id_profissional`, `
 (2, 2, 4, 1, 1, 2, '2024-09-18', '2024-09-13', '14:30:00', '15:00:00', 50),
 (3, 3, 2, 3, 1, 3, '2024-09-18', '2024-09-13', '10:00:00', '11:00:00', 35),
 (4, 3, 2, 3, 1, 3, '2024-10-24', '2024-09-13', '10:00:00', '11:00:00', 35),
-(5, 1, 5, 1, 1, 5, '2024-09-28', '2024-09-26', '08:00:00', '08:40:00', 30),
+(5, 1, 5, 1, 1, 5, '2024-10-28', '2024-09-26', '08:00:00', '08:40:00', 30),
 (6, 2, 6, 1, 1, 4, '2024-09-30', '2024-09-26', '08:00:00', '11:00:00', 120),
 (7, 3, 5, 1, 1, 7, '2024-09-30', '2024-09-26', '08:00:00', '09:00:00', 65);
 
@@ -1296,7 +1310,7 @@ ALTER TABLE `status_pedidos`
 -- AUTO_INCREMENT for table `agendamentos`
 --
 ALTER TABLE `agendamentos`
-  MODIFY `id_agendamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_agendamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `avaliacoes`
