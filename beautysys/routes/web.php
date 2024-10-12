@@ -27,7 +27,7 @@ Route::get('/parceiros', [IndexController::class, 'Parceiro'])->name('Parceiro')
 //Route::get('/home-pf', [IndexController::class, 'HomePf'])->name('PaginaInicialPf');
 //Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialPj');
 //Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->name('PaginaInicialProfissional');
-Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
+//Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
 Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
 
@@ -111,3 +111,5 @@ Route::get('cliente/perfil', [ClienteController::class, 'buscar_cliente'])->name
 
 //Rota para salvar alterações de cadastro
 Route::post('cliente/atualiza', [ClienteController::class, 'alterar_cadastro'])->name('alteraCadastroCli');
+
+Route::get('estabelecimento/dashboard', [EstabelecimentoController::class, 'dashboardEstab'])->name('DashboardPj');
