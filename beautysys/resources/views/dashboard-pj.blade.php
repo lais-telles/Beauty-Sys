@@ -33,13 +33,13 @@
 @section('content')
 <section  class="d-flex" style="margin-top: 20rem; margin-bottom: 10rem;">
     <div class="container mt-4">
-        <div class="row">
+    <div class="row">
             <!-- Card Profissionais -->
             <div class="col-md-3">
                 <div class="card text-white mb-3" style="background-color: #73005B;">
                     <div class="card-body">
                         <h5 class="card-title">Profissionais</h5>
-                        <p class="card-text">Número total: 10</p>
+                        <p class="card-text">Número total: {{ $data['total_profissionais'] }}</p>
                     </div>
                 </div>
             </div>
@@ -48,16 +48,16 @@
                 <div class="card text-white mb-3" style="background-color: #AD305A;">
                     <div class="card-body">
                         <h5 class="card-title">Serviços</h5>
-                        <p class="card-text">Número total: 25</p>
+                        <p class="card-text">Número total: {{ $data['total_servicos'] }}</p>
                     </div>
                 </div>
             </div>
             <!-- Card Clientes -->
             <div class="col-md-3">
-                <div class="card text-white mb-3" style="background-color: #1E0056">
+                <div class="card text-white mb-3" style="background-color: #1E0056;">
                     <div class="card-body">
                         <h5 class="card-title">Clientes</h5>
-                        <p class="card-text">Número total: 50</p>
+                        <p class="card-text">Número total: {{ $data['total_clientes'] }}</p>
                     </div>
                 </div>
             </div>
@@ -66,12 +66,11 @@
                 <div class="card text-white mb-3" style="background-color: #D7685A;">
                     <div class="card-body">
                         <h5 class="card-title">Agendamentos</h5>
-                        <p class="card-text">Número total: 80</p>
+                        <p class="card-text">Número total: {{ $data['total_agendamentos'] }}</p>
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- Gráfico e estatísticas -->
         <div class="row mt-4">
             <div class="col-md-6">
