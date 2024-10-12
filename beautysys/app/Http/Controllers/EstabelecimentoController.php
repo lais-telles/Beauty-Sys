@@ -161,6 +161,29 @@ class EstabelecimentoController extends Controller
         return view('agendamentos-estab', compact('agendamentos'));
     }
 
+
+    public function dashboardEstab(){
+        // Captura o id do estabelecimento da sessão
+        $id_estabelecimento = Session::get('id_estabelecimento');
+    
+        // Executa os procedimentos armazenados e captura os resultados
+        $profissionais = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
+        $clientes = DB::select('CALL clientes_por_estabelecimento(?)', [$id_estabelecimento]);
+        $servicos = DB::select('CALL exibir_servicos_estabelecimento(?)', [$id_estabelecimento]);
+        $agendamentos = DB::select('CALL exibir_agendamentos_estabelecimento(?)', [$id_estabelecimento]);
+    
+        // Cria um objeto ou array simplificado contendo os totais
+        $data = [
+            'total_profissionais' => $profissionais[0]->total_profissionais ?? 0,
+            'total_clientes' => $clientes[0]->total_clientes ?? 0,
+            'total_servicos' => $servicos[0]->total_servicos ?? 0,
+            'total_agendamentos' => $agendamentos[0]->total_agendamentos ?? 0,
+        ];
+    
+        // Retorna a view com os dados simplificados
+        return view('dashboard-pj', compact('data'));
+    }
+    
     
 }    
 ?>
