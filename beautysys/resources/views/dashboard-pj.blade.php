@@ -98,15 +98,35 @@
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="agendamentosChart" width="400" height="200"></canvas>
+
 <script>
+    // Extraindo os dados do array agendamentos_por_mes
+    var meses = @json($data['agendamentos_por_mes']);
+    
+    // Array de nomes dos meses
+    var nomeMeses = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+    
+    // Prepare os labels e os dados para o gráfico
+    var labels = meses.map(function(item) {
+        return nomeMeses[item.mes - 1]; // Subtrai 1 para ajustar ao índice do array
+    });
+
+    var agendamentosData = meses.map(function(item) {
+        return item.total_agendamentos; // Assume que "total_agendamentos" é o campo com a contagem
+    });
+
     var ctx = document.getElementById('agendamentosChart').getContext('2d');
     var agendamentosChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+            labels: labels,
             datasets: [{
                 label: 'Agendamentos',
-                data: [10, 20, 30, 40, 50, 60],
+                data: agendamentosData,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
