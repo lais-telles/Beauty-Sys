@@ -171,6 +171,7 @@ class EstabelecimentoController extends Controller
         $clientes = DB::select('CALL clientes_por_estabelecimento(?)', [$id_estabelecimento]);
         $servicos = DB::select('CALL exibir_servicos_estabelecimento(?)', [$id_estabelecimento]);
         $agendamentos = DB::select('CALL exibir_agendamentos_estabelecimento(?)', [$id_estabelecimento]);
+        $agendamentos_mes = DB::select('CALL contagem_agendamentos(?)', [$id_estabelecimento]);
     
         // Cria um objeto ou array simplificado contendo os totais
         $data = [
@@ -178,6 +179,7 @@ class EstabelecimentoController extends Controller
             'total_clientes' => $clientes[0]->total_clientes ?? 0,
             'total_servicos' => $servicos[0]->total_servicos ?? 0,
             'total_agendamentos' => $agendamentos[0]->total_agendamentos ?? 0,
+            'agendamentos_por_mes' => $agendamentos_mes, // Armazena a contagem mensal
         ];
     
         // Retorna a view com os dados simplificados
