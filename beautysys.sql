@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 12, 2024 at 01:00 AM
+-- Generation Time: Oct 12, 2024 at 09:00 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -74,6 +74,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `cadastrar_servico` (IN `p_nome` VAR
 INSERT INTO servicos (nome, valor, duracao, id_categoria, id_estabelecimento) VALUES (p_nome, p_valor, p_duracao, p_id_categoria, p_id_estabelecimento); 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `clientes_por_estabelecimento` (IN `p_id_estabelecimento` INT)   BEGIN
+    SELECT COUNT(DISTINCT a.id_cliente) AS total_clientes
+    FROM agendamentos AS a
+    INNER JOIN profissionais AS p ON a.id_profissional = p.id_profissional
+    INNER JOIN estabelecimentos AS e ON p.estabel_vinculado = e.id_estabelecimento
+    WHERE e.id_estabelecimento = p_id_estabelecimento;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_grade_horaria` (IN `id_profissional_param` INT)   BEGIN
     SELECT 
     	id_grade,
@@ -108,7 +116,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_estabelecimento
            a.horario_termino,
            a.valor_total,
            fp.descricao AS forma_pagamento,
-           sa.descricao AS status
+           sa.descricao AS status,
+           (SELECT COUNT(*) 
+            FROM agendamentos 
+            WHERE id_profissional IN (
+                SELECT id_profissional 
+                FROM profissionais 
+                WHERE estabel_vinculado = p_id_estabelecimento)) AS total_agendamentos
     FROM agendamentos AS a  
     JOIN clientes AS c ON a.id_cliente = c.id_cliente  
     JOIN profissionais AS p ON a.id_profissional = p.id_profissional  
@@ -155,9 +169,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_produtos_mais_populares_por_
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_profissionais_vinculados` (IN `p_id_estabelecimento` INT)   BEGIN
-SELECT p.nome, p.data_nasc, p.CPF, p.telefone, p.email, p.estabel_vinculado
+SELECT p.nome, p.data_nasc, p.CPF, p.telefone, p.email, p.estabel_vinculado, 
+       (SELECT COUNT(*) FROM profissionais WHERE estabel_vinculado = p_id_estabelecimento) AS total_profissionais
 FROM profissionais AS p 
-WHERE estabel_vinculado = p_id_estabelecimento; 
+WHERE estabel_vinculado = p_id_estabelecimento;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_servicos_cat` (IN `p_id_categoria` INT)   BEGIN 
@@ -172,7 +187,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_servicos_estabelecimento` (I
         s.nome,
         s.valor,
         s.duracao,
-        c.descricao AS categoria
+        c.descricao AS categoria,
+        (SELECT COUNT(*) 
+         FROM servicos 
+         WHERE id_estabelecimento = p_id_estabelecimento) AS total_servicos
     FROM 
         servicos s
     LEFT JOIN 
