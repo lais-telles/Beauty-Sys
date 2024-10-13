@@ -16,13 +16,15 @@
             <!-- Coluna dos cards centralizados -->
             <div class="col-md-9">
                 <div class="row justify-content-center">
-                    <div class="col-md-4 mb-3">                        
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Agendamentos</h5>
-                                <p class="card-text">Consulte os agendamentos realizados por você.</p>
+                    <div class="col-md-4 mb-3">  
+                        <a href="{{ route('visAgdCliente') }}" class="text-decoration-none">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Agendamentos</h5>
+                                    <p class="card-text">Consulte os agendamentos realizados por você.</p>
+                                </div>
                             </div>
-                        </div>
+                        </a>                      
                     </div>
                     <div class="col-md-4 mb-3">
                         <a href="{{ route('infoCadastroCli') }}" class="text-decoration-none">
