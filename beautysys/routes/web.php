@@ -113,3 +113,6 @@ Route::get('cliente/perfil', [ClienteController::class, 'buscar_cliente'])->name
 Route::post('cliente/atualiza', [ClienteController::class, 'alterar_cadastro'])->name('alteraCadastroCli');
 
 Route::get('estabelecimento/dashboard', [EstabelecimentoController::class, 'dashboardEstab'])->name('DashboardPj');
+
+// Rota para tela de solicitação/ visuialização de vínculo
+Route::get('profissional/vinculo', [ProfissionalController::class, 'vinculoProf'])->name('vinculoProf');

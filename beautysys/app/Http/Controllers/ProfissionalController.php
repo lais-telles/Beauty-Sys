@@ -232,5 +232,22 @@ class ProfissionalController extends Controller
 
         return redirect()->route('listaServicos')->with('error', 'Horário não encontrado.');
     }
+
+    // Método de exibição do vinculo
+    public function vinculoProf()
+    {
+        // Recupera o ID do profissional armazenado na sessão
+        $idProfissional = Session::get('id_profissional');
+
+        // Verifica se o ID está presente
+        if (!$idProfissional) {
+            return redirect()->route('login')->with('error', 'Profissional não autenticado');
+        }
+
+        // Chama o stored procedure passando o ID do profissional
+        $vinculo = DB::select('CALL consulta_vinculo(?)', [$idProfissional]);
+
+        return view('vinculo-prof', ['vinculo' => $vinculo]);
+    }
 }
 ?>

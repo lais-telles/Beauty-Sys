@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 13, 2024 at 12:20 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: 127.0.0.1
+-- Tempo de geração: 13/10/2024 às 20:25
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,12 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `beautysys`
+-- Banco de dados: `beautysys`
 --
 
 DELIMITER $$
 --
--- Procedures
+-- Procedimentos
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_cliente` (IN `p_id_cliente` INT, IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30), IN `p_senha` VARCHAR(50))   BEGIN
 UPDATE clientes SET telefone = p_telefone, email = p_email, senha = p_senha WHERE id_cliente = p_id_cliente; 
@@ -92,6 +92,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_grade_horaria` (IN `id_pro
         grades_horario
     WHERE 
         id_profissional = id_profissional_param;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_vinculo` (IN `id_profissional_param` INT)   BEGIN
+    SELECT 
+        v.id_vinculo,
+        v.id_profissional,
+        v.id_estabelecimento,
+        e.nome_fantasia AS nome_estabelecimento,
+        v.status_vinculo
+    FROM 
+        vinculos v
+    INNER JOIN 
+        estabelecimentos e ON v.id_estabelecimento = e.id_estabelecimento
+    WHERE
+        v.id_profissional = id_profissional_param;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `contagem_agendamentos` (IN `p_id_estabelecimento` INT)   BEGIN
@@ -432,7 +447,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `agendamentos`
+-- Estrutura para tabela `agendamentos`
 --
 
 CREATE TABLE `agendamentos` (
@@ -450,7 +465,7 @@ CREATE TABLE `agendamentos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `agendamentos`
+-- Despejando dados para a tabela `agendamentos`
 --
 
 INSERT INTO `agendamentos` (`id_agendamento`, `id_cliente`, `id_profissional`, `id_opcaopag`, `id_status`, `id_servico`, `data_realizacao`, `data_agendamento`, `horario_inicio`, `horario_termino`, `valor_total`) VALUES
@@ -465,7 +480,7 @@ INSERT INTO `agendamentos` (`id_agendamento`, `id_cliente`, `id_profissional`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `avaliacoes`
+-- Estrutura para tabela `avaliacoes`
 --
 
 CREATE TABLE `avaliacoes` (
@@ -476,7 +491,7 @@ CREATE TABLE `avaliacoes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `avaliacoes`
+-- Despejando dados para a tabela `avaliacoes`
 --
 
 INSERT INTO `avaliacoes` (`id_avaliacao`, `id_pedido`, `id_cliente`, `nota`) VALUES
@@ -487,7 +502,7 @@ INSERT INTO `avaliacoes` (`id_avaliacao`, `id_pedido`, `id_cliente`, `nota`) VAL
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categorias_produto`
+-- Estrutura para tabela `categorias_produto`
 --
 
 CREATE TABLE `categorias_produto` (
@@ -496,7 +511,7 @@ CREATE TABLE `categorias_produto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `categorias_produto`
+-- Despejando dados para a tabela `categorias_produto`
 --
 
 INSERT INTO `categorias_produto` (`id_categoria`, `descricao`) VALUES
@@ -507,7 +522,7 @@ INSERT INTO `categorias_produto` (`id_categoria`, `descricao`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categorias_servico`
+-- Estrutura para tabela `categorias_servico`
 --
 
 CREATE TABLE `categorias_servico` (
@@ -516,7 +531,7 @@ CREATE TABLE `categorias_servico` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `categorias_servico`
+-- Despejando dados para a tabela `categorias_servico`
 --
 
 INSERT INTO `categorias_servico` (`id_categoria`, `descricao`) VALUES
@@ -528,7 +543,7 @@ INSERT INTO `categorias_servico` (`id_categoria`, `descricao`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `clientes`
+-- Estrutura para tabela `clientes`
 --
 
 CREATE TABLE `clientes` (
@@ -542,7 +557,7 @@ CREATE TABLE `clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `clientes`
+-- Despejando dados para a tabela `clientes`
 --
 
 INSERT INTO `clientes` (`id_cliente`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`) VALUES
@@ -552,7 +567,7 @@ INSERT INTO `clientes` (`id_cliente`, `nome`, `data_nasc`, `CPF`, `telefone`, `e
 (4, 'Teste01', '2001-01-01', '49333379851', '19989085358', 'teste01@gmail.com', '$2y$12$v/7IJoM3Zlf1OMu6YXl6yuN98Sh61gA9TB4T4cR/ZAwarZvc4S13y');
 
 --
--- Triggers `clientes`
+-- Acionadores `clientes`
 --
 DELIMITER $$
 CREATE TRIGGER `atualizacao_cliente` AFTER UPDATE ON `clientes` FOR EACH ROW BEGIN 
@@ -578,7 +593,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `enderecos`
+-- Estrutura para tabela `enderecos`
 --
 
 CREATE TABLE `enderecos` (
@@ -592,7 +607,7 @@ CREATE TABLE `enderecos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `enderecos`
+-- Despejando dados para a tabela `enderecos`
 --
 
 INSERT INTO `enderecos` (`id_endereco`, `estado`, `cidade`, `bairro`, `logradouro`, `numero`, `CEP`) VALUES
@@ -603,7 +618,7 @@ INSERT INTO `enderecos` (`id_endereco`, `estado`, `cidade`, `bairro`, `logradour
 -- --------------------------------------------------------
 
 --
--- Table structure for table `enderecos_clientes`
+-- Estrutura para tabela `enderecos_clientes`
 --
 
 CREATE TABLE `enderecos_clientes` (
@@ -612,7 +627,7 @@ CREATE TABLE `enderecos_clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `enderecos_clientes`
+-- Despejando dados para a tabela `enderecos_clientes`
 --
 
 INSERT INTO `enderecos_clientes` (`id_cliente`, `id_endereco`) VALUES
@@ -623,7 +638,7 @@ INSERT INTO `enderecos_clientes` (`id_cliente`, `id_endereco`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `estabelecimentos`
+-- Estrutura para tabela `estabelecimentos`
 --
 
 CREATE TABLE `estabelecimentos` (
@@ -645,7 +660,7 @@ CREATE TABLE `estabelecimentos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `estabelecimentos`
+-- Despejando dados para a tabela `estabelecimentos`
 --
 
 INSERT INTO `estabelecimentos` (`id_estabelecimento`, `razao_social`, `nome_fantasia`, `telefone`, `CNPJ`, `logradouro`, `numero`, `bairro`, `cidade`, `estado`, `CEP`, `inicio_expediente`, `termino_expediente`, `email`, `senha`) VALUES
@@ -657,7 +672,7 @@ INSERT INTO `estabelecimentos` (`id_estabelecimento`, `razao_social`, `nome_fant
 (6, 'Teste03 ltda.', 'Teste Fantasia3', '19333333333', '12.345.678/0001-10', 'Rua teste 03', 123, 'Bairro 03', 'Cidade 03', 'EP', '12589-427', '07:30:00', '17:00:00', 'teste_email03@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC');
 
 --
--- Triggers `estabelecimentos`
+-- Acionadores `estabelecimentos`
 --
 DELIMITER $$
 CREATE TRIGGER `atualizacao_estabelecimento` AFTER UPDATE ON `estabelecimentos` FOR EACH ROW BEGIN 
@@ -739,7 +754,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `formas_pagamentos`
+-- Estrutura para tabela `formas_pagamentos`
 --
 
 CREATE TABLE `formas_pagamentos` (
@@ -748,7 +763,7 @@ CREATE TABLE `formas_pagamentos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `formas_pagamentos`
+-- Despejando dados para a tabela `formas_pagamentos`
 --
 
 INSERT INTO `formas_pagamentos` (`id_opcaopag`, `descricao`) VALUES
@@ -759,7 +774,7 @@ INSERT INTO `formas_pagamentos` (`id_opcaopag`, `descricao`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `grades_horario`
+-- Estrutura para tabela `grades_horario`
 --
 
 CREATE TABLE `grades_horario` (
@@ -771,7 +786,7 @@ CREATE TABLE `grades_horario` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `grades_horario`
+-- Despejando dados para a tabela `grades_horario`
 --
 
 INSERT INTO `grades_horario` (`id_grade`, `id_profissional`, `dia_semana`, `hora_inicio`, `hora_termino`) VALUES
@@ -801,7 +816,7 @@ INSERT INTO `grades_horario` (`id_grade`, `id_profissional`, `dia_semana`, `hora
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historico_clientes`
+-- Estrutura para tabela `historico_clientes`
 --
 
 CREATE TABLE `historico_clientes` (
@@ -814,7 +829,7 @@ CREATE TABLE `historico_clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `historico_clientes`
+-- Despejando dados para a tabela `historico_clientes`
 --
 
 INSERT INTO `historico_clientes` (`id_alteracao`, `id_cliente`, `campo_alterado`, `valor_antigo`, `valor_novo`, `data_alteracao`) VALUES
@@ -829,7 +844,7 @@ INSERT INTO `historico_clientes` (`id_alteracao`, `id_cliente`, `campo_alterado`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historico_estabelecimentos`
+-- Estrutura para tabela `historico_estabelecimentos`
 --
 
 CREATE TABLE `historico_estabelecimentos` (
@@ -842,7 +857,7 @@ CREATE TABLE `historico_estabelecimentos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `historico_estabelecimentos`
+-- Despejando dados para a tabela `historico_estabelecimentos`
 --
 
 INSERT INTO `historico_estabelecimentos` (`id_alteracao`, `id_estabelecimento`, `campo_alterado`, `valor_antigo`, `valor_novo`, `data_alteracao`) VALUES
@@ -870,7 +885,7 @@ INSERT INTO `historico_estabelecimentos` (`id_alteracao`, `id_estabelecimento`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historico_profissionais`
+-- Estrutura para tabela `historico_profissionais`
 --
 
 CREATE TABLE `historico_profissionais` (
@@ -883,7 +898,7 @@ CREATE TABLE `historico_profissionais` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `historico_profissionais`
+-- Despejando dados para a tabela `historico_profissionais`
 --
 
 INSERT INTO `historico_profissionais` (`id_alteracao`, `id_profissional`, `campo_alterado`, `valor_antigo`, `valor_novo`, `data_alteracao`) VALUES
@@ -896,7 +911,7 @@ INSERT INTO `historico_profissionais` (`id_alteracao`, `id_profissional`, `campo
 -- --------------------------------------------------------
 
 --
--- Table structure for table `itens_pedido`
+-- Estrutura para tabela `itens_pedido`
 --
 
 CREATE TABLE `itens_pedido` (
@@ -906,7 +921,7 @@ CREATE TABLE `itens_pedido` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `itens_pedido`
+-- Despejando dados para a tabela `itens_pedido`
 --
 
 INSERT INTO `itens_pedido` (`id_pedido`, `id_produto`, `qtd_item`) VALUES
@@ -917,7 +932,7 @@ INSERT INTO `itens_pedido` (`id_pedido`, `id_produto`, `qtd_item`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pedidos`
+-- Estrutura para tabela `pedidos`
 --
 
 CREATE TABLE `pedidos` (
@@ -931,7 +946,7 @@ CREATE TABLE `pedidos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `pedidos`
+-- Despejando dados para a tabela `pedidos`
 --
 
 INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `id_endereco`, `id_opcaopag`, `id_status`, `data_compra`, `valor_total`) VALUES
@@ -942,7 +957,7 @@ INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `id_endereco`, `id_opcaopag`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `produtos`
+-- Estrutura para tabela `produtos`
 --
 
 CREATE TABLE `produtos` (
@@ -954,7 +969,7 @@ CREATE TABLE `produtos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `produtos`
+-- Despejando dados para a tabela `produtos`
 --
 
 INSERT INTO `produtos` (`id_produto`, `nome`, `valor`, `id_categoria`, `id_estabelecimento`) VALUES
@@ -967,7 +982,7 @@ INSERT INTO `produtos` (`id_produto`, `nome`, `valor`, `id_categoria`, `id_estab
 -- --------------------------------------------------------
 
 --
--- Table structure for table `profissionais`
+-- Estrutura para tabela `profissionais`
 --
 
 CREATE TABLE `profissionais` (
@@ -982,7 +997,7 @@ CREATE TABLE `profissionais` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `profissionais`
+-- Despejando dados para a tabela `profissionais`
 --
 
 INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`, `estabel_vinculado`) VALUES
@@ -996,7 +1011,7 @@ INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `tel
 (8, 'Ronaldo Silveira', '1999-03-12', '65561561', '195226512', 'ronaldo@teste.com', '$2y$12$o/SwkMeE3/Kp4HSOL2gnIucs35o1TvFQFkgi.aMLCfwrEW7sjuVsu', NULL);
 
 --
--- Triggers `profissionais`
+-- Acionadores `profissionais`
 --
 DELIMITER $$
 CREATE TRIGGER `atualizacao_profissional` AFTER UPDATE ON `profissionais` FOR EACH ROW BEGIN 
@@ -1030,8 +1045,8 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `profissionais_agendamentos`
--- (See below for the actual view)
+-- Estrutura stand-in para view `profissionais_agendamentos`
+-- (Veja abaixo para a visão atual)
 --
 CREATE TABLE `profissionais_agendamentos` (
 `nome` varchar(50)
@@ -1042,7 +1057,7 @@ CREATE TABLE `profissionais_agendamentos` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `profissionais_servicos`
+-- Estrutura para tabela `profissionais_servicos`
 --
 
 CREATE TABLE `profissionais_servicos` (
@@ -1051,7 +1066,7 @@ CREATE TABLE `profissionais_servicos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `profissionais_servicos`
+-- Despejando dados para a tabela `profissionais_servicos`
 --
 
 INSERT INTO `profissionais_servicos` (`id_profissional`, `id_servico`) VALUES
@@ -1069,7 +1084,7 @@ INSERT INTO `profissionais_servicos` (`id_profissional`, `id_servico`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `servicos`
+-- Estrutura para tabela `servicos`
 --
 
 CREATE TABLE `servicos` (
@@ -1082,7 +1097,7 @@ CREATE TABLE `servicos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `servicos`
+-- Despejando dados para a tabela `servicos`
 --
 
 INSERT INTO `servicos` (`id_servico`, `nome`, `valor`, `duracao`, `id_categoria`, `id_estabelecimento`) VALUES
@@ -1097,7 +1112,7 @@ INSERT INTO `servicos` (`id_servico`, `nome`, `valor`, `duracao`, `id_categoria`
 -- --------------------------------------------------------
 
 --
--- Table structure for table `status_agendamentos`
+-- Estrutura para tabela `status_agendamentos`
 --
 
 CREATE TABLE `status_agendamentos` (
@@ -1106,7 +1121,7 @@ CREATE TABLE `status_agendamentos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `status_agendamentos`
+-- Despejando dados para a tabela `status_agendamentos`
 --
 
 INSERT INTO `status_agendamentos` (`id_status`, `descricao`) VALUES
@@ -1118,7 +1133,7 @@ INSERT INTO `status_agendamentos` (`id_status`, `descricao`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `status_pedidos`
+-- Estrutura para tabela `status_pedidos`
 --
 
 CREATE TABLE `status_pedidos` (
@@ -1127,7 +1142,7 @@ CREATE TABLE `status_pedidos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `status_pedidos`
+-- Despejando dados para a tabela `status_pedidos`
 --
 
 INSERT INTO `status_pedidos` (`id_status`, `descricao`) VALUES
@@ -1143,18 +1158,39 @@ INSERT INTO `status_pedidos` (`id_status`, `descricao`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure for view `profissionais_agendamentos`
+-- Estrutura para tabela `vinculos`
+--
+
+CREATE TABLE `vinculos` (
+  `id_vinculo` int(11) NOT NULL,
+  `id_profissional` int(11) DEFAULT NULL,
+  `id_estabelecimento` int(11) DEFAULT NULL,
+  `status_vinculo` enum('pendente','aprovado','rejeitado','cancelado') DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `vinculos`
+--
+
+INSERT INTO `vinculos` (`id_vinculo`, `id_profissional`, `id_estabelecimento`, `status_vinculo`) VALUES
+(1, 8, 1, 'pendente'),
+(2, 7, 1, 'pendente');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para view `profissionais_agendamentos`
 --
 DROP TABLE IF EXISTS `profissionais_agendamentos`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `profissionais_agendamentos`  AS SELECT `profissionais`.`nome` AS `nome`, `agendamentos`.`data_realizacao` AS `data_realizacao`, `agendamentos`.`valor_total` AS `valor_total` FROM (`profissionais` join `agendamentos` on(`profissionais`.`id_profissional` = `agendamentos`.`id_profissional`)) ;
 
 --
--- Indexes for dumped tables
+-- Índices para tabelas despejadas
 --
 
 --
--- Indexes for table `agendamentos`
+-- Índices de tabela `agendamentos`
 --
 ALTER TABLE `agendamentos`
   ADD PRIMARY KEY (`id_agendamento`),
@@ -1165,7 +1201,7 @@ ALTER TABLE `agendamentos`
   ADD KEY `fk_agendamentos05` (`id_servico`);
 
 --
--- Indexes for table `avaliacoes`
+-- Índices de tabela `avaliacoes`
 --
 ALTER TABLE `avaliacoes`
   ADD PRIMARY KEY (`id_avaliacao`),
@@ -1173,85 +1209,85 @@ ALTER TABLE `avaliacoes`
   ADD KEY `fk_avaliacoes02` (`id_cliente`);
 
 --
--- Indexes for table `categorias_produto`
+-- Índices de tabela `categorias_produto`
 --
 ALTER TABLE `categorias_produto`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
--- Indexes for table `categorias_servico`
+-- Índices de tabela `categorias_servico`
 --
 ALTER TABLE `categorias_servico`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
--- Indexes for table `clientes`
+-- Índices de tabela `clientes`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id_cliente`);
 
 --
--- Indexes for table `enderecos`
+-- Índices de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
   ADD PRIMARY KEY (`id_endereco`);
 
 --
--- Indexes for table `enderecos_clientes`
+-- Índices de tabela `enderecos_clientes`
 --
 ALTER TABLE `enderecos_clientes`
   ADD PRIMARY KEY (`id_cliente`,`id_endereco`),
   ADD KEY `fk_endereco_cliente01` (`id_endereco`);
 
 --
--- Indexes for table `estabelecimentos`
+-- Índices de tabela `estabelecimentos`
 --
 ALTER TABLE `estabelecimentos`
   ADD PRIMARY KEY (`id_estabelecimento`);
 
 --
--- Indexes for table `formas_pagamentos`
+-- Índices de tabela `formas_pagamentos`
 --
 ALTER TABLE `formas_pagamentos`
   ADD PRIMARY KEY (`id_opcaopag`);
 
 --
--- Indexes for table `grades_horario`
+-- Índices de tabela `grades_horario`
 --
 ALTER TABLE `grades_horario`
   ADD PRIMARY KEY (`id_grade`),
   ADD KEY `fk_grades_horario` (`id_profissional`);
 
 --
--- Indexes for table `historico_clientes`
+-- Índices de tabela `historico_clientes`
 --
 ALTER TABLE `historico_clientes`
   ADD PRIMARY KEY (`id_alteracao`),
   ADD KEY `fk_historico_clientes01` (`id_cliente`);
 
 --
--- Indexes for table `historico_estabelecimentos`
+-- Índices de tabela `historico_estabelecimentos`
 --
 ALTER TABLE `historico_estabelecimentos`
   ADD PRIMARY KEY (`id_alteracao`),
   ADD KEY `fk_historico_estabelecimentos01` (`id_estabelecimento`);
 
 --
--- Indexes for table `historico_profissionais`
+-- Índices de tabela `historico_profissionais`
 --
 ALTER TABLE `historico_profissionais`
   ADD PRIMARY KEY (`id_alteracao`),
   ADD KEY `fk_historico_profissionais01` (`id_profissional`);
 
 --
--- Indexes for table `itens_pedido`
+-- Índices de tabela `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
   ADD PRIMARY KEY (`id_pedido`,`id_produto`),
   ADD KEY `fk_itens_pedido02` (`id_produto`);
 
 --
--- Indexes for table `pedidos`
+-- Índices de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`id_pedido`),
@@ -1261,7 +1297,7 @@ ALTER TABLE `pedidos`
   ADD KEY `fk_pedidos04` (`id_status`);
 
 --
--- Indexes for table `produtos`
+-- Índices de tabela `produtos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id_produto`),
@@ -1269,21 +1305,21 @@ ALTER TABLE `produtos`
   ADD KEY `fk_produtos02` (`id_estabelecimento`);
 
 --
--- Indexes for table `profissionais`
+-- Índices de tabela `profissionais`
 --
 ALTER TABLE `profissionais`
   ADD PRIMARY KEY (`id_profissional`),
   ADD KEY `fk_profissionais01` (`estabel_vinculado`);
 
 --
--- Indexes for table `profissionais_servicos`
+-- Índices de tabela `profissionais_servicos`
 --
 ALTER TABLE `profissionais_servicos`
   ADD PRIMARY KEY (`id_profissional`,`id_servico`),
   ADD KEY `id_servico` (`id_servico`);
 
 --
--- Indexes for table `servicos`
+-- Índices de tabela `servicos`
 --
 ALTER TABLE `servicos`
   ADD PRIMARY KEY (`id_servico`),
@@ -1291,135 +1327,149 @@ ALTER TABLE `servicos`
   ADD KEY `fk_servicos02` (`id_estabelecimento`);
 
 --
--- Indexes for table `status_agendamentos`
+-- Índices de tabela `status_agendamentos`
 --
 ALTER TABLE `status_agendamentos`
   ADD PRIMARY KEY (`id_status`);
 
 --
--- Indexes for table `status_pedidos`
+-- Índices de tabela `status_pedidos`
 --
 ALTER TABLE `status_pedidos`
   ADD PRIMARY KEY (`id_status`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- Índices de tabela `vinculos`
+--
+ALTER TABLE `vinculos`
+  ADD PRIMARY KEY (`id_vinculo`),
+  ADD KEY `vinculo_fk01` (`id_estabelecimento`),
+  ADD KEY `vinculo_fk02` (`id_profissional`);
+
+--
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT for table `agendamentos`
+-- AUTO_INCREMENT de tabela `agendamentos`
 --
 ALTER TABLE `agendamentos`
   MODIFY `id_agendamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `avaliacoes`
+-- AUTO_INCREMENT de tabela `avaliacoes`
 --
 ALTER TABLE `avaliacoes`
   MODIFY `id_avaliacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `categorias_produto`
+-- AUTO_INCREMENT de tabela `categorias_produto`
 --
 ALTER TABLE `categorias_produto`
   MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `categorias_servico`
+-- AUTO_INCREMENT de tabela `categorias_servico`
 --
 ALTER TABLE `categorias_servico`
   MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `clientes`
+-- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
   MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `enderecos`
+-- AUTO_INCREMENT de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
   MODIFY `id_endereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `estabelecimentos`
+-- AUTO_INCREMENT de tabela `estabelecimentos`
 --
 ALTER TABLE `estabelecimentos`
   MODIFY `id_estabelecimento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `formas_pagamentos`
+-- AUTO_INCREMENT de tabela `formas_pagamentos`
 --
 ALTER TABLE `formas_pagamentos`
   MODIFY `id_opcaopag` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `grades_horario`
+-- AUTO_INCREMENT de tabela `grades_horario`
 --
 ALTER TABLE `grades_horario`
   MODIFY `id_grade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT for table `historico_clientes`
+-- AUTO_INCREMENT de tabela `historico_clientes`
 --
 ALTER TABLE `historico_clientes`
   MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `historico_estabelecimentos`
+-- AUTO_INCREMENT de tabela `historico_estabelecimentos`
 --
 ALTER TABLE `historico_estabelecimentos`
   MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT for table `historico_profissionais`
+-- AUTO_INCREMENT de tabela `historico_profissionais`
 --
 ALTER TABLE `historico_profissionais`
   MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `pedidos`
+-- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `produtos`
+-- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
   MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `profissionais`
+-- AUTO_INCREMENT de tabela `profissionais`
 --
 ALTER TABLE `profissionais`
   MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `servicos`
+-- AUTO_INCREMENT de tabela `servicos`
 --
 ALTER TABLE `servicos`
   MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `status_agendamentos`
+-- AUTO_INCREMENT de tabela `status_agendamentos`
 --
 ALTER TABLE `status_agendamentos`
   MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `status_pedidos`
+-- AUTO_INCREMENT de tabela `status_pedidos`
 --
 ALTER TABLE `status_pedidos`
   MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT de tabela `vinculos`
+--
+ALTER TABLE `vinculos`
+  MODIFY `id_vinculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Restrições para tabelas despejadas
 --
 
 --
--- Constraints for table `agendamentos`
+-- Restrições para tabelas `agendamentos`
 --
 ALTER TABLE `agendamentos`
   ADD CONSTRAINT `fk_agendamentos01` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
@@ -1429,52 +1479,52 @@ ALTER TABLE `agendamentos`
   ADD CONSTRAINT `fk_agendamentos05` FOREIGN KEY (`id_servico`) REFERENCES `servicos` (`id_servico`);
 
 --
--- Constraints for table `avaliacoes`
+-- Restrições para tabelas `avaliacoes`
 --
 ALTER TABLE `avaliacoes`
   ADD CONSTRAINT `fk_avaliacoes01` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   ADD CONSTRAINT `fk_avaliacoes02` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`);
 
 --
--- Constraints for table `enderecos_clientes`
+-- Restrições para tabelas `enderecos_clientes`
 --
 ALTER TABLE `enderecos_clientes`
   ADD CONSTRAINT `fk_endereco_cliente01` FOREIGN KEY (`id_endereco`) REFERENCES `enderecos` (`id_endereco`),
   ADD CONSTRAINT `fk_endereco_cliente02` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`);
 
 --
--- Constraints for table `grades_horario`
+-- Restrições para tabelas `grades_horario`
 --
 ALTER TABLE `grades_horario`
   ADD CONSTRAINT `fk_grades_horario` FOREIGN KEY (`id_profissional`) REFERENCES `profissionais` (`id_profissional`);
 
 --
--- Constraints for table `historico_clientes`
+-- Restrições para tabelas `historico_clientes`
 --
 ALTER TABLE `historico_clientes`
   ADD CONSTRAINT `fk_historico_clientes01` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`);
 
 --
--- Constraints for table `historico_estabelecimentos`
+-- Restrições para tabelas `historico_estabelecimentos`
 --
 ALTER TABLE `historico_estabelecimentos`
   ADD CONSTRAINT `fk_historico_estabelecimentos01` FOREIGN KEY (`id_estabelecimento`) REFERENCES `estabelecimentos` (`id_estabelecimento`);
 
 --
--- Constraints for table `historico_profissionais`
+-- Restrições para tabelas `historico_profissionais`
 --
 ALTER TABLE `historico_profissionais`
   ADD CONSTRAINT `fk_historico_profissionais01` FOREIGN KEY (`id_profissional`) REFERENCES `profissionais` (`id_profissional`);
 
 --
--- Constraints for table `itens_pedido`
+-- Restrições para tabelas `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
   ADD CONSTRAINT `fk_itens_pedido01` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   ADD CONSTRAINT `fk_itens_pedido02` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id_produto`);
 
 --
--- Constraints for table `pedidos`
+-- Restrições para tabelas `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `fk_pedidos01` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
@@ -1483,31 +1533,38 @@ ALTER TABLE `pedidos`
   ADD CONSTRAINT `fk_pedidos04` FOREIGN KEY (`id_status`) REFERENCES `status_pedidos` (`id_status`);
 
 --
--- Constraints for table `produtos`
+-- Restrições para tabelas `produtos`
 --
 ALTER TABLE `produtos`
   ADD CONSTRAINT `fk_produtos01` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_produto` (`id_categoria`),
   ADD CONSTRAINT `fk_produtos02` FOREIGN KEY (`id_estabelecimento`) REFERENCES `estabelecimentos` (`id_estabelecimento`);
 
 --
--- Constraints for table `profissionais`
+-- Restrições para tabelas `profissionais`
 --
 ALTER TABLE `profissionais`
   ADD CONSTRAINT `fk_profissionais01` FOREIGN KEY (`estabel_vinculado`) REFERENCES `estabelecimentos` (`id_estabelecimento`);
 
 --
--- Constraints for table `profissionais_servicos`
+-- Restrições para tabelas `profissionais_servicos`
 --
 ALTER TABLE `profissionais_servicos`
   ADD CONSTRAINT `profissionais_servicos_ibfk_1` FOREIGN KEY (`id_profissional`) REFERENCES `profissionais` (`id_profissional`),
   ADD CONSTRAINT `profissionais_servicos_ibfk_2` FOREIGN KEY (`id_servico`) REFERENCES `servicos` (`id_servico`);
 
 --
--- Constraints for table `servicos`
+-- Restrições para tabelas `servicos`
 --
 ALTER TABLE `servicos`
   ADD CONSTRAINT `fk_servicos01` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_servico` (`id_categoria`),
   ADD CONSTRAINT `fk_servicos02` FOREIGN KEY (`id_estabelecimento`) REFERENCES `estabelecimentos` (`id_estabelecimento`);
+
+--
+-- Restrições para tabelas `vinculos`
+--
+ALTER TABLE `vinculos`
+  ADD CONSTRAINT `vinculo_fk01` FOREIGN KEY (`id_estabelecimento`) REFERENCES `estabelecimentos` (`id_estabelecimento`),
+  ADD CONSTRAINT `vinculo_fk02` FOREIGN KEY (`id_profissional`) REFERENCES `profissionais` (`id_profissional`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
