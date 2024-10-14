@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <div class="container">
-            <a class="navbar-brand" href="{{ route('Index') }}"><img src="{{ asset('images/beautysys-logo2.png') }}" style="width: 150px;"></a>
+            <a class="navbar-brand" href="{{ route('PaginaInicialProfissional') }}"><img src="{{ asset('images/beautysys-logo2.png') }}" style="width: 150px;"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-principal">
                     <span class="navbar-toggler-icon"></span>
                 </button>

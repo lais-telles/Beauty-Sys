@@ -35,7 +35,7 @@
     </div>
 </section>
 
-<!-- pop-up para solicitar novo vinculo (incompleto) -->
+<!-- pop-up para solicitar novo vinculo -->
 <div class="modal fade" id="solVinculo" tabindex="-1" aria-labelledby="solVinculo" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-4 shadow">
@@ -44,11 +44,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-5 pt-0">
-                <form action="" method="POST">
+                <form action="{{ route('profissional.solicitarVinculo') }}" method="POST">
                     @csrf
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control rounded-3" id="floatingInput" name="email" placeholder="name@example.com">
-                        <label for="floatingInput">Nome do estabelecimento</label>
+                        <select class="form-select rounded-3" id="floatingSelect" name="id_estabelecimento" aria-label="Selecione o estabelecimento">
+                            <option selected disabled>Selecione um estabelecimento</option>
+                            @foreach($estabelecimentos as $estabelecimento)
+                                <option value="{{ $estabelecimento->id_estabelecimento }}">{{ $estabelecimento->nome_fantasia }}</option>
+                            @endforeach
+                        </select>
+                        <label for="floatingSelect">Nome do estabelecimento</label>
                     </div>
                     <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Solicitar</button>
                 </form>

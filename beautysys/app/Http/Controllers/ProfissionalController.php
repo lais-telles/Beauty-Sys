@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Profissional;  // Importe o modelo Profissional
+use App\Models\Estabelecimento;  // Importe o modelo Estabelecimento
+use App\Models\Vinculo;  // Importe o modelo Vinculo
 use App\Models\Agendamento;  // Importe o modelo Agendamento
 use App\Models\Servico;  // Importe o modelo Servico
 use App\Models\Formas_pagamento;  // Importe o modelo Formas_pagamento
@@ -247,7 +249,23 @@ class ProfissionalController extends Controller
         // Chama o stored procedure passando o ID do profissional
         $vinculo = DB::select('CALL consulta_vinculo(?)', [$idProfissional]);
 
-        return view('vinculo-prof', ['vinculo' => $vinculo]);
+        // Obtém a lista de estabelecimentos para o dropdown
+        $estabelecimentos = Estabelecimento::all();
+
+        return view('vinculo-prof', ['vinculo' => $vinculo, 'estabelecimentos' => $estabelecimentos]);
+    }
+
+    public function solicitarVinculo(Request $request)
+    {
+        $idProfissional = Session::get('id_profissional');
+        $id_estabelecimento = $request->input('id_estabelecimento');
+
+        try {
+            DB::statement('CALL inserir_vinculo(?, ?)', [$id_estabelecimento, $idProfissional]);
+            return back()->with('success', 'Solicitação de vínculo enviada com sucesso!');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 }
 ?>

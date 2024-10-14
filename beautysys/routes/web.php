@@ -26,7 +26,7 @@ Route::get('/pessoa-física', [IndexController::class, 'PessoaFisica'])->name('P
 Route::get('/parceiros', [IndexController::class, 'Parceiro'])->name('Parceiro');
 //Route::get('/home-pf', [IndexController::class, 'HomePf'])->name('PaginaInicialPf');
 //Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialPj');
-//Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->name('PaginaInicialProfissional');
+Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->name('PaginaInicialProfissional');
 //Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
 Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
@@ -124,3 +124,5 @@ Route::get('/get-profissionais', [ClienteController::class, 'getProfissionais'])
 Route::get('/get-servicos', [ClienteController::class, 'getServicos'])->name('getServicos');
 
 Route::post('agendamento/finalizar', [ClienteController::class, 'realizarAgendamento'])->name('realizarAgendamento');
+
+Route::post('/solicitar-vinculo', [ProfissionalController::class, 'solicitarVinculo'])->name('profissional.solicitarVinculo');
