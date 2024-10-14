@@ -18,7 +18,7 @@
                         <h1>Tudo em um lugar só.</h1>
                         <p class="opacity-75">Aqui você agenda seus serviços, tem acesso ao whatsapp do estabelecimento e 
                         pode visualizar o seu histórico de agendamentos.</p>
-                        <p><a class="btn btn-lg btn-primary" href="{{ route ('agendamento') }}">Agende agora</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ route ('dadosRealizarAgendamento') }}">Agende agora</a></p>
                     </div>
                 </div>
             </div>
