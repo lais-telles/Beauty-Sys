@@ -126,3 +126,9 @@ Route::get('/get-servicos', [ClienteController::class, 'getServicos'])->name('ge
 Route::post('agendamento/finalizar', [ClienteController::class, 'realizarAgendamento'])->name('realizarAgendamento');
 
 Route::post('/solicitar-vinculo', [ProfissionalController::class, 'solicitarVinculo'])->name('profissional.solicitarVinculo');
+
+//Rota para a tela de associar serviços ao profissional
+Route::get('servico/profissional', [ProfissionalController::class, 'servicosProf'])->name('servicosProf');
+
+//Rota para associar um novo serviço
+Route::post('associar/servico', [ProfissionalController::class, 'associarServ'])->name('associarServ');

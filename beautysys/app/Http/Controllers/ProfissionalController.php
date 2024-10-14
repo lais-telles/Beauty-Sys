@@ -267,5 +267,41 @@ class ProfissionalController extends Controller
             return back()->with('error', $e->getMessage());
         }
     }
+
+    public function servicosProf(){
+        // Recupera o ID do profissional armazenado na sessão
+        $idProfissional = Session::get('id_profissional');
+
+        // Recupera o ID do estabelecimento vinculado armazenado na sessão
+        $idEstab = DB::table('profissionais')
+                ->where('id_profissional', $idProfissional)
+                ->value('estabel_vinculado');
+
+        // Verifica se o ID está presente
+        if (!$idProfissional) {
+            return redirect()->route('login')->with('error', 'Profissional não autenticado');
+        }
+
+        // Chama o stored procedure passando o ID do profissional
+        $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$idProfissional]);
+
+        // Obtém a lista de serviços para o dropdown
+        $lista = DB::select('CALL exibir_servicos_estabelecimento(?)', [$idEstab]);
+
+        return view('servicos-prof', ['servicos' => $servicos, 'lista' => $lista]);
+    }
+
+    public function associarServ(Request $request)
+    {
+        $idProfissional = Session::get('id_profissional');
+        $id_servico = $request->input('id_servico');
+
+        try {
+            DB::statement('CALL vincular_servico_profissional(?, ?)', [$idProfissional, $id_servico]);
+            return back()->with('success', 'Associação de serviço realizada com sucesso!');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
 }
 ?>
