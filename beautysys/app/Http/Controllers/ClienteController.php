@@ -130,5 +130,48 @@ class ClienteController extends Controller
 
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }
+
+    public function dadosRealizarAgendamento(Request $request) {
+        $id_profissional = $request->input('profissional', null); // pode ser null se não for selecionado ainda
+        $id_estabelecimento = $request->input('estabelecimento');
+    
+        // Adiciona consulta para listar todos os estabelecimentos ou um específico
+        $estabelecimentos = DB::select('SELECT * FROM estabelecimentos');
+    
+        // Retorna a view com os dados carregados
+        return view('finaliza-agendamento', compact('estabelecimentos'));
+    }
+
+    public function getProfissionais(Request $request) {
+        $id_estabelecimento = $request->input('id');
+        
+        // Executa a procedure para obter os profissionais vinculados ao estabelecimento
+        $profissionais = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
+        
+        return response()->json(['profissionais' => $profissionais]);
+    }
+    
+    public function getServicos(Request $request) {
+        $id_profissional = $request->input('id_profissional');
+        $id_estabelecimento = $request->input('id_estabelecimento');
+        
+        // Executa a procedure para obter os serviços do profissional
+        $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
+        
+        return response()->json(['servicos' => $servicos]);
+    }
+    
+    public function realizarAgendamento(Request $request){
+        $id_cliente = Session::get('id_cliente');
+        $id_profissional = $request->input('profissional');
+        $id_pag = $request->input('opcao_pag');
+        $data_realizacao = $request->input('data_realizacao');
+        $horario_inicio = $request->input('horario_inicio');
+        $id_servico = $request->input('servico');
+
+        DB::statement('CALL realizar_agendamento(?, ?, ?, ?, ?, ?)',[$id_cliente, $id_profissional, $id_pag, $data_realizacao, $horario_inicio, $id_servico]);
+
+        return redirect()->back()->with('success', 'Agendamento realizado com sucesso!');
+    }
 }
 ?>
