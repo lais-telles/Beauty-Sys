@@ -1,113 +1,131 @@
-@extends('template2')
+@extends('template-cliente')
 
 @section('title', 'Adm Proprietário')
-
-@section('nav-buttons')
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="">Serviços</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="">Profissionais</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="">Ajuda</a>
-        </li>
-    </ul>
-@endsection
-
-@section('nav-buttons2')
-<ul class="navbar-nav ms-auto">
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i id="minhaConta" class='fas fa-user-alt' style="color: white;"></i></a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">Minha conta</a></li>
-            <li><a class="dropdown-item" href="">Meus pedidos</a></li>
-            <li><a class="dropdown-item" href="">Endereços</a></li>
-            <li><a class="dropdown-item" href="">Log out</a></li>
-        </ul>
-    </li>
-</ul>
-@endsection
-
 
 @section('content')
 <section class="d-flex ms-5 me-5 mb-5" style="margin-top: 15rem;">
     <div class="container">
         <div class="row">
             <div class="col-md-6 d-flex align-items-center">
-                <img class="img-fluid" src="{{ asset ('/images/beautysys-logo.png') }}" style="width: 500px;">
+                <img class="img-fluid" src="{{ asset('/images/beautysys-logo.png') }}" style="width: 500px;">
             </div>
             <div class="col-md-6">
-                <form id="formAgendamento">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+                <form id="formAgendamento" action="{{ route('realizarAgendamento') }}" method="POST">
+                    @csrf
+                    <!-- Seleção do Estabelecimento -->
+                    <div class="mb-3">
+                        <label for="estabelecimento" class="form-label">Escolha o Estabelecimento</label>
+                        <select class="form-select" id="estabelecimento" name="estabelecimento" required>
+                            <option value="" disabled {{ old('estabelecimento') ? '' : 'selected' }}>Selecione um estabelecimento</option>
+                            @foreach($estabelecimentos as $estabelecimento)
+                                <option value="{{ $estabelecimento->id_estabelecimento }}" {{ old('estabelecimento') == $estabelecimento->id_estabelecimento ? 'selected' : '' }}>{{ $estabelecimento->nome_fantasia }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Seleção do Profissional -->
+                    <div class="mb-3">
+                        <label for="profissional" class="form-label">Escolha o Profissional</label>
+                        <select class="form-select" id="profissional" name="profissional" required>
+                            <option value="" disabled {{ old('profissional') ? '' : 'selected' }}>Selecione um profissional</option>
+                            <!-- Profissionais serão preenchidos via AJAX -->
+                        </select>
+                    </div>
+
                     <!-- Seleção do Serviço -->
                     <div class="mb-3">
-                        <label for="servico" class="form-label">Escolha o Estabelecimento</label>
-                        <select class="form-select" id="servico" required>
-                        <option value="" disabled selected>Selecione um estabelecimento</option>
-                        <option value="Corte de cabelo">Estabelecimento 1</option>
-                        <option value="Manicure">Estabelecimento 2</option>
-                        <option value="Pedicure">Estabelecimento 3</option>
+                        <label for="servico" class="form-label">Escolha o Serviço</label>
+                        <select class="form-select" id="servico" name="servico" required>
+                            <option value="" disabled {{ old('servico') ? '' : 'selected' }}>Selecione um serviço</option>
+                            <!-- Serviços serão preenchidos via AJAX -->
                         </select>
                     </div>
 
                     <div class="mb-3">
-                        <label for="servico" class="form-label">Escolha o Serviço</label>
-                        <select class="form-select" id="servico" required>
-                        <option value="" disabled selected>Selecione um serviço</option>
-                        <option value="Corte de cabelo">Corte de cabelo</option>
-                        <option value="Manicure">Manicure</option>
-                        <option value="Pedicure">Pedicure</option>
-                        <option value="Coloração">Coloração</option>
+                        <label for="opcao_pag" class="form-label">Escolha o Serviço</label>
+                        <select class="form-select" id="opcao_pag" name="opcao_pag" required>
+                            <option value="" disabled selected>Selecione uma forma de pagamento</option>
+                            <option value="1">Pix</option>
+                            <option value="1">Cartão de Crédito</option>
+                            <option value="1">Cartão de débito</option>
                         </select>
                     </div>
 
                     <!-- Seleção da Data -->
                     <div class="mb-3">
                         <label for="data" class="form-label">Escolha o Dia</label>
-                        <input type="date" class="form-control" id="data" required>
+                        <input type="date" class="form-control" id="data" name="data_realizacao" value="{{ old('data_realizacao') }}" required>
                     </div>
 
                     <!-- Seleção do Horário -->
                     <div class="mb-3">
                         <label for="horario" class="form-label">Escolha o Horário</label>
-                        <select class="form-select" id="horario" required>
-                            <option value="" disabled selected>Selecione um horário</option>
-                            <option value="09:00">09:00</option>
-                            <option value="10:00">10:00</option>
-                            <option value="11:00">11:00</option>
-                            <option value="13:00">13:00</option>
-                            <option value="14:00">14:00</option>
-                            <option value="15:00">15:00</option>
-                            <option value="16:00">16:00</option>
+                        <select class="form-select" id="horario" name="horario_inicio" required>
+                            <option value="" disabled {{ old('horario_inicio') ? '' : 'selected' }}>Selecione um horário</option>
+                            @foreach(['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'] as $horario)
+                                <option value="{{ $horario }}" {{ old('horario_inicio') == $horario ? 'selected' : '' }}>{{ $horario }}</option>
+                            @endforeach
                         </select>
                     </div>
-                <!-- Botão para Finalizar -->
-                <button type="submit" class="btn btn-custom w-100">Finalizar Agendamento</button>
+
+                    <!-- Botão para Finalizar -->
+                    <button type="submit" class="btn btn-custom w-100">Finalizar Agendamento</button>
                 </form>
             </div>
         </div>
+    </div>
 </section>
-@endsection
-    
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.getElementById('formAgendamento').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        // Captura os valores selecionados
-        const servico = document.getElementById('servico').value;
-        const data = document.getElementById('data').value;
-        const horario = document.getElementById('horario').value;
-
-        // Simula envio dos dados
-        if(servico && data && horario) {
-            alert(`Agendamento confirmado!\nServiço: ${servico}\nDia: ${data}\nHorário: ${horario}`);
-        } else {
-            alert('Por favor, preencha todos os campos.');
+$(document).ready(function() {
+    $('#estabelecimento').change(function() {
+        var idEstabelecimento = $(this).val();
+        if (idEstabelecimento) {
+            $.ajax({
+                url: "{{ route('getProfissionais') }}", // Rota para obter profissionais
+                type: "GET",
+                data: { id: idEstabelecimento },
+                success: function(data) {
+                    $('#profissional').empty();
+                    $('#profissional').append('<option value="" disabled selected>Selecione um profissional</option>');
+                    $.each(data.profissionais, function(key, value) {
+                        $('#profissional').append('<option value="' + value.id_profissional + '">' + value.nome + '</option>');
+                    });
+                }
+            });
         }
     });
-</script>
 
-</body>
-</html>
+    $('#profissional').change(function() {
+        var idProfissional = $(this).val();
+        var idEstabelecimento = $('#estabelecimento').val();
+        if (idProfissional) {
+            $.ajax({
+                url: "{{ route('getServicos') }}", // Rota para obter serviços
+                type: "GET",
+                data: { id_profissional: idProfissional, id_estabelecimento: idEstabelecimento },
+                success: function(data) {
+                    $('#servico').empty();
+                    $('#servico').append('<option value="" disabled selected>Selecione um serviço</option>');
+                    $.each(data.servicos, function(key, value) {
+                        $('#servico').append('<option value="' + value.id_servico + '">' + value.nome + '</option>');
+                    });
+                }
+            });
+        }
+    });
+});
+</script>
+@endsection
