@@ -116,3 +116,11 @@ Route::get('estabelecimento/dashboard', [EstabelecimentoController::class, 'dash
 
 // Rota para tela de solicitação/ visuialização de vínculo
 Route::get('profissional/vinculo', [ProfissionalController::class, 'vinculoProf'])->name('vinculoProf');
+
+Route::get('realizar-agendamento', [ClienteController::class, 'dadosRealizarAgendamento'])->name('dadosRealizarAgendamento');
+
+Route::get('/get-profissionais', [ClienteController::class, 'getProfissionais'])->name('getProfissionais');
+
+Route::get('/get-servicos', [ClienteController::class, 'getServicos'])->name('getServicos');
+
+Route::post('agendamento/finalizar', [ClienteController::class, 'realizarAgendamento'])->name('realizarAgendamento');
