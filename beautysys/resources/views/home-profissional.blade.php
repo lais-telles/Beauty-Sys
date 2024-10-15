@@ -32,8 +32,8 @@
                 <div class="d-flex flex-column">
                     <a href="{{ route('gradeProf') }}" class="btn btn-custom mb-2">Gerenciar Horários</a>
                     <a href="{{ route('infoCadastroP') }}" class="btn btn-custom mb-2">Editar Perfil</a>
+                    <a href="{{ route('servicosProf') }}" class="btn btn-custom mb-2">Meus serviços</a>
                     <a href="" class="btn btn-custom mb-2">Ver Estatísticas</a>
-                    <a href="" class="btn btn-custom mb-2">Gerar Relatórios</a>
                 </div>
             </div>
         </div>
