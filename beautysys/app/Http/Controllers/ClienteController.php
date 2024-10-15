@@ -160,6 +160,23 @@ class ClienteController extends Controller
         
         return response()->json(['servicos' => $servicos]);
     }
+
+    public function getHorarios(Request $request) {
+        $id_profissional = $request->input('id_profissional');
+        $data_realizacao = $request->input('data_realizacao');
+    
+        // Certifique-se de que ambos os parâmetros foram passados corretamente
+        if ($id_profissional && $data_realizacao) {
+            // Chame a procedure para gerar os horários
+            $horarios = DB::select('CALL gerar_horarios(?, ?)', [$id_profissional, $data_realizacao]);
+    
+            return response()->json(['horarios' => $horarios]);
+        } else {
+            return response()->json(['error' => 'Dados inválidos'], 400);
+        }
+    }
+    
+    
     
     public function realizarAgendamento(Request $request){
         $id_cliente = Session::get('id_cliente');
