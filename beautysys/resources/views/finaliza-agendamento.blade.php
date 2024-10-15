@@ -70,12 +70,9 @@
 
                     <!-- Seleção do Horário -->
                     <div class="mb-3">
-                        <label for="horario" class="form-label">Escolha o Horário</label>
-                        <select class="form-select" id="horario" name="horario_inicio" required>
-                            <option value="" disabled {{ old('horario_inicio') ? '' : 'selected' }}>Selecione um horário</option>
-                            @foreach(['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'] as $horario)
-                                <option value="{{ $horario }}" {{ old('horario_inicio') == $horario ? 'selected' : '' }}>{{ $horario }}</option>
-                            @endforeach
+                        <label for="horario_inicio" class="form-label">Escolha o Horário</label>
+                        <select class="form-select" id="horario_inicio" name="horario_inicio" required>
+                            <option value="" disabled {{ old('horario') ? '' : 'selected' }}>Selecione um horario</option>
                         </select>
                     </div>
 
@@ -126,6 +123,34 @@ $(document).ready(function() {
             });
         }
     });
+
+    $('#data').blur(function() {
+    var idProfissional = $('#profissional').val();
+    var dataRealizacao = $(this).val();
+
+    // Verifica se a data está no formato completo YYYY-MM-DD
+    if (idProfissional && dataRealizacao && dataRealizacao.length === 10) {
+        $.ajax({
+            url: "{{ route('getHorarios') }}", // Rota para obter horários
+            type: "GET",
+            data: { id_profissional: idProfissional, data_realizacao: dataRealizacao },
+            success: function(data) {
+                $('#horario_inicio').empty();
+                $('#horario_inicio').append('<option value="" disabled selected>Selecione um horário</option>');
+                $.each(data.horarios, function(key, value) {
+                    $('#horario_inicio').append('<option value="' + value.intervalo_hora + '">' + value.intervalo_hora + '</option>');
+                });
+            },
+            error: function() {
+                alert('Erro ao carregar horários');
+            }
+        });
+    }
+});
+
+
+
+
 });
 </script>
 @endsection
