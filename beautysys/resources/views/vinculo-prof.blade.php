@@ -32,6 +32,17 @@
         <div class="col-md-2 d-flex align-items-end">
             <button type="button" class="btn btn-primary w-100" onclick="abrirModal()">Solicitar novo vínculo</button>
         </div>
+        @if (session('success'))
+            <div class="mt-2 alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="mt-2 alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
     </div>
 </section>
 
