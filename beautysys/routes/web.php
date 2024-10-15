@@ -123,6 +123,8 @@ Route::get('/get-profissionais', [ClienteController::class, 'getProfissionais'])
 
 Route::get('/get-servicos', [ClienteController::class, 'getServicos'])->name('getServicos');
 
+Route::get('/get-horarios', [ClienteController::class, 'getHorarios'])->name('getHorarios');
+
 Route::post('agendamento/finalizar', [ClienteController::class, 'realizarAgendamento'])->name('realizarAgendamento');
 
 Route::post('/solicitar-vinculo', [ProfissionalController::class, 'solicitarVinculo'])->name('profissional.solicitarVinculo');
