@@ -33,8 +33,20 @@
         <div class="col-md-2 d-flex align-items-end">
             <button type="button" class="btn btn-primary w-100" onclick="abrirModal()">Associar novo serviço</button>
         </div>
+        @if (session('success'))
+            <div class="mt-2 alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="mt-2 alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
     </div>
 </section>
+
 
 <!-- pop-up para associar novo servico -->
 <div class="modal fade" id="solVinculo" tabindex="-1" aria-labelledby="solVinculo" aria-hidden="true">
