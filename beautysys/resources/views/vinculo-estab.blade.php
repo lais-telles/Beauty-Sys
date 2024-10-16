@@ -6,7 +6,7 @@
 <section class="d-flex flex-column" style="margin:10rem">
     
     <div class="mt-5">
-        <h2>Profissionais Vinculado</h2>
+        <h2>Profissionais Vinculados</h2>
 
         <!-- Exibir a mensagem de sucesso ou erro -->
         @if (session('success'))
@@ -41,26 +41,25 @@
                             <td>{{ $vinculo->email }}</td>
                             <td>{{ $vinculo->data_vinculo }}</td>
                             <td>{{ $vinculo->status_vinculo }}</td>
-                                <!-- <button class="btn btn-primary" id="button-{{ $vinculo->id_vinculo }}" onclick="toggleSelect({{ $vinculo->id_vinculo }})">
+                            <td>
+                                <button class="btn btn-primary" id="button-{{ $vinculo->id_vinculo }}" onclick="toggleSelect({{ $vinculo->id_vinculo }})">
                                     Alterar Status
                                 </button>
                                 <form action="{{ route('atualizarStatusVinculo') }}" method="POST" id="form-status-{{ $vinculo->id_vinculo }}" style="display:none; margin-top: 10px;">
                                     @csrf
                                     <input type="hidden" name="id_vinculo" value="{{ $vinculo->id_vinculo }}">
-                                    <select name="status" class="form-select" onchange="this.form.submit()">
-                                        @foreach($statusAgendamentos as $status)
-                                            <option value="{{ $status->descricao }}" {{ $agendamento->status == $status->descricao ? 'selected' : '' }}>
-                                                {{ $status->descricao }}
-                                            </option>
-                                        @endforeach
+                                    <select name="status_vinculo" class="form-select" onchange="this.form.submit()">
+                                        <option value="pendente" {{ $vinculo->status_vinculo == 'pendente' ? 'selected' : '' }}>Pendente</option>
+                                        <option value="aprovado" {{ $vinculo->status_vinculo == 'aprovado' ? 'selected' : '' }}>Aprovado</option>
+                                        <option value="rejeitado" {{ $vinculo->status_vinculo == 'rejeitado' ? 'selected' : '' }}>Rejeitado</option>
                                     </select>
-                                </form> -->
+                                </form> 
                             </td>
                         </tr>
                     @endforeach
                 @else
                 <tr>
-                    <td colspan="6" class="text-center">Nenhum profissional vinculado.</td>
+                    <td colspan="7" class="text-center">Nenhum profissional vinculado.</td>
                 </tr>
                 @endif
                 </tbody>
@@ -75,10 +74,10 @@
         
         if (form.style.display === 'none') {
             form.style.display = 'block';
-            button.style.display = 'none'; // Oculta o botão
+            button.style.display = 'none';
         } else {
             form.style.display = 'none';
-            button.style.display = 'inline-block'; // Exibe o botão novamente
+            button.style.display = 'inline-block';
         }
     }
 </script>

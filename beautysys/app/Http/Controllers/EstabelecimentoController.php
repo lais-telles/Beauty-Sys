@@ -189,34 +189,34 @@ class EstabelecimentoController extends Controller
     }
     
     public function exibirVinculosEstab() {
-        // Captura o id do profissional da sessão
+        // Captura o id do estabelecimento da sessão
         $id_estabelecimento = Session::get('id_estabelecimento');
-
-        // Buscando todos os status disponíveis no banco de dados
-        // $statusAgendamentos = DB::table('status_agendamentos')->get();
-
-        // Chama a procedure armazenada e passa o id do profissional
+    
+        // Chama a procedure armazenada e passa o id do estabelecimento
         $vinculos = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
-
-        // Retorna a view com os agendamentos e serviços
-        return view('vinculo-estab', compact('vinculos'));
+    
+        // Opções de status fixas conforme o ENUM da tabela
+        $statusOptions = ['pendente', 'aprovado', 'rejeitado'];
+    
+        // Retorna a view com os vínculos e as opções de status
+        return view('vinculo-estab', compact('vinculos', 'statusOptions'));
     }
+    
 
-    /*
     public function atualizarStatusVinculo(Request $request) {
-        $statusDescricao = $request->input('status'); // 'Ausência' ou outro status descritivo
+        $status = $request->input('status_vinculo'); // Recebe o novo status diretamente do ENUM
         $id_vinculo = $request->input('id_vinculo');
-
-        // Busca o ID do status correspondente
-        $status = DB::table('status_agendamentos')->where('descricao', $statusDescricao)->first();
-
-        if ($status) {
-            Agendamento::atualizarStatus($id_agendamento, $status->id_status); // Usa o ID encontrado
+    
+        // Atualiza o status do vínculo no banco de dados
+        $updated = DB::table('vinculos')
+            ->where('id_vinculo', $id_vinculo)
+            ->update(['status_vinculo' => $status]);
+    
+        if ($updated) {
             return redirect()->back()->with('success', 'Status atualizado com sucesso!');
         } else {
-            return redirect()->back()->with('error', 'Status inválido.');
+            return redirect()->back()->with('error', 'Erro ao atualizar o status.');
         }
-    }
-    */
+    }    
 }    
 ?>

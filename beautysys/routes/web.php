@@ -139,4 +139,4 @@ Route::post('associar/servico', [ProfissionalController::class, 'associarServ'])
 Route::get('/estabelecimento/vinculo', [EstabelecimentoController::class, 'exibirVinculosEstab'])->name('exibirVinculosEstab');
 
 //Rota para atualizar o status dos vinculos
-Route::post('/vinculos/status', [EstabelecimentoController::class, 'atualizarStatusVinculo'])->name('agendamentosVinculo');
+Route::post('/vinculos/status', [EstabelecimentoController::class, 'atualizarStatusVinculo'])->name('atualizarStatusVinculo');
