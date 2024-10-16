@@ -79,7 +79,7 @@ Route::get('proprietario/servicos', [EstabelecimentoController::class, 'listaSer
 //Rota para a realização do cadastro de serviços
 Route::post('/cadastrar-servico', [EstabelecimentoController::class, 'cadastrarServico'])->name('cadastrarServico');
 
-// Rota para deletar um horário com o método 'deletarHorario'
+// Rota para deletar um horário com o método 'deletarServico'
 Route::delete('profissional/servico/{id}', [ProfissionalController::class, 'deletarServico'])->name('deletarServico');
 
 //Rota para exibição dos agendamentos realizados no estabelecimento logado
@@ -134,3 +134,9 @@ Route::get('servico/profissional', [ProfissionalController::class, 'servicosProf
 
 //Rota para associar um novo serviço
 Route::post('associar/servico', [ProfissionalController::class, 'associarServ'])->name('associarServ');
+
+//Rota para exibição dos profissionais vinculados com o estabelecimento
+Route::get('/estabelecimento/vinculo', [EstabelecimentoController::class, 'exibirVinculosEstab'])->name('exibirVinculosEstab');
+
+//Rota para atualizar o status dos vinculos
+Route::post('/vinculos/status', [EstabelecimentoController::class, 'atualizarStatusVinculo'])->name('agendamentosVinculo');

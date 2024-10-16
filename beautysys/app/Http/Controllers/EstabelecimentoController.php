@@ -188,6 +188,35 @@ class EstabelecimentoController extends Controller
         return view('dashboard-pj', compact('data'));
     }
     
-    
+    public function exibirVinculosEstab() {
+        // Captura o id do profissional da sessão
+        $id_estabelecimento = Session::get('id_estabelecimento');
+
+        // Buscando todos os status disponíveis no banco de dados
+        // $statusAgendamentos = DB::table('status_agendamentos')->get();
+
+        // Chama a procedure armazenada e passa o id do profissional
+        $vinculos = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
+
+        // Retorna a view com os agendamentos e serviços
+        return view('vinculo-estab', compact('vinculos'));
+    }
+
+    /*
+    public function atualizarStatusVinculo(Request $request) {
+        $statusDescricao = $request->input('status'); // 'Ausência' ou outro status descritivo
+        $id_vinculo = $request->input('id_vinculo');
+
+        // Busca o ID do status correspondente
+        $status = DB::table('status_agendamentos')->where('descricao', $statusDescricao)->first();
+
+        if ($status) {
+            Agendamento::atualizarStatus($id_agendamento, $status->id_status); // Usa o ID encontrado
+            return redirect()->back()->with('success', 'Status atualizado com sucesso!');
+        } else {
+            return redirect()->back()->with('error', 'Status inválido.');
+        }
+    }
+    */
 }    
 ?>

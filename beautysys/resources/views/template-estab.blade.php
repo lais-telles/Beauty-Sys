@@ -50,6 +50,7 @@
                                 <li><a class="dropdown-item" href="{{ route('AdmProprietario') }}">Minha conta</a></li>
                                 <li><a class="dropdown-item" href="{{ route('exibirAgendamentosEstab') }}">Meus agendamentos</a></li>
                                 <li><a class="dropdown-item" href="{{ route('listaServicos') }}">Meus serviços</a></li>
+                                <li><a class="dropdown-item" href="{{ route('exibirVinculosEstab') }}">Profissionais vinculados</a></li>
                                 <li><a class="dropdown-item" href="{{ route('DashboardPj') }}">Dashboard</a></li>
                                 <li>
                                     <form action="{{ route('logoutEstab') }}" method="POST">
