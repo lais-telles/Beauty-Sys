@@ -205,7 +205,6 @@ class ProfissionalController extends Controller
         return DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
     }
 
-
     public function atualizarStatusAgendamentos(Request $request) {
         $statusDescricao = $request->input('status'); // 'Ausência' ou outro status descritivo
         $id_agendamento = $request->input('id_agendamento');

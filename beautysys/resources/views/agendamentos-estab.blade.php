@@ -20,6 +20,7 @@
                         <th>Horário de Término</th>
                         <th>Valor Total</th>
                         <th>Forma de Pagamento</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
