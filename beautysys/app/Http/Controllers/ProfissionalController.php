@@ -29,15 +29,8 @@ class ProfissionalController extends Controller
             'senha' => 'required|string|min:8',
         ]);
 
-        // Cria o profissional com os dados validados e criptografa a senha
-        Profissional::create([
-            'nome' => $validatedData['nome'],
-            'data_nasc' => $validatedData['data_nascimento'],
-            'CPF' => $validatedData['cpf'],
-            'telefone' => $validatedData['telefone'],
-            'email' => $validatedData['email'],
-            'senha' => Hash::make($validatedData['senha']),
-        ]);
+        // Chama o método para criar o profissional no model
+        Profissional::cadastrarProfissional($validatedData);
 
         // Redireciona para a página index com uma mensagem de sucesso
         return redirect()->route('Parceiro')->with('success', 'Profissional cadastrado com sucesso!');
@@ -171,12 +164,7 @@ class ProfissionalController extends Controller
         $email = $request->input('email');
         $senha = NULL;
 
-        DB::select('CALL atualizar_profissional(?, ?, ?, ?)', [
-            $id_profissional,
-            $telefone,
-            $email,
-            $senha
-        ]);
+        Profissional::atualizarProfissional($id_profissional, $telefone, $email, $senha);
 
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }

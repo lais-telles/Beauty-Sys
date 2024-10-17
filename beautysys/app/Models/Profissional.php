@@ -35,4 +35,27 @@ class Profissional extends Model
     protected $hidden = [
         'senha',
     ];
+
+    public function cadastrarProfissional($data) {
+        // Cria o profissional com os dados validados e criptografa a senha
+        return self::create([
+            'nome' => $data['nome'],
+            'data_nasc' => $data['data_nascimento'],
+            'CPF' => $data['cpf'],
+            'telefone' => $data['telefone'],
+            'email' => $data['email'],
+            'senha' => Hash::make($data['senha']),
+        ]);
+    }
+
+    public static function atualizarProfissional($id_profissional, $telefone, $email, $senha) {
+        $profissional = self::find($id_profissional);
+        
+        return DB::statement('CALL atualizar_profissional(?, ?, ?, ?)', [
+            $id_profissional,
+            $telefone,
+            $email,
+            $senha
+        ]);
+    }
 }
