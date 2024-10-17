@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB; // Importando a classe DB
+use Illuminate\Support\Facades\Hash;
 
 class Cliente extends Model
 {
@@ -33,5 +35,23 @@ class Cliente extends Model
     protected $hidden = [
         'senha',
     ];
+
+    public static function cadastrarCliente($data) {
+        // Cria o cliente com os dados validados e criptografa a senha
+        return self::create([
+            'nome' => $data['nome'],
+            'data_nasc' => $data['data_nascimento'],
+            'CPF' => $data['cpf'],
+            'telefone' => $data['telefone'],
+            'email' => $data['email'],
+            'senha' => Hash::make($data['senha']),
+        ]);
+    }
+
+    public static function atualizarCliente($id_cliente, $telefone, $email, $senha) {
+        $cliente = self::find($id_cliente);
+        
+        return DB::statement('CALL atualizar_cliente(?, ?, ?, ?)', [$id_cliente, $telefone, $email, $senha]);
+    }
 }
 ?>

@@ -23,15 +23,8 @@ class ClienteController extends Controller
             'senha' => 'required|string|min:8',
         ]);
 
-        // Cria o cliente com os dados validados e criptografa a senha
-        Cliente::create([
-            'nome' => $validatedData['nome'],
-            'data_nasc' => $validatedData['data_nascimento'],
-            'CPF' => $validatedData['cpf'],
-            'telefone' => $validatedData['telefone'],
-            'email' => $validatedData['email'],
-            'senha' => Hash::make($validatedData['senha']),
-        ]);
+        // Chama o método para criar o cliente no model
+        Cliente::cadastrarCliente($validatedData);
 
         // Redireciona para a página index com uma mensagem de sucesso
         return redirect()->route('PessoaFisica')->with('success', 'Cliente cadastrado com sucesso!');
@@ -121,12 +114,7 @@ class ClienteController extends Controller
         $email = $request->input('email');
         $senha = NULL;
 
-        DB::select('CALL atualizar_cliente(?, ?, ?, ?)', [
-            $id_cliente,
-            $telefone,
-            $email,
-            $senha
-        ]);
+        Cliente::atualizarCliente($id_cliente, $telefone, $email, $senha);
 
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }
