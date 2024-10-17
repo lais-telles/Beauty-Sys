@@ -90,7 +90,7 @@ class ClienteController extends Controller
     }
 
     // Método para buscar cliente
-    public function buscar_cliente(Request $request){
+    public function buscarCliente(Request $request){
         // Captura o id do estabelecimento da sessão
         $id_cliente = Session::get('id_cliente');
    
@@ -107,7 +107,7 @@ class ClienteController extends Controller
     }
 
     // Método para salvar alterações
-    public function alterar_cadastro(Request $request) {
+    public function alterarCadastro(Request $request) {
         // Captura o id do cliente da sessão
         $id_cliente = Session::get('id_cliente');
         $telefone = $request->input('telefone');

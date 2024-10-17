@@ -59,10 +59,10 @@ Route::post('estabelecimento/logout', [EstabelecimentoController::class, 'logout
 Route::post('profissional/logout', [ProfissionalController::class, 'logoutProfissional'])->name('logoutProfissional');
 
 //Rota para a tela de perfil do estabelecimento com as respectivas informações do estabelecimento logado
-Route::get('estabelecimento/perfil', [EstabelecimentoController::class, 'buscar_estabelecimento'])->name('InfoCadastro');
+Route::get('estabelecimento/perfil', [EstabelecimentoController::class, 'buscarEstabelecimento'])->name('InfoCadastro');
 
 //Rota para alterações cadastrais
-Route::post('estabelecimento/atualiza', [EstabelecimentoController::class, 'alterar_cadastro']) ->name('AlteraCadastro');
+Route::post('estabelecimento/atualiza', [EstabelecimentoController::class, 'alterarCadastro']) ->name('AlteraCadastro');
 
 // Rota para ir para a área de cadastro de grade horária usando o método 'gradeProf'
 Route::get('profissional/grade', [ProfissionalController::class, 'gradeProf'])->name('gradeProf');
@@ -98,19 +98,19 @@ Route::get('/agendamentosCliente', [ClienteController::class, 'exibirAgendamento
 Route::get('/admProfissional', [ProfissionalController::class, 'admProf'])->name('admProf');
 
 //Rota para a tela de perfil do profissional com as respectivas informações do profissional logado
-Route::get('profissional/perfil', [ProfissionalController::class, 'buscar_profissional'])->name('infoCadastroP');
+Route::get('profissional/perfil', [ProfissionalController::class, 'buscarProfissional'])->name('infoCadastroP');
 
 //Rota para salvar alterações de cadastro
-Route::post('profissional/atualiza', [ProfissionalController::class, 'alterar_cadastro'])->name('alteraCadastroProf');
+Route::post('profissional/atualiza', [ProfissionalController::class, 'alterarCadastro'])->name('alteraCadastroProf');
 
 // Rota para administração de conta do cliente com o método 'admCliente'
 Route::get('/admCliente', [ClienteController::class, 'admCliente'])->name('admCliente');
 
 //Rota para a tela de perfil do cliente com as respectivas informações do cliente logado
-Route::get('cliente/perfil', [ClienteController::class, 'buscar_cliente'])->name('infoCadastroCli');
+Route::get('cliente/perfil', [ClienteController::class, 'buscarCliente'])->name('infoCadastroCli');
 
 //Rota para salvar alterações de cadastro
-Route::post('cliente/atualiza', [ClienteController::class, 'alterar_cadastro'])->name('alteraCadastroCli');
+Route::post('cliente/atualiza', [ClienteController::class, 'alterarCadastro'])->name('alteraCadastroCli');
 
 Route::get('estabelecimento/dashboard', [EstabelecimentoController::class, 'dashboardEstab'])->name('DashboardPj');
 

@@ -140,7 +140,7 @@ class ProfissionalController extends Controller
     }
 
     // Método para buscar profissional
-    public function buscar_profissional(Request $request){
+    public function buscarProfissional(Request $request){
         // Captura o id do estabelecimento da sessão
         $id_profissional = Session::get('id_profissional');
    
@@ -157,7 +157,7 @@ class ProfissionalController extends Controller
     }
 
     // Método para salvar alterações
-    public function alterar_cadastro(Request $request) {
+    public function alterarCadastro(Request $request) {
         // Captura o id do estabelecimento da sessão
         $id_profissional = Session::get('id_profissional');
         $telefone = $request->input('telefone');

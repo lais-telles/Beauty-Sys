@@ -74,7 +74,7 @@ class EstabelecimentoController extends Controller
     }
 
 
-    public function buscar_estabelecimento(Request $request){
+    public function buscarEstabelecimento(Request $request){
         // Captura o id do estabelecimento da sessão
         $id_estabelecimento = Session::get('id_estabelecimento');
    
@@ -91,7 +91,7 @@ class EstabelecimentoController extends Controller
     }
 
 
-    public function alterar_cadastro(Request $request) {
+    public function alterarCadastro(Request $request) {
         // Captura o id do estabelecimento da sessão
         $id_estabelecimento = Session::get('id_estabelecimento');
         $nome_fantasia = $request->input('nome_fantasia');
