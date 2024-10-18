@@ -1,34 +1,6 @@
-@extends('template2')
+@extends('template-estab')
 
 @section('title', 'Proprietário')
-
-@section('nav-buttons')
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="">Serviços</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="">Profissionais</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="">Ajuda</a>
-        </li>
-    </ul>
-@endsection
-
-@section('nav-buttons2')
-<ul class="navbar-nav ms-auto">
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i id="minhaConta" class='fas fa-user-alt' style="color: white;"></i></a>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="">Minha conta</a></li>
-            <li><a class="dropdown-item" href="">Meus agendamentos</a></li>
-            <li><a class="dropdown-item" href="">Dashboard</a></li>
-            <li><a class="dropdown-item" href="">Log out</a></li>
-        </ul>
-    </li>
-</ul>
-@endsection
 
 @section('content')
 <section  class="d-flex" style="margin-top: 20rem; margin-bottom: 10rem;">
