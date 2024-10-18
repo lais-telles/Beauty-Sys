@@ -48,14 +48,13 @@ class Profissional extends Model
         ]);
     }
 
-    public static function atualizarProfissional($id_profissional, $telefone, $email, $senha) {
+    public static function atualizarProfissional($id_profissional, $telefone, $email) {
         $profissional = self::find($id_profissional);
         
-        return DB::statement('CALL atualizar_profissional(?, ?, ?, ?)', [
+        return DB::statement('CALL atualizar_profissional(?, ?, ?)', [
             $id_profissional,
             $telefone,
-            $email,
-            $senha
+            $email
         ]);
     }
 }

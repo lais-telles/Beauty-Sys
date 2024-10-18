@@ -112,9 +112,8 @@ class ClienteController extends Controller
         $id_cliente = Session::get('id_cliente');
         $telefone = $request->input('telefone');
         $email = $request->input('email');
-        $senha = NULL;
 
-        Cliente::atualizarCliente($id_cliente, $telefone, $email, $senha);
+        Cliente::atualizarCliente($id_cliente, $telefone, $email);
 
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }

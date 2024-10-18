@@ -162,9 +162,8 @@ class ProfissionalController extends Controller
         $id_profissional = Session::get('id_profissional');
         $telefone = $request->input('telefone');
         $email = $request->input('email');
-        $senha = NULL;
 
-        Profissional::atualizarProfissional($id_profissional, $telefone, $email, $senha);
+        Profissional::atualizarProfissional($id_profissional, $telefone, $email);
 
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }

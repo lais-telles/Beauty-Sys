@@ -48,10 +48,10 @@ class Cliente extends Model
         ]);
     }
 
-    public static function atualizarCliente($id_cliente, $telefone, $email, $senha) {
+    public static function atualizarCliente($id_cliente, $telefone, $email) {
         $cliente = self::find($id_cliente);
         
-        return DB::statement('CALL atualizar_cliente(?, ?, ?, ?)', [$id_cliente, $telefone, $email, $senha]);
+        return DB::statement('CALL atualizar_cliente(?, ?, ?)', [$id_cliente, $telefone, $email]);
     }
 }
 ?>
