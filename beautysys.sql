@@ -91,7 +91,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_grade_horaria` (IN `id_pro
     FROM 
         grades_horario
     WHERE 
-        id_profissional = id_profissional_param;
+        id_profissional = id_profissional_param
+    ORDER BY dia_semana ASC;  
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_vinculo` (IN `id_profissional_param` INT)   BEGIN
