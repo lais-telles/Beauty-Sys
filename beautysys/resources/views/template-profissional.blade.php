@@ -50,7 +50,6 @@
                                 <li><a class="dropdown-item" href="{{ route('admProf') }}">Minha conta</a></li>
                                 <li><a class="dropdown-item" href="{{ route('exibirAgendamentosProf') }}">Meus agendamentos</a></li>
                                 <li><a class="dropdown-item" href="{{ route('servicosProf') }}">Meus serviços</a></li>
-                                <li><a class="dropdown-item" href="">Dashboard</a></li>
                                 <li><a class="dropdown-item" href="{{ route('vinculoProf') }}">Vínculo</a></li>
                                 <li>
                                     <form action="{{ route('logoutProfissional') }}" method="POST">
