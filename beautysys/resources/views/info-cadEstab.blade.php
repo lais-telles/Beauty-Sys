@@ -3,21 +3,10 @@
 @section('title', 'Adm Proprietário')
 
 @section('content')
-<section class="d-flex ms-5 me-5 mb-5 rounded" style="margin-top: 15rem;">
+<section class="d-flex ms-5 me-5 mb-5 rounded" style="margin-top: 10rem;">
     <div class="container my-5">
         <div class="row align-items-center">
             <div class="col-md-12">
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
                 <form action="{{ route ('AlteraCadastro') }}" method="POST">
                     @csrf
                     <div class="row">
@@ -85,6 +74,17 @@
                         <button id="salva_alteracoes" class="btn btn-custom2 px-5 mb-5" type="submit" style="display: none;">Salvar alterações</button>
                     </div>
                 </form>
+                @if (session('success'))
+                    <div class="mt-2 alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="mt-2 alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>
