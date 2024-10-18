@@ -3,7 +3,7 @@
 @section('title', 'Profissional')
 
 @section('content')
-<section class="d-flex" style="margin-top: 20rem; margin-bottom: 10rem;">
+<section class="d-flex" style="margin-top: 16rem; margin-bottom: 10rem;">
     <div class="container">
         <div class="row">
             <!-- Painel de Agendamentos -->
