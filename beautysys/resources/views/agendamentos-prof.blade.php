@@ -3,22 +3,9 @@
 @section('title', 'Agendamentos')
 
 @section('content')
-<section class="d-flex flex-column" style="margin:10rem">
-    
-    <div class="mt-5">
+<section class="d-flex" style="margin: 10rem">
+    <div class="container mt-5">
         <h2>Agendamentos</h2>
-
-        <!-- Exibir a mensagem de sucesso ou erro -->
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @elseif (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
         @if(!empty($agendamentos))
             <table class="table table-bordered text-center">
                 <thead>
@@ -75,6 +62,16 @@
                 @endif
                 </tbody>
             </table>
+            <!-- Exibir a mensagem de sucesso ou erro -->
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @elseif (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
     </div>
 </section>
 
