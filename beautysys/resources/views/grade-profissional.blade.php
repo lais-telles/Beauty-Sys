@@ -3,7 +3,7 @@
 @section('title', 'Grade Horaria')
 
 @section('content')
-<section class="d-flex" style="margin-top: 13rem; margin-bottom: 10rem;">
+<section class="d-flex" style="margin-top: 11rem; margin-bottom: 10rem;">
 <div class="container mt-4">
     <h2 class="mb-3">Cadastro de Grade Horária</h2>
 
@@ -14,6 +14,7 @@
             <div class="col-md-4">
                 <label for="dia_semana">Dia da Semana:</label>
                 <select id="dia_semana" name="dia_semana" class="form-select" required>
+                    <option value="">Escolha o dia da semana</option>
                     <option value="1">Segunda-feira</option>
                     <option value="2">Terça-feira</option>
                     <option value="3">Quarta-feira</option>
@@ -25,11 +26,21 @@
             </div>
             <div class="col-md-3">
                 <label for="hora_inicio">Hora de Início:</label>
-                <input type="time" id="hora_inicio" name="hora_inicio" class="form-control" step="1" required>
+                <select id="hora_inicio" name="hora_inicio" class="form-select" required>
+                    <option value="">Escolha o horário</option>
+                    @foreach($select_horario as $horario)
+                        <option value="{{ $horario }}">{{ $horario }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="col-md-3">
                 <label for="hora_termino">Hora de Término:</label>
-                <input type="time" id="hora_termino" name="hora_termino" class="form-control" step="1" required>
+                <select id="hora_termino" name="hora_termino" class="form-select" required>
+                    <option value="">Escolha o horário</option>
+                    @foreach($select_horario as $horario)
+                        <option value="{{ $horario }}">{{ $horario }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="col-md-2 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary w-100">Salvar</button>   

@@ -74,18 +74,59 @@ class ProfissionalController extends Controller
     public function gradeProf() {
         // Recupera o ID do profissional armazenado na sessão
         $idProfissional = Session::get('id_profissional');
-
+    
         // Verifica se o ID está presente
         if (!$idProfissional) {
             return redirect()->route('login')->with('error', 'Profissional não autenticado');
         }
+    
+        // Obter o ID do estabelecimento vinculado ao profissional
+        $idEstabelecimento = DB::table('profissionais')
+            ->where('id_profissional', $idProfissional)
+            ->value('estabel_vinculado');
+    
+        if (!$idEstabelecimento) {
+            // Definindo os horários de um profissional sem vínculo
+            $horaAbertura = "08:00:00";
+            $horaFechamento = "19:00:00";
+        } else {
+            // Buscar os horários de funcionamento do estabelecimento
+            $estabelecimento = DB::table('estabelecimentos')
+                ->where('id_estabelecimento', $idEstabelecimento)
+                ->first(['inicio_expediente', 'termino_expediente']);
+        
+            if (!$estabelecimento) {
+                return redirect()->back()->with('error', 'Horários de funcionamento do estabelecimento não encontrados.');
+            }
+            // Definindo os horários de acordo com o estabelecimento
+            $horaAbertura = $estabelecimento->inicio_expediente; 
+            $horaFechamento = $estabelecimento->termino_expediente; 
+        }
 
+        // Gerar lista de horários
+        $select_horario = [];
+        $intervalo = new \DateInterval('PT30M'); // Intervalo de 30 minutos
+        $periodo = new \DatePeriod(new \DateTime($horaAbertura), $intervalo, new \DateTime($horaFechamento));
+    
+        foreach ($periodo as $hora) {
+            $select_horario[] = $hora->format('H:i');
+        }
+
+        // Adiciona manualmente o horário de fechamento, caso não esteja na lista
+        if (end($select_horario) !== $horaFechamento) {
+            $select_horario[] = (new \DateTime($horaFechamento))->format('H:i');
+        }
+    
         // Chama o stored procedure passando o ID do profissional
         $horarios = DB::select('CALL consulta_grade_horaria(?)', [$idProfissional]);
-
-        // Retorna a view 'grade-profissional' com os dados da grade
-        return view('grade-profissional', ['horarios' => $horarios]);
+    
+        // Retorna a view 'grade-profissional' com os dados da grade e a lista de horários
+        return view('grade-profissional', [
+            'horarios' => $horarios,
+            'select_horario' => $select_horario
+        ]);
     }
+    
 
     // Método para deletar horário
     public function deletarHorario($id)
