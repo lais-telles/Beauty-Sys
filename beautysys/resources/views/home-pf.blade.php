@@ -28,7 +28,7 @@
                     <div class="carousel-caption">
                         <h1>Conheça os estabelecimentos</h1>
                         <p>Conheça os estabelecimentos cadastrados e escolha aquele que melhor lhe atende!</p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Ver estabelecimentos</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ route('listaEstab') }}">Ver estabelecimentos</a></p>
                     </div>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                         <p>Assim como os estabelecimentos cadastrados, certificamos que os profissionais também sejam da mais alta qualidade e 
                             confiança.
                         </p>
-                        <p><a class="btn btn-lg btn-primary" href="#">Ver profissionais</a></p>
+                        <p><a class="btn btn-lg btn-primary" href="{{ route('listaProfissionais') }}">Ver profissionais</a></p>
                     </div>
                 </div>
             </div>

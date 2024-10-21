@@ -22,7 +22,7 @@
                 <div class="collapse navbar-collapse" id="nav-principal">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="">Estabelecimentos</a>
+                            <a class="nav-link" href="{{ route('listaEstab') }}">Estabelecimentos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('listaProfissionais') }}">Profissionais</a>

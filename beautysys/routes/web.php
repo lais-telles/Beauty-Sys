@@ -68,8 +68,11 @@ Route::get('/get-horarios', [ClienteController::class, 'getHorarios'])->name('ge
 //Rota responsável pela finalização de um agendamento
 Route::post('agendamento/finalizar', [ClienteController::class, 'realizarAgendamento'])->name('realizarAgendamento');
 
-//Rota para exibir todos os estabelecimentos disponíveis na plataforma
+//Rota para exibir todos os profissionais disponíveis na plataforma
 Route::get('profissionais', [ClienteController::class, 'listaProfissionais'])->name('listaProfissionais');
+
+//Rota para exibir todos os estabelecimentos disponíveis na plataforma
+Route::get('estabelecimentos', [ClienteController::class, 'listaEstab'])->name('listaEstab');
 
 
 // --------------------------------------- Rotas do Profissional -----------------------------------------------

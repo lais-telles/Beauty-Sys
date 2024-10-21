@@ -121,7 +121,7 @@ class ClienteController extends Controller
     public function dadosRealizarAgendamento(Request $request) {
         $id_profissional = $request->input('profissional', null); // pode ser null se não for selecionado ainda
         $id_estabelecimento = $request->input('estabelecimento', null); // pode ser null se não for selecionado ainda
-    
+
         // Verifica se $id_estabelecimento está definido, se não estiver, busca todos os estabelecimentos
         if ($id_estabelecimento) {
             $estabelecimentos = DB::select('SELECT id_estabelecimento, nome_fantasia FROM estabelecimentos WHERE id_estabelecimento = ?', [$id_estabelecimento]);
@@ -222,6 +222,12 @@ class ClienteController extends Controller
         ');
 
         return view('lista-profissionais', compact('profissionais'));
+    }
+
+    public function listaEstab() {
+        $estabelecimentos = DB::select('CALL listar_estab');
+        
+        return view('lista-estab', compact('estabelecimentos'));
     }
 }
 ?>
