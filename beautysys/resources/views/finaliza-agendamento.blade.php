@@ -1,6 +1,6 @@
 @extends('template-cliente')
 
-@section('title', 'Adm Proprietário')
+@section('title', 'Realizar agendamento')
 
 @section('content')
 <section class="d-flex ms-5 me-5 mb-5" style="margin-top: 15rem;">
@@ -27,19 +27,36 @@
                     <div class="mb-3">
                         <label for="estabelecimento" class="form-label">Escolha o Estabelecimento</label>
                         <select class="form-select" id="estabelecimento" name="estabelecimento" required>
-                            <option value="" disabled {{ old('estabelecimento') ? '' : 'selected' }}>Selecione um estabelecimento</option>
+                            @if($id_estabelecimento)
+                                <!-- Preenche a opção já selecionada -->
+                                <option value="{{ $id_estabelecimento }}" selected>{{ $estabelecimentos[0]->nome_fantasia }}</option>
+                            @else
+                                <!-- Exibe a opção padrão -->
+                                <option value="" disabled {{ old('estabelecimento') ? '' : 'selected' }}>Selecione um estabelecimento</option>
+                            @endif
                             @foreach($estabelecimentos as $estabelecimento)
-                                <option value="{{ $estabelecimento->id_estabelecimento }}" {{ old('estabelecimento') == $estabelecimento->id_estabelecimento ? 'selected' : '' }}>{{ $estabelecimento->nome_fantasia }}</option>
+                                <!-- Exibe as outras opções -->
+                                <option value="{{ $estabelecimento->id_estabelecimento }}" 
+                                    {{ old('estabelecimento') == $estabelecimento->id_estabelecimento ? 'selected' : '' }}>
+                                    {{ $estabelecimento->nome_fantasia }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
+
 
                     <!-- Seleção do Profissional -->
                     <div class="mb-3">
                         <label for="profissional" class="form-label">Escolha o Profissional</label>
                         <select class="form-select" id="profissional" name="profissional" required>
-                            <option value="" disabled {{ old('profissional') ? '' : 'selected' }}>Selecione um profissional</option>
-                            <!-- Profissionais serão preenchidos via AJAX -->
+                            @if($id_profissional)
+                                <!-- Preenche a opção já selecionada -->
+                                <option value="{{ $id_profissional }}" selected>{{ $profissional[0]->nome }}</option>
+                            @else
+                                <!-- Exibe a opção padrão -->
+                                <option value="" disabled {{ old('profissional') ? '' : 'selected' }}>Selecione um profissional</option>
+                            @endif
+                        <!-- Profissionais serão preenchidos via AJAX -->
                         </select>
                     </div>
 
@@ -47,8 +64,19 @@
                     <div class="mb-3">
                         <label for="servico" class="form-label">Escolha o Serviço</label>
                         <select class="form-select" id="servico" name="servico" required>
-                            <option value="" disabled {{ old('servico') ? '' : 'selected' }}>Selecione um serviço</option>
-                            <!-- Serviços serão preenchidos via AJAX -->
+                             @if($servicos)
+                                @foreach($servicos as $servico)
+                                    <!-- Exibe as outras opções -->
+                                    <option value="" disabled {{ old('servico') ? '' : 'selected' }}>Selecione um servico</option>
+                                    <option value="{{ $servico->id_servico }}" 
+                                        {{ old('servico') == $servico->id_servico ? 'selected' : '' }}>
+                                        {{ $servico->nome }}
+                                    </option>
+                                @endforeach
+                            @else
+                                <!-- Exibe a opção padrão -->
+                                <option value="" disabled {{ old('profissional') ? '' : 'selected' }}>Selecione um profissional</option>
+                            @endif
                         </select>
                     </div>
 
