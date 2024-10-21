@@ -25,7 +25,7 @@
                             <a class="nav-link" href="">Estabelecimentos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Profissionais</a>
+                            <a class="nav-link" href="{{ route('listaProfissionais') }}">Profissionais</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">Ajuda</a>
