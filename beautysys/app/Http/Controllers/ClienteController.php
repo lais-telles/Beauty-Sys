@@ -120,50 +120,80 @@ class ClienteController extends Controller
 
     public function dadosRealizarAgendamento(Request $request) {
         $id_profissional = $request->input('profissional', null); // pode ser null se não for selecionado ainda
-        $id_estabelecimento = $request->input('estabelecimento');
+        $id_estabelecimento = $request->input('estabelecimento', null); // pode ser null se não for selecionado ainda
     
-        // Adiciona consulta para listar todos os estabelecimentos ou um específico
-        $estabelecimentos = DB::select('SELECT * FROM estabelecimentos');
+        // Verifica se $id_estabelecimento está definido, se não estiver, busca todos os estabelecimentos
+        if ($id_estabelecimento) {
+            $estabelecimentos = DB::select('SELECT id_estabelecimento, nome_fantasia FROM estabelecimentos WHERE id_estabelecimento = ?', [$id_estabelecimento]);
+        } else {
+            $estabelecimentos = DB::select('SELECT id_estabelecimento, nome_fantasia FROM estabelecimentos');
+        }
     
-        // Retorna a view com os dados carregados
-        return view('finaliza-agendamento', compact('estabelecimentos'));
-    }
+        // Verifica se $id_profissional está definido
+        if ($id_profissional) {
+            $profissional = DB::select('SELECT id_profissional, nome FROM profissionais WHERE id_profissional = ?', [$id_profissional]);
+        } else {
+            $profissional = null; // Evita erro se não houver profissional selecionado
+        }
+    
+        $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
 
+        // Retorna a view com os dados carregados
+        return view('finaliza-agendamento', compact('estabelecimentos', 'profissional', 'id_estabelecimento', 'id_profissional', 'servicos'));
+    }
+    
     public function getProfissionais(Request $request) {
         $id_estabelecimento = $request->input('id');
-        
+    
+        // Verifica se o id_estabelecimento foi passado
+        if (!$id_estabelecimento) {
+            return response()->json(['error' => 'Estabelecimento não informado'], 400);
+        }
+    
         // Executa a procedure para obter os profissionais vinculados ao estabelecimento
-        $profissionais = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
-        
-        return response()->json(['profissionais' => $profissionais]);
+        try {
+            $profissionais = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
+            return response()->json(['profissionais' => $profissionais], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao obter profissionais'], 500);
+        }
     }
     
     public function getServicos(Request $request) {
         $id_profissional = $request->input('id_profissional');
         $id_estabelecimento = $request->input('id_estabelecimento');
-        
+    
+        // Verifica se os parâmetros foram passados
+        if (!$id_profissional || !$id_estabelecimento) {
+            return response()->json(['error' => 'Dados inválidos'], 400);
+        }
+    
         // Executa a procedure para obter os serviços do profissional
-        $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
-        
-        return response()->json(['servicos' => $servicos]);
+        try {
+            $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
+            return response()->json(['servicos' => $servicos], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao obter serviços'], 500);
+        }
     }
-
+    
     public function getHorarios(Request $request) {
         $id_profissional = $request->input('id_profissional');
         $data_realizacao = $request->input('data_realizacao');
     
-        // Certifique-se de que ambos os parâmetros foram passados corretamente
-        if ($id_profissional && $data_realizacao) {
-            // Chame a procedure para gerar os horários
-            $horarios = DB::select('CALL gerar_horarios(?, ?)', [$id_profissional, $data_realizacao]);
-    
-            return response()->json(['horarios' => $horarios]);
-        } else {
+        // Verifica se ambos os parâmetros foram passados corretamente
+        if (!$id_profissional || !$data_realizacao) {
             return response()->json(['error' => 'Dados inválidos'], 400);
         }
-    }
     
-    
+        // Chama a procedure para gerar os horários
+        try {
+            $horarios = DB::select('CALL gerar_horarios(?, ?)', [$id_profissional, $data_realizacao]);
+            return response()->json(['horarios' => $horarios], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao obter horários'], 500);
+        }
+    }    
     
     public function realizarAgendamento(Request $request){
         $id_cliente = Session::get('id_cliente');
@@ -176,6 +206,22 @@ class ClienteController extends Controller
         DB::statement('CALL realizar_agendamento(?, ?, ?, ?, ?, ?)',[$id_cliente, $id_profissional, $id_pag, $data_realizacao, $horario_inicio, $id_servico]);
 
         return redirect()->back()->with('success', 'Agendamento realizado com sucesso!');
+    }
+
+    public function listaProfissionais() {
+        $profissionais = DB::select('
+            SELECT p.id_profissional,
+                    p.nome,
+                    p.telefone,
+                    p.email,
+                    p.estabel_vinculado,
+                    e.nome_fantasia
+            FROM profissionais AS p
+            JOIN estabelecimentos AS e ON p.estabel_vinculado = e.id_estabelecimento
+            ORDER BY p.nome ASC
+        ');
+
+        return view('lista-profissionais', compact('profissionais'));
     }
 }
 ?>
