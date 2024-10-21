@@ -53,15 +53,24 @@ Route::get('cliente/perfil', [ClienteController::class, 'buscarCliente'])->name(
 //Rota para salvar alterações de cadastro
 Route::post('cliente/atualiza', [ClienteController::class, 'alterarCadastro'])->name('alteraCadastroCli');
 
+//Rota para coletar dados necessários para a realização de um agendamento
 Route::get('realizar-agendamento', [ClienteController::class, 'dadosRealizarAgendamento'])->name('dadosRealizarAgendamento');
 
+//Rota para a função AJAX responsável pela consulta dos profissionais disponíveis
 Route::get('/get-profissionais', [ClienteController::class, 'getProfissionais'])->name('getProfissionais');
 
+//Rota para a função AJAX responsável pela consulta dos serviços disponíveis
 Route::get('/get-servicos', [ClienteController::class, 'getServicos'])->name('getServicos');
 
+//Rota para a função AJAX responsável pela consulta dos horários disponíveis
 Route::get('/get-horarios', [ClienteController::class, 'getHorarios'])->name('getHorarios');
 
+//Rota responsável pela finalização de um agendamento
 Route::post('agendamento/finalizar', [ClienteController::class, 'realizarAgendamento'])->name('realizarAgendamento');
+
+//Rota para exibir todos os estabelecimentos disponíveis na plataforma
+Route::get('profissionais', [ClienteController::class, 'listaProfissionais'])->name('listaProfissionais');
+
 
 // --------------------------------------- Rotas do Profissional -----------------------------------------------
 // Rota para cadastrar um profissional usando o método 'cadastrarProfissional'
