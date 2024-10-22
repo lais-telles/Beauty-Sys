@@ -7,6 +7,8 @@ use App\Models\Cliente;  // Importe o modelo Cliente
 use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
 use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
+use App\Models\Estabelecimento; // Certifique-se de importar o modelo
+use App\Models\Profissional; // Certifique-se de importar o modelo
 
 class ClienteController extends Controller
 {
@@ -121,26 +123,27 @@ class ClienteController extends Controller
     public function dadosRealizarAgendamento(Request $request) {
         $id_profissional = $request->input('profissional', null); // pode ser null se não for selecionado ainda
         $id_estabelecimento = $request->input('estabelecimento', null); // pode ser null se não for selecionado ainda
-
+    
         // Verifica se $id_estabelecimento está definido, se não estiver, busca todos os estabelecimentos
         if ($id_estabelecimento) {
-            $estabelecimentos = DB::select('SELECT id_estabelecimento, nome_fantasia FROM estabelecimentos WHERE id_estabelecimento = ?', [$id_estabelecimento]);
+            $estabelecimentos = Estabelecimento::where('id_estabelecimento', $id_estabelecimento)->get();
         } else {
-            $estabelecimentos = DB::select('SELECT id_estabelecimento, nome_fantasia FROM estabelecimentos');
+            $estabelecimentos = Estabelecimento::all();
         }
     
         // Verifica se $id_profissional está definido
-        if ($id_profissional) {
-            $profissional = DB::select('SELECT id_profissional, nome FROM profissionais WHERE id_profissional = ?', [$id_profissional]);
+        if ($id_estabelecimento) { // Aqui deve ser $id_estabelecimento, não $idEstabelecimento
+            $profissional = Profissional::where('estabel_vinculado', $id_estabelecimento)->get(); // Corrigido
         } else {
             $profissional = null; // Evita erro se não houver profissional selecionado
         }
     
         $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
-
+    
         // Retorna a view com os dados carregados
         return view('finaliza-agendamento', compact('estabelecimentos', 'profissional', 'id_estabelecimento', 'id_profissional', 'servicos'));
     }
+    
     
     public function getProfissionais(Request $request) {
         $id_estabelecimento = $request->input('id');

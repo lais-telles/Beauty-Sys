@@ -28,18 +28,23 @@
                         <label for="estabelecimento" class="form-label">Escolha o Estabelecimento</label>
                         <select class="form-select" id="estabelecimento" name="estabelecimento" required>
                             @if($id_estabelecimento)
-                                <!-- Preenche a opção já selecionada -->
-                                <option value="{{ $id_estabelecimento }}" selected>{{ $estabelecimentos[0]->nome_fantasia }}</option>
+                                <!-- Se um estabelecimento foi selecionado, exibe como padrão -->
+                                <option value="{{ $id_estabelecimento }}" selected>
+                                    {{ $estabelecimentos->where('id_estabelecimento', $id_estabelecimento)->first()->nome_fantasia }}
+                                </option>
                             @else
-                                <!-- Exibe a opção padrão -->
+                                <!-- Opção padrão quando não há seleção -->
                                 <option value="" disabled {{ old('estabelecimento') ? '' : 'selected' }}>Selecione um estabelecimento</option>
                             @endif
+
                             @foreach($estabelecimentos as $estabelecimento)
                                 <!-- Exibe as outras opções -->
-                                <option value="{{ $estabelecimento->id_estabelecimento }}" 
-                                    {{ old('estabelecimento') == $estabelecimento->id_estabelecimento ? 'selected' : '' }}>
-                                    {{ $estabelecimento->nome_fantasia }}
-                                </option>
+                                @if($estabelecimento->id_estabelecimento != $id_estabelecimento) <!-- Evita duplicar a opção padrão -->
+                                    <option value="{{ $estabelecimento->id_estabelecimento }}" 
+                                        {{ old('estabelecimento') == $estabelecimento->id_estabelecimento ? 'selected' : '' }}>
+                                        {{ $estabelecimento->nome_fantasia }}
+                                    </option>
+                                @endif
                             @endforeach
                         </select>
                     </div>
@@ -50,24 +55,36 @@
                         <label for="profissional" class="form-label">Escolha o Profissional</label>
                         <select class="form-select" id="profissional" name="profissional" required>
                             @if($id_profissional)
-                                <!-- Preenche a opção já selecionada -->
-                                <option value="{{ $id_profissional }}" selected>{{ $profissional[0]->nome }}</option>
+                                <!-- Se um estabelecimento foi selecionado, exibe como padrão -->
+                                <option value="{{ $id_profissional }}" selected>
+                                    {{ $profissional->where('id_profissional', $id_profissional)->first()->nome }}
+                                </option>
                             @else
-                                <!-- Exibe a opção padrão -->
+                                <!-- Opção padrão quando não há seleção -->
                                 <option value="" disabled {{ old('profissional') ? '' : 'selected' }}>Selecione um profissional</option>
                             @endif
-                        <!-- Profissionais serão preenchidos via AJAX -->
+
+                            @foreach($profissional as $prof)
+                                <!-- Exibe as outras opções -->
+                                @if($prof->id_profissional != $id_profissional) <!-- Evita duplicar a opção padrão -->
+                                    <option value="{{ $prof->id_profissional }}" 
+                                        {{ old('prof') == $prof->id_profissional ? 'selected' : '' }}>
+                                        {{ $prof->nome }}
+                                    </option>
+                                @endif
+                            @endforeach
                         </select>
                     </div>
+
 
                     <!-- Seleção do Serviço -->
                     <div class="mb-3">
                         <label for="servico" class="form-label">Escolha o Serviço</label>
                         <select class="form-select" id="servico" name="servico" required>
+                        <option value="" disabled {{ old('servico') ? '' : 'selected' }}>Selecione um servico</option>
                              @if($servicos)
                                 @foreach($servicos as $servico)
                                     <!-- Exibe as outras opções -->
-                                    <option value="" disabled {{ old('servico') ? '' : 'selected' }}>Selecione um servico</option>
                                     <option value="{{ $servico->id_servico }}" 
                                         {{ old('servico') == $servico->id_servico ? 'selected' : '' }}>
                                         {{ $servico->nome }}
