@@ -140,7 +140,7 @@
                     <button type="submit" class="btn btn-custom">Enviar</button>
                 </form>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mt-5">
                 <h3 style="color: #73005B">INFORMAÇÕES</h3>
                 <p>Email: contato@beautysys.com</p>
                 <p>Telefone: (11) 1234-5678</p>
