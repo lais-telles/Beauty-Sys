@@ -229,5 +229,11 @@ class ClienteController extends Controller
         
         return view('lista-estab', compact('estabelecimentos'));
     }
+
+    public function listaEstabLogin(){
+        $estabelecimentos = DB::select('CALL listar_estab');
+        
+        return view('lista-estab-login', compact('estabelecimentos'));
+    }
 }
 ?>

@@ -46,7 +46,7 @@
                 <p>Tenha o controle completo da sua agenda e dos seus profissionais.</p>
 
                 <div class="d-flex justify-content-center">
-                    <a href="" class="btn btn-custom3 ms-4 btn-lg mt-5">Cadastre-se</a>
+                    <a href="{{ route('Parceiro') }}" class="btn btn-custom3 ms-4 btn-lg mt-5">Cadastre-se</a>
                 </div>
             </div>
         </div>
