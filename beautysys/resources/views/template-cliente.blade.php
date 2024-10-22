@@ -46,7 +46,6 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                                 <i id="minhaConta" class='fas fa-user-alt' style="color: white;"></i>
-                                <span class="d-none d-sm-inline"> Minha Conta</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('admCliente') }}">Meu perfil</a></li>
