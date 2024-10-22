@@ -102,8 +102,8 @@
                         <select class="form-select" id="opcao_pag" name="opcao_pag" required>
                             <option value="" disabled selected>Selecione uma forma de pagamento</option>
                             <option value="1">Pix</option>
-                            <option value="1">Cartão de Crédito</option>
-                            <option value="1">Cartão de débito</option>
+                            <option value="2">Cartão de Crédito</option>
+                            <option value="3">Cartão de débito</option>
                         </select>
                     </div>
 
