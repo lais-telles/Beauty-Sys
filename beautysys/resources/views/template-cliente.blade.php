@@ -14,57 +14,89 @@
     <header>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <div class="container">
-            <a class="navbar-brand" href="{{ route('PaginaInicialPf') }}"><img src="{{ asset('images/beautysys-logo2.png') }}" style="width: 150px;"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav-principal">
+                <a class="navbar-brand" href="{{ route('PaginaInicialPf') }}">
+                    <img src="{{ asset('images/beautysys-logo2.png') }}" style="width: 150px;">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+                <!-- Navbar padrão -->
                 <div class="collapse navbar-collapse" id="nav-principal">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('listaEstab') }}">Estabelecimentos</a>
+                            <a class="nav-link text-white" href="{{ route('listaEstab') }}">Estabelecimentos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('listaProfissionais') }}">Profissionais</a>
+                            <a class="nav-link text-white" href="{{ route('listaProfissionais') }}">Profissionais</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Ajuda</a>
-                        </li>
-                    </ul> 
-                </div>
+                    </ul>
 
-                <div class="container mx-5">
-                    <form method="post" action="area_pesquisa.php">
-                        <div class="input-group">
-                            <input class="form-control" type="text" id="pesquisa" name="pesquisa" placeholder="Pesquisar produtos"><br>
-                            <button class="btn btn-danger" type="submit"><i class='fas fa-search'></i></button> 
-                        </div>
-                    </form>
-                </div>
+                    <!-- Barra de Pesquisa -->
+                    <div class="container mx-5">
+                        <form method="post" action="" class="d-flex">
+                            <input class="form-control" type="text" id="pesquisa" name="pesquisa" placeholder="Estou procurando por...">
+                            <button class="btn btn-danger" type="submit">
+                                <i class='fas fa-search'></i>
+                            </button>
+                        </form>
+                    </div>
 
-                <div  class="collapse navbar-collapse">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i id="minhaConta" class='fas fa-user-alt' style="color: white;"></i></a>
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i id="minhaConta" class='fas fa-user-alt' style="color: white;"></i>
+                                <span class="d-none d-sm-inline"> Minha Conta</span>
+                            </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('admCliente') }}">Minha conta</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admCliente') }}">Meu perfil</a></li>
                                 <li><a class="dropdown-item" href="{{ route('visAgdCliente') }}">Meus agendamentos</a></li>
-                                <li><a class="dropdown-item" href="">Endereços</a></li>
                                 <li>
-                                <form action="{{ route('logoutCliente') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">Log out</button>
-                                </form>
+                                    <form action="{{ route('logoutCliente') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Log out</button>
+                                    </form>
                                 </li>
                             </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="carrinho.php"><i id="carrinho" class="fas fa-cart-plus" style="color: white;"></i></a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
+        <!-- Offcanvas Navbar -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <form method="post" action="" class="d-flex">
+                            <input class="form-control" type="text" id="pesquisa" name="pesquisa" placeholder="Estou procurando por...">
+                            <button class="btn btn-danger" type="submit">
+                                <i class='fas fa-search'></i>
+                            </button>
+                        </form>
+                    </li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="{{ route('admCliente') }}">Minha conta</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="{{ route('visAgdCliente') }}">Meus agendamentos</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ route('listaEstab') }}">Estabelecimentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ route('listaProfissionais') }}">Profissionais</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{{ route('logoutCliente') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="nav-link text-dark">Log out</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </header>
 
     <main>
@@ -88,7 +120,7 @@
 
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}" ></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 </body>
 </html>
