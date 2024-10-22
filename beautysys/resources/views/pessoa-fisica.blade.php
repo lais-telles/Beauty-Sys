@@ -5,6 +5,7 @@
 @section('body-class')
 
 @section('nav-buttons')
+<ul class="nav d-flex flex-wrap justify-content-start">
     <li class="nav-item">
         <a href="" class="btn btn-custom ms-4" data-bs-toggle="modal" data-bs-target="#signinModal">Entrar</a>
     </li>
@@ -12,6 +13,7 @@
     <li class="nav-item">
         <button href="" type="button" id="btnAbrirCadastro" class="btn btn-custom2 ms-4" data-bs-toggle="modal" data-bs-target="#signupModal">Criar conta</button>
     </li>
+</ul>
 @endsection
 
 @section('content')

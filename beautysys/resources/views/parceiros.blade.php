@@ -81,7 +81,7 @@
                     <button type="submit" class="btn btn-custom">Enviar</button>
                 </form>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mt-5">
                 <h3 style="color: #73005B">INFORMAÇÕES</h3>
                 <p>Email: contato@beautysys.com</p>
                 <p>Telefone: (11) 1234-5678</p>
@@ -273,36 +273,3 @@
         </div>
     </div>
 @endsection
-
-<!-- <script> script para teste de cadastro de estabelecimento
-    document.addEventListener("DOMContentLoaded", function() {
-    // Função para preencher automaticamente o formulário
-    function autoFillForm() {
-        document.getElementById('floatingRazaoSocial').value = "Exemplo Comércio Ltda";
-        document.getElementById('floatingNomeFantasia').value = "Exemplo Barbershop";
-        document.getElementById('floatingTelefone').value = "(11) 98765-4321";
-        document.getElementById('floatingCNPJ').value = "12.345.678/0001-99";
-        document.getElementById('floatingLogradouro').value = "Rua dos Exemplos";
-        document.getElementById('floatingNumero').value = "123";
-        document.getElementById('floatingBairro').value = "Centro";
-        document.getElementById('floatingCidade').value = "São Paulo";
-        document.getElementById('floatingEstado').value = "SP";
-        document.getElementById('floatingCEP').value = "01000-000";
-        document.getElementById('floatingInicioExpediente').value = "08:00";
-        document.getElementById('floatingTerminoExpediente').value = "18:00";
-        document.getElementById('floatingEmail').value = "exemplo@empresa.com";
-        document.getElementById('floatingPassword').value = "senha123";
-    }
-
-    // Adicionar evento de clique em um botão para preencher o formulário automaticamente
-    const autoFillButton = document.createElement("button");
-    autoFillButton.textContent = "Preencher Formulário";
-    autoFillButton.classList.add("btn", "btn-secondary", "mb-3");
-    autoFillButton.addEventListener("click", autoFillForm);
-    
-    // Inserir o botão no modal, antes do formulário
-    const modalBody = document.querySelector("#signupModalProprietario .modal-body");
-    modalBody.insertBefore(autoFillButton, modalBody.firstChild);
-});
-
-    </script> -->
