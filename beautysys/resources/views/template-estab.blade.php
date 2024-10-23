@@ -23,17 +23,17 @@
 
                 <!-- Navbar padrão -->
                 <div class="collapse navbar-collapse" id="nav-principal">
-                    <ul class="navbar-nav me-auto">
+                    <ul class="navbar-nav me-auto d-flex flex-nowrap">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('exibirAgendamentosEstab')  }}">Meus agendamentos</a>
+                            <a class="nav-link text-nowrap" href="{{ route('exibirAgendamentosEstab')  }}">Meus agendamentos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('listaServicos') }}">Meus serviços</a>
+                            <a class="nav-link text-nowrap" href="{{ route('listaServicos') }}">Meus serviços</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('exibirVinculosEstab') }}">Profissionais vinculados</a>
+                            <a class="nav-link text-nowrap" href="{{ route('exibirVinculosEstab') }}">Profissionais vinculados</a>
                         </li>
-                        <li><a class="dropdown-item" href="{{ route('DashboardPj') }}">Dashboard</a></li>
+                        <li><a class="nav-link text-nowrap" href="{{ route('DashboardPj') }}">Dashboard</a></li>
                     </ul>
 
                     <!-- Barra de Pesquisa -->

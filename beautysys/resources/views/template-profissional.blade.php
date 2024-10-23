@@ -22,16 +22,16 @@
                 </button>
 
                 <!-- Navbar padrão -->
-                <div class="collapse navbar-collapse" id="nav-principal">
-                    <ul class="navbar-nav me-auto">
+                <div class="collapse navbar-collapse container" id="nav-principal">
+                    <ul class="navbar-nav me-auto d-flex flex-nowrap">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('exibirAgendamentosProf') }}">Meus agendamentos</a>
+                            <a class="nav-link text-nowrap" href="{{ route('exibirAgendamentosProf') }}">Meus agendamentos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('servicosProf') }}">Meus serviços</a>
+                            <a class="nav-link text-nowrap" href="{{ route('servicosProf') }}">Meus serviços</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('vinculoProf') }}">Vínculo</a>
+                            <a class="nav-link text-nowrap" href="{{ route('vinculoProf') }}">Vínculo</a>
                         </li>
                     </ul>
 
