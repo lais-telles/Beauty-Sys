@@ -92,7 +92,7 @@
                                 @endforeach
                             @else
                                 <!-- Exibe a opção padrão -->
-                                <option value="" disabled {{ old('profissional') ? '' : 'selected' }}>Selecione um profissional</option>
+                                <option value="" disabled {{ old('profissional') ? '' : 'selected' }}>Selecione um serviço</option>
                             @endif
                         </select>
                     </div>
