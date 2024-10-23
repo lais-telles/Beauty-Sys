@@ -54,11 +54,12 @@
                     @endif
                 </tbody>
                 </table>
+                <div class="mt-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cadServico">Cadastrar serviço</button>   
+                </div>
         </div>
     </div>
-    <div class="mt-3">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cadServico">Cadastrar serviço</button>   
-    </div>
+    
 </section>
 @endsection
 
