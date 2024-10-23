@@ -3,7 +3,7 @@
 @section('title', 'Proprietário')
 
 @section('content')
-<section  class="d-flex" style="margin-top: 20rem; margin-bottom: 10rem;">
+<section  class="d-flex" style="margin-top: 12rem; margin-bottom: 10rem;">
     <div class="container mt-4">
     <div class="row">
             <!-- Card Profissionais -->
