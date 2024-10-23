@@ -135,7 +135,7 @@ class ClienteController extends Controller
         if ($id_estabelecimento) { // Aqui deve ser $id_estabelecimento, não $idEstabelecimento
             $profissional = Profissional::where('estabel_vinculado', $id_estabelecimento)->get(); // Corrigido
         } else {
-            $profissional = null; // Evita erro se não houver profissional selecionado
+            $profissional = Profissional::all();
         }
     
         $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
