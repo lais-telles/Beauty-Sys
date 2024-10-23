@@ -32,22 +32,22 @@
 <section id="vantagens" class="py-5" style="background: #eb7af0;">
     <div class="container">
         <div class="row text-center">
-            <div class="col-md-4">
-                <h3>Agendamento Simples</h3>
+            <div class="col-md-4 vantagens">
+                <h3><i class="fas fa-calendar-check"></i> Agendamento Simples</h3>
                 <p>Agende seus serviços de beleza de forma rápida e prática.</p>
             </div>
-            <div class="col-md-4">
-                <h3>Variedade de Salões</h3>
+            <div class="col-md-4 vantagens">
+                <h3><i class="fas fa-cut"></i> Variedade de Salões</h3>
                 <p>Escolha entre diversos salões parceiros e encontre o que melhor atende suas necessidades.</p>
             </div>
-            <div class="col-md-4">
-                <h3>Avaliações e Comentários</h3>
+            <div class="col-md-4 vantagens">
+                <h3><i class="fas fa-star"></i> Avaliações e Comentários</h3>
                 <p>Veja as opiniões de outros clientes para tomar a decisão certa.</p>
             </div>
         </div>
         <div class="row mt-4 text-center">
-            <div class="col-md-12">
-                <h3>Ofertas e Promoções</h3>
+            <div class="col-md-12 vantagens">
+                <h3><i class="fas fa-cart-plus"></i> Ofertas e Promoções</h3>
                 <p>Aproveite descontos exclusivos em salões selecionados.</p>
             </div>
         </div>

@@ -6,7 +6,7 @@
 <section class="d-flex ms-5 me-5 mb-5 rounded align-items-center" style="margin-top: 15rem;">
     <div class="container my-5">
         <div class="position-relative p-5 text-center text-muted border border-dashed rounded-5" style="background-color: #FAECE3;">
-            <img class="" src="{{ asset('/images/salao-logo-1.jpg') }}">
+            <img class="img-fluid" src="{{ asset('/images/salao-logo-1.jpg') }}">
             <h1 class="text-body-emphasis">Espaço Bellas</h1>
             <p class="col-lg-6 mx-auto mb-4">
                 Um ambiente acolhedor e profissional para cuidar da sua auto-estima!
@@ -21,7 +21,7 @@
 <section class="py-5 mt-5">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-5">
                 <h3>ENTRE EM CONTATO</h3>
                 <form>
                     <div class="mb-3">

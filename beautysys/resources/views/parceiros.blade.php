@@ -26,28 +26,28 @@
         <div class="row text">
             <div class="col-md-6">
                 <div class="row">
-                <h2>CONHEÇA O BEAUTYSYS</h2>
+                <h2 class="fw-bold">CONHEÇA O BEAUTYSYS</h2>
                 <p>O BeautySys é um sistema de gerenciamento para salões de beleza, desenvolvido para otimizar a administração de agendamentos.
-                    Este sistema permitirá aos salões gerenciar eficientemente suas operações diárias, oferecendo aos clientes a capacidade de 
+                    <br>Este sistema permitirá aos salões gerenciar eficientemente suas operações diárias, oferecendo aos clientes a capacidade de 
                     agendar serviços como cortes de cabelo, coloração, manicure, pedicure e outros tratamentos de beleza. 
                     Além disso, pensando na evolução natural do sistema, projetamos o Beauty Sys para incluir funcionalidades de venda de produtos de beleza.
-                    Isso permitirá que os salões não apenas prestem serviços, mas também comercializem uma variedade de produtos, como xampus, condicionadores, 
+                    <br>Isso permitirá que os salões não apenas prestem serviços, mas também comercializem uma variedade de produtos, como xampus, condicionadores, 
                     cremes e acessórios. O objetivo é oferecer uma interface amigável que facilite e integre a experiência em salões de beleza e barbearias.</p>
                 </div>
-                <div class="row mb-5 mt-3">
+                <div class="row mb-3 mt-3 vantagens">
                     <h3>Controle Total</h3>
                     <p>Com nossa plataforma, a gestão dos agendamentos e dos recursos financeiros ficam muito mais simples
                         e resgistrados de maneira segura, consistente e atualizada 100% do tempo.
                     </p>
                 </div>
-                <div class="row mb-5">
+                <div class="row mb-3 vantagens">
                     <h3>Facilidade de comunicação</h3>
                     <p>Detalhes e alterações no agendamento, além do contato com o cliente ficam muito mais facilitados, pois você 
                         faz tudo isso em só lugar. Isso te ajuda a reduzir o número de ausências, flexibilizar sua agenda e criar uma
                          relação muito mais próxima com a comunidade.
                     </p>
                 </div>
-                <div class="row mb-5">
+                <div class="row mb-3 vantagens">
                     <h3>Disponibilidade</h3>
                     <p>Seus clientes podem realizar agendamentos a qualquer dia e horário, de acordo com a grade horária do estabelecimento.
                         Isso permite que seus clientes possam realizar o agendamento durante o melhor horário para ele, além de você não 

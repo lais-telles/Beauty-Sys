@@ -16,11 +16,13 @@
 @endsection
 
 @section('content')
-<section>
-    <video id="video_apresentacao" autoplay muted loop>
-        <source src="{{ asset('videos/video-apresentacao.mp4') }}">
-        Your browser does not support the video tag.
-    </video>
+<section style="margin-top: 10rem;">
+    <div class="video-container">
+        <video id="video_apresentacao" autoplay muted loop>
+            <source src="{{ asset('videos/video-apresentacao.mp4') }}">
+            Your browser does not support the video tag.
+        </video>
+    </div>
 </section>
 
 <section id="caracteristicas" class="bg-white pt-5 pb-5">

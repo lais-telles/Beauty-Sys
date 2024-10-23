@@ -126,7 +126,7 @@
 <section class="py-5 mt-5">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-5">
                 <h3>ENTRE EM CONTATO</h3>
                 <form>
                     <div class="mb-3">
@@ -140,7 +140,7 @@
                     <button type="submit" class="btn btn-custom">Enviar</button>
                 </form>
             </div>
-            <div class="col-md-6 mt-5">
+            <div class="col-md-6">
                 <h3 style="color: #73005B">INFORMAÇÕES</h3>
                 <p>Email: contato@beautysys.com</p>
                 <p>Telefone: (11) 1234-5678</p>
