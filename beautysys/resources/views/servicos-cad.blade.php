@@ -3,56 +3,58 @@
 @section('title', 'Meus servicos')
 
 @section('content')
-<section class="d-flex flex-column" style="margin:10rem">
+<section class="d-flex" style="margin-top: 10rem; margin-bottom: 10rem;">
     <!-- Tabela de Serviços Cadastrados -->
-    <div class="mt-5">
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-        <h3>Serviços Cadastrados</h3>
-        <table class="table table-bordered text-center">
-            <thead>
-                <tr>
-                    <th>Id Serviço</th>
-                    <th>Nome</th>
-                    <th>Valor</th>
-                    <th>Duração</th>
-                    <th>Categoria</th>
-                    <th>Ações</th>
-            </thead>
-            <tbody>
-            @if(count($servicos) > 0)
-                @foreach($servicos as $servico)
-                    <tr>
-                        <td>{{ $servico->id_servico }}</td>
-                        <td>{{ $servico->nome }}</td>
-                        <td>{{ $servico->valor }}</td>
-                        <td>{{ $servico->duracao }}</td>
-                        <td>{{ $servico->id_categoria }}</td>
-                        <td>
-                            <form action="{{ route('deletarServico', $servico->id_servico) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este serviço?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            @else
-                <tr>
-                    <td colspan="6" class="text-center">Nenhum serviço cadastrado.</td>
-                </tr>
+    <div class="container mt-5">
+        <div class="table-responsive">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
             @endif
-        </tbody>
-        </table>
+
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+                <h3>Serviços Cadastrados</h3>
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th class="d-none d-md-table-cell">Id Serviço</th>
+                            <th>Nome</th>
+                            <th>Valor</th>
+                            <th>Duração</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                    </thead>
+                    <tbody>
+                    @if(count($servicos) > 0)
+                        @foreach($servicos as $servico)
+                            <tr>
+                                <td class="d-none d-md-table-cell">{{ $servico->id_servico }}</td>
+                                <td>{{ $servico->nome }}</td>
+                                <td>{{ $servico->valor }}</td>
+                                <td>{{ $servico->duracao }}</td>
+                                <td>{{ $servico->id_categoria }}</td>
+                                <td>
+                                    <form action="{{ route('deletarServico', $servico->id_servico) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este serviço?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6" class="text-center">Nenhum serviço cadastrado.</td>
+                        </tr>
+                    @endif
+                </tbody>
+                </table>
+        </div>
     </div>
     <div class="mt-3">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cadServico">Cadastrar serviço</button>   
