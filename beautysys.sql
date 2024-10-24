@@ -455,35 +455,64 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `profissionais_populares` (IN `p_id_
 END$$
 
 -- Realiza a pesquisa de produtos, servicos, profissionais e estabelecimentos
-CREATE DEFINER=`root`@`localhost` PROCEDURE `realizarPesquisa` (IN `termo_pesquisa` VARCHAR(30))   BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `realizar_pesquisa`(IN `termo_pesquisa` VARCHAR(30))
+BEGIN 
+    -- Pesquisa na tabela servicos
+    SELECT 
+        s.id_servico AS id, 
+        s.nome AS descricao, 
+        s.valor, 
+        e.nome_fantasia AS nome_fantasia, 
+        e.id_estabelecimento AS id_estabelecimento
+    FROM 
+        servicos AS s
+    JOIN 
+        estabelecimentos AS e ON e.id_estabelecimento = s.id_estabelecimento
+    WHERE 
+        s.nome LIKE CONCAT('%', termo_pesquisa, '%')
 
-    -- Pesquisa na tabela produto
-    SELECT id_produto AS id, nome AS descricao, valor 
-    FROM produtos
-    WHERE nome LIKE CONCAT('%', termo_pesquisa, '%')
+    UNION
+
+    -- Pesquisa na tabela produtos
+    SELECT 
+        id_produto AS id, 
+        nome AS descricao, 
+        valor, 
+        NULL AS nome_fantasia, 
+        NULL AS id_estabelecimento
+    FROM 
+        produtos
+    WHERE 
+        nome LIKE CONCAT('%', termo_pesquisa, '%')
     
     UNION
     
     -- Pesquisa na tabela estabelecimentos
-    SELECT id_estabelecimento AS id, nome_fantasia AS descricao, NULL AS valor 
-    FROM estabelecimentos 
-    WHERE nome_fantasia LIKE CONCAT('%', termo_pesquisa, '%')
-    OR razao_social LIKE CONCAT('%', termo_pesquisa, '%')
+    SELECT 
+        id_estabelecimento AS id, 
+        nome_fantasia AS descricao, 
+        NULL AS valor, 
+        nome_fantasia AS nome_fantasia, 
+        id_estabelecimento AS id_estabelecimento
+    FROM 
+        estabelecimentos 
+    WHERE 
+        nome_fantasia LIKE CONCAT('%', termo_pesquisa, '%')
+        OR razao_social LIKE CONCAT('%', termo_pesquisa, '%')
     
     UNION
     
     -- Pesquisa na tabela profissionais
-    SELECT id_profissional AS id, nome AS descricao, NULL AS valor 
-    FROM profissionais 
-    WHERE nome LIKE CONCAT('%', termo_pesquisa, '%')
-    
-    UNION
-    
-    -- Pesquisa na tabela servicos
-    SELECT id_servico AS id, nome AS descricao, valor 
-    FROM servicos 
-    WHERE nome LIKE CONCAT('%', termo_pesquisa, '%');
-
+    SELECT 
+        id_profissional AS id, 
+        nome AS descricao, 
+        NULL AS valor, 
+        NULL AS nome_fantasia, 
+        NULL AS id_estabelecimento
+    FROM 
+        profissionais 
+    WHERE 
+        nome LIKE CONCAT('%', termo_pesquisa, '%');
 END$$
 
 -- Registra um agendamento

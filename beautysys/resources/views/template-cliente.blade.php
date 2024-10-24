@@ -34,8 +34,9 @@
 
                     <!-- Barra de Pesquisa -->
                     <div class="container mx-5">
-                        <form method="post" action="" class="d-flex">
-                            <input class="form-control" type="text" id="pesquisa" name="pesquisa" placeholder="Estou procurando por...">
+                        <form method="post" action="{{ route('realizarPesquisa') }}" class="d-flex">
+                            @csrf
+                            <input class="form-control" type="text" id="termo_pesquisa" name="termo_pesquisa" placeholder="Estou procurando por...">
                             <button class="btn btn-danger" type="submit">
                                 <i class='fas fa-search'></i>
                             </button>

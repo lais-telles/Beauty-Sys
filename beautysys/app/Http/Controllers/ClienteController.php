@@ -238,5 +238,27 @@ class ClienteController extends Controller
         
         return view('lista-estab-login', compact('estabelecimentos'));
     }
+
+    public function realizarPesquisa(Request $request) {
+        // Valida o input para garantir que termo_pesquisa não seja vazio
+        $request->validate([
+            'termo_pesquisa' => 'required|string|max:30',
+        ]);
+    
+        // Recupera o termo de pesquisa do request
+        $termo_pesquisa = $request->input('termo_pesquisa');
+    
+        try {
+            // Chama o procedimento armazenado
+            $resultado_pesquisa = DB::select('CALL realizar_pesquisa(?)', [$termo_pesquisa]);
+            
+            // Retorna a view com os resultados da pesquisa
+            return view('resultado-pesquisa', compact('resultado_pesquisa'));
+        } catch (\Exception $e) {
+            // Lida com exceções, como erros de conexão ou execução do procedimento
+            return back()->withErrors(['error' => 'Ocorreu um erro ao realizar a pesquisa.']);
+        }
+    }
+    
 }
 ?>

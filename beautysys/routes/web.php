@@ -77,6 +77,9 @@ Route::get('estabelecimentos', [ClienteController::class, 'listaEstab'])->name('
 //Rota para exibir todos os estabelecimentos disponíveis na plataforma da área de login
 Route::get('estabelecimentos/login', [ClienteController::class, 'listaEstabLogin'])->name('listaEstabLogin');
 
+//Rota para realizar a pesquisa de serviços, profissionais ou estabelecimentos
+Route::post('pesquisa', [ClienteController::class, 'realizarPesquisa'])->name('realizarPesquisa');
+
 // --------------------------------------- Rotas do Profissional -----------------------------------------------
 // Rota para cadastrar um profissional usando o método 'cadastrarProfissional'
 Route::post('/profissionais/cadastrar', [ProfissionalController::class, 'cadastrarProfissional'])->name('cadastrarProfissional');
