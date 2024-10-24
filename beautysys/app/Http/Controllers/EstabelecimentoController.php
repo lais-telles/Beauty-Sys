@@ -124,16 +124,17 @@ class EstabelecimentoController extends Controller
         return view('servicos-cad', compact('servicos'));
     }   
 
-    public function cadastrarServico(Request $request)
-    {
+    public function cadastrarServico(Request $request){
         // Validação dos dados de entrada
         $request->validate([
             'nome' => 'required|string|max:30',
             'valor' => 'required|numeric',
-            'duracao' => 'required|string',
+            'duracao' => ['required', 'string', 'not_in:00:00:00'], // Garante que não seja 00:00
             'id_categoria' => 'required|integer',
+        ], [
+            'duracao.not_in' => 'A duração não pode ser zero. Por favor, insira um valor válido.',
+            'duracao.date_format' => 'A duração não pode ser zero. Por favor, insira um valor válido.',
         ]);
-    
         // Obtendo o id_estabelecimento da sessão
         $id_estabelecimento = session('id_estabelecimento');
     
@@ -217,6 +218,6 @@ class EstabelecimentoController extends Controller
         } else {
             return redirect()->back()->with('error', 'Erro ao atualizar o status.');
         }
-    }    
+    }
 }    
 ?>

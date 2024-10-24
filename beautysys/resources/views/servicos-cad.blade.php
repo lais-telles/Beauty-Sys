@@ -13,11 +13,17 @@
                 </div>
             @endif
 
-            @if (session('error'))
+            @if ($errors->any())
                 <div class="alert alert-danger">
-                    {{ session('error') }}
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
+
+
                 <h3>Serviços Cadastrados</h3>
                 <table class="table table-bordered text-center">
                     <thead>
@@ -79,7 +85,7 @@
                         <label for="floatingNome">Nome</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control rounded-3" id="floatingValor" name="valor" placeholder="R$ 0,00" required>
+                        <input type="number" step="0.01" class="form-control rounded-3" id="floatingValor" name="valor" placeholder="R$ 0,00" required>
                         <label for="floatingValor">Valor</label>
                     </div>
                     <div class="form-floating mb-3">
