@@ -36,7 +36,7 @@ class Profissional extends Model
         'senha',
     ];
 
-    public function cadastrarProfissional($data) {
+    public static function cadastrarProfissional($data) {
         // Cria o profissional com os dados validados e criptografa a senha
         return self::create([
             'nome' => $data['nome'],
