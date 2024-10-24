@@ -18,8 +18,19 @@
 
 @section('content')
 
-<section class="d-flex" style="margin-top: 20rem; margin-bottom: 10rem;">
+<section class="d-flex" style="margin-top: 15rem; margin-bottom: 10rem;">
     <div class="container text-center">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <h1 class="display-4">Agende seus Serviços de Beleza com Facilidade</h1>
         <p class="lead">Encontre os melhores salões e agende em poucos cliques.</p>
         <a href="" class="btn btn-custom btn-lg mt-4" data-bs-toggle="modal" data-bs-target="#signinModal">Agendar Agora</a>
@@ -88,74 +99,128 @@
     </div>
 </section>
 
-    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Cadastro de Cliente</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-5 pt-0">
-                    <form action="{{ route('cadastrarCliente') }}" method="POST">
-                    @csrf
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingName" name="nome" placeholder="" required>
-                            <label for="floatingName">Nome Completo</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="date" class="form-control rounded-3" id="floatingDate" name="data_nascimento" placeholder="" required>
-                            <label for="floatingDate">Data de Nascimento</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingCpf" name="cpf" placeholder="" required>
-                            <label for="floatingDate">CPF</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" required>
-                            <label for="floatingDate">Telefone</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control rounded-3" id="floatingInput" name="email" placeholder="name@example.com" required>
-                            <label for="floatingInput">Email address</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password" required>
-                            <label for="floatingPassword">Senha</label>
-                        </div>
-                        <button href="" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
-                        <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
-                    </form>
-                </div>
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Cadastro de Cliente</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-    </div>
+            <div class="modal-body p-5 pt-0">
+                <form action="{{ route('cadastrarCliente') }}" method="POST">
+                    @csrf
+                    <!-- Nome Completo -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('nome') is-invalid @enderror" id="floatingName" name="nome" placeholder="Nome Completo" value="{{ old('nome') }}" required>
+                        <label for="floatingName">Nome Completo</label>
+                        @error('nome')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-    <div class="modal fade" id="signinModal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Log In Cliente</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-5 pt-0">
-                    <form action="{{ route('loginCliente') }}" method="POST">
-                    @csrf
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control rounded-3" id="floatingInput" name="email" placeholder="name@example.com">
-                            <label for="floatingInput">Email address</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password">
-                            <label for="floatingPassword">Senha</label>
-                        </div>
-                        <div class="text-center mb-3">
-                            <a class="" data-bs-toggle="modal" data-bs-target="#signupModal" style="cursor: pointer;">Não tenho conta</a> 
-                        </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
-                    </form>
-                </div>
+                    <!-- Data de Nascimento -->
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control rounded-3 @error('data_nascimento') is-invalid @enderror" id="floatingDate" name="data_nascimento" placeholder="Data de Nascimento" value="{{ old('data_nascimento') }}" required>
+                        <label for="floatingDate">Data de Nascimento</label>
+                        @error('data_nascimento')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- CPF -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('cpf') is-invalid @enderror" id="floatingCpf" name="cpf" placeholder="CPF" value="{{ old('cpf') }}" required>
+                        <label for="floatingCpf">CPF</label>
+                        @error('cpf')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Telefone -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('telefone') is-invalid @enderror" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" value="{{ old('telefone') }}" required>
+                        <label for="floatingTelefone">Telefone</label>
+                        @error('telefone')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-3 @error('email') is-invalid @enderror" id="floatingInput" name="email" placeholder="name@example.com" value="{{ old('email') }}" required>
+                        <label for="floatingInput">Email</label>
+                        @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control rounded-3 @error('senha') is-invalid @enderror" id="floatingPassword" name="senha" placeholder="Senha" required>
+                        <label for="floatingPassword">Senha</label>
+                        @error('senha')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Botão de Cadastro -->
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
+
+<div class="modal fade" id="signinModal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Log In Cliente</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <form action="{{ route('loginCliente') }}" method="POST">
+                    @csrf
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-3 @error('emailLogin') is-invalid @enderror" id="floatingInputLogin" name="emailLogin" placeholder="name@example.com" value="{{ old('emailLogin') }}">
+                        <label for="floatingInputLogin">Email address</label>
+                        @error('emailLogin')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control rounded-3 @error('senhaLogin') is-invalid @enderror" id="floatingPasswordLogin" name="senhaLogin" placeholder="Password">
+                        <label for="floatingPasswordLogin">Senha</label>
+                        @error('senhaLogin')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="text-center mb-3">
+                        <a class="" data-bs-toggle="modal" data-bs-target="#signupModal" style="cursor: pointer;">Não tenho conta</a>
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Mostrar modal de cadastro se houver erros de cadastro
+        @if ($errors->has('nome') || $errors->has('data_nascimento') || $errors->has('cpf') || $errors->has('telefone') || $errors->has('email') || $errors->has('senha'))
+            var signupModal = new bootstrap.Modal(document.getElementById('signupModal'));
+            signupModal.show();
+        @endif
+
+        // Mostrar modal de login se houver erros de login
+        @if ($errors->has('emailLogin') || $errors->has('senhaLogin'))
+            var signinModal = new bootstrap.Modal(document.getElementById('signinModal'));
+            signinModal.show();
+        @endif
+    });
+</script>
 
 @endsection

@@ -25,34 +25,40 @@ class ClienteController extends Controller
             'senha' => 'required|string|min:8',
         ]);
 
-        // Chama o método para criar o cliente no model
-        Cliente::cadastrarCliente($validatedData);
+        try {
+            // Chama o método para criar o cliente no model
+            Cliente::cadastrarCliente($validatedData);
 
-        // Redireciona para a página index com uma mensagem de sucesso
-        return redirect()->route('PessoaFisica')->with('success', 'Cliente cadastrado com sucesso!');
+            // Redireciona para a página com uma mensagem de sucesso
+            return redirect()->route('PessoaFisica')->with('success', 'Cliente cadastrado com sucesso!');
+        } catch (\Exception $e) {
+            // Se ocorrer um erro, redireciona com uma mensagem de erro
+            return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o cliente. Tente novamente.');
+        }
     }
+
 
     // Método de login
     public function loginCliente(Request $request)
     {
         // Validação dos campos de entrada
         $validatedData = $request->validate([
-            'email' => 'required|string|email|max:255',
-            'senha' => 'required|string|min:8',
+            'emailLogin' => 'required|string|email|max:255',
+            'senhaLogin' => 'required|string|min:8',
         ]);
 
         // Recuperar o usuário do banco com base no e-mail
-        $user = DB::table('clientes')->where('email', $request->input('email'))->first();
+        $user = DB::table('clientes')->where('email', $request->input('emailLogin'))->first();
 
         // Comparar a senha fornecida com a senha armazenada
-        if ($user && Hash::check($request->input('senha'), $user->senha)) {
+        if ($user && Hash::check($request->input('senhaLogin'), $user->senha)) {
             // Login bem-sucedido
             Session::put('id_cliente', $user->id_cliente);
             Session::put('nome', $user->nome);
-            return view('home-pf');
+            return view('home-pf')->with('success', 'Login realizado com sucesso!');
         } else {
             // Se falhar, redirecionar de volta com erro
-            return back()->withErrors(['email' => 'Credenciais inválidas'])->withInput();
+            return redirect()->back()->with('error', 'Email ou senha inválidos');
         }
     }
 
