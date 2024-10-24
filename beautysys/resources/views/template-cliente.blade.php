@@ -23,12 +23,15 @@
 
                 <!-- Navbar padrão -->
                 <div class="collapse navbar-collapse" id="nav-principal">
-                    <ul class="navbar-nav me-auto">
+                    <ul class="navbar-nav me-auto d-flex flex-nowrap">
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('listaEstab') }}">Estabelecimentos</a>
+                            <a class="nav-link text-white text-nowrap" href="{{ route('listaEstab') }}">Estabelecimentos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('listaProfissionais') }}">Profissionais</a>
+                            <a class="nav-link text-white text-nowrap" href="{{ route('listaProfissionais') }}">Profissionais</a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-white text-nowrap" href="{{ route('visAgdCliente') }}">Meus agendamentos</a>
                         </li>
                     </ul>
 
@@ -50,7 +53,6 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('admCliente') }}">Meu perfil</a></li>
-                                <li><a class="dropdown-item" href="{{ route('visAgdCliente') }}">Meus agendamentos</a></li>
                                 <li>
                                     <form action="{{ route('logoutCliente') }}" method="POST">
                                         @csrf
