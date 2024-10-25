@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
 use App\Models\Estabelecimento; // Certifique-se de importar o modelo
 use App\Models\Profissional; // Certifique-se de importar o modelo
+use App\Rules\validaCPF;
 
 class ClienteController extends Controller
 {
@@ -19,7 +20,7 @@ class ClienteController extends Controller
         $validatedData = $request->validate([
             'nome' => 'required|string|max:50',
             'data_nascimento' => 'required|date',
-            'cpf' => 'required|string|max:14',
+            'cpf' => ['required', new validaCPF],
             'telefone' => 'required|string|max:15',
             'email' => 'required|string|email|max:255|unique:clientes',
             'senha' => 'required|string|min:8',
