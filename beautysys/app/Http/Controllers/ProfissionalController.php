@@ -25,15 +25,21 @@ class ProfissionalController extends Controller
             'data_nascimento' => 'required|date',
             'cpf' => 'required|string|max:14',
             'telefone' => 'required|string|max:15',
-            'email' => 'required|string|email|max:255|unique:profissionais',
-            'senha' => 'required|string|min:8',
+            'emailCadasProf' => 'required|string|email|max:255|unique:profissionais',
+            'senhaCadasProf' => 'required|string|min:8',
         ]);
 
-        // Chama o método para criar o profissional no model
-        Profissional::cadastrarProfissional($validatedData);
+        try {
+            // Chama o método para criar o profissional no model
+            Profissional::cadastrarProfissional($validatedData);
 
-        // Redireciona para a página index com uma mensagem de sucesso
-        return redirect()->route('Parceiro')->with('success', 'Profissional cadastrado com sucesso!');
+            // Redireciona para a página index com uma mensagem de sucesso
+            return redirect()->route('Parceiro')->with('success', 'Profissional cadastrado com sucesso!');
+        } catch (\Exception $e) {
+            // Se ocorrer um erro, redireciona com uma mensagem de erro
+            return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o profissional. Tente novamente.');
+        }
+
     }
 
     // Método de login
@@ -41,22 +47,22 @@ class ProfissionalController extends Controller
     {
         // Validação dos campos de entrada
         $validatedData = $request->validate([
-            'email' => 'required|string|email|max:255',
-            'senha' => 'required|string|min:8',
+            'emailLoginProf' => 'required|string|email|max:255',
+            'senhaLoginProf' => 'required|string|min:8',
         ]);
 
         // Recuperar o usuário do banco com base no e-mail
-        $user = DB::table('profissionais')->where('email', $request->input('email'))->first();
+        $user = DB::table('profissionais')->where('email', $request->input('emailLoginProf'))->first();
 
         // Comparar a senha fornecida com a senha armazenada
-        if ($user && Hash::check($request->input('senha'), $user->senha)) {
+        if ($user && Hash::check($request->input('senhaLoginProf'), $user->senha)) {
             // Login bem-sucedido
             Session::put('id_profissional', $user->id_profissional);
             Session::put('nome', $user->nome);
-            return view('home-profissional');
+            return view('home-profissional')->with('success', 'Login realizado com sucesso!');
         } else {
             // Se falhar, redirecionar de volta com erro
-            return back()->withErrors(['email' => 'Credenciais inválidas'])->withInput();
+            return redirect()->back()->with('error', 'Email ou senha inválidos');
         }
     }
 

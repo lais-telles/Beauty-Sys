@@ -12,10 +12,21 @@
 
 <section id="home" class="d-flex" style="margin-top: 20rem; margin-bottom: 10rem;">
     <div class="container text-center">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <h1 class="display-4">Beauty Sys</h1>
         <p class="lead">Aumente sua produtividade e a satisfação de seus clientes!</p>
         <a href="" class="btn btn-custom btn-lg mt-4" data-bs-toggle="modal" data-bs-target="#signinModalProfissional">Sou um profissional</a>
-        <a href="" class="btn btn-custom2 btn-lg mt-4" data-bs-toggle="modal" data-bs-target="#signinModalProprietario">Proprietário</a>
+        <a href="" class="btn btn-custom2 btn-lg mt-4" data-bs-toggle="modal" data-bs-target="#signinModalProprietario">Tenho um estabelecimento</a>
     </div>
 </section>
 
@@ -96,180 +107,283 @@
     </div>
 </section>
 
-    <!-- Poup-up de cadastro pro proprietário-->
-    <div class="modal fade" id="signupModalProprietario" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Cadastro de Estabelecimento</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-5 pt-0">
-                    <form action="{{ route('cadastrarEstabelecimento') }}" method="POST">
-                        @csrf
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingRazaoSocial" name="razao_social" placeholder="Razão Social" required>
-                            <label for="floatingRazaoSocial">Razão Social</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingNomeFantasia" name="nome_fantasia" placeholder="Nome Fantasia" required>
-                            <label for="floatingNomeFantasia">Nome Fantasia</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" required>
-                            <label for="floatingTelefone">Telefone</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingCNPJ" name="cnpj" placeholder="XX.XXX.XXX/XXXX-XX" required>
-                            <label for="floatingCNPJ">CNPJ</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingLogradouro" name="logradouro" placeholder="Logradouro" required>
-                            <label for="floatingLogradouro">Logradouro</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="number" class="form-control rounded-3" id="floatingNumero" name="numero" placeholder="Número" required>
-                            <label for="floatingNumero">Número</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingBairro" name="bairro" placeholder="Bairro" required>
-                            <label for="floatingBairro">Bairro</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingCidade" name="cidade" placeholder="Cidade" required>
-                            <label for="floatingCidade">Cidade</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingEstado" name="estado" placeholder="UF" maxlength="2" required>
-                            <label for="floatingEstado">Estado</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingCEP" name="cep" placeholder="XXXXX-XXX" required>
-                            <label for="floatingCEP">CEP</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="time" class="form-control rounded-3" id="floatingInicioExpediente" name="inicio_expediente" placeholder="Início do Expediente" required step ="1">
-                            <label for="floatingInicioExpediente">Início Expediente</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="time" class="form-control rounded-3" id="floatingTerminoExpediente" name="termino_expediente" placeholder="Término do Expediente" required step ="1">
-                            <label for="floatingTerminoExpediente">Término Expediente</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control rounded-3" id="floatingEmail" name="email" placeholder="name@example.com" required>
-                            <label for="floatingEmail">Email</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Senha" required>
-                            <label for="floatingPassword">Senha</label>
-                        </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
-                        <small class="text-body-secondary">Ao clicar em cadastrar, você concorda com os termos de uso.</small>
-                    </form>
-                </div>
+<!-- Poup-up de cadastro pro proprietário-->
+<div class="modal fade" id="signupModalProprietario" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Cadastro de Estabelecimento</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
-    </div>
-
-    <!-- Poup-up de login pro proprietário-->
-    <div class="modal fade" id="signinModalProprietario" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Log In Estabelecimento</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-5 pt-0">
-                    <form action="{{ route('loginEstab') }}" method="POST">
+            <div class="modal-body p-5 pt-0">
+                <form action="{{ route('cadastrarEstabelecimento') }}" method="POST">
                     @csrf
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control rounded-3" id="floatingInput" name="email" placeholder="name@example.com">
-                            <label for="floatingInput">Email address</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password">
-                            <label for="floatingPassword">Senha</label>
-                        </div>
-                        <div class="text-center mb-3">
-                            <a class="" data-bs-toggle="modal" data-bs-target="#signupModalProprietario" style="cursor: pointer;">Não tenho conta</a> 
-                        </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
-                    </form>
-                </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('razao_social') is-invalid @enderror" id="floatingRazaoSocial" name="razao_social" placeholder="Razão Social" value="{{ old('razao_social') }}" required>
+                        <label for="floatingRazaoSocial">Razão Social</label>
+                        @error('razao_social')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('nome_fantasia') is-invalid @enderror" id="floatingNomeFantasia" name="nome_fantasia" placeholder="Nome Fantasia" value="{{ old('nome_fantasia') }}" required>
+                        <label for="floatingNomeFantasia">Nome Fantasia</label>
+                        @error('nome_fantasia')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('telefone') is-invalid @enderror" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" value="{{ old('telefone') }}" required>
+                        <label for="floatingTelefone">Telefone</label>
+                        @error('telefone')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('cnpj') is-invalid @enderror" id="floatingCNPJ" name="cnpj" placeholder="XX.XXX.XXX/XXXX-XX" value="{{ old('cnpj') }}" required>
+                        <label for="floatingCNPJ">CNPJ</label>
+                        @error('cnpj')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('logradouro') is-invalid @enderror" id="floatingLogradouro" name="logradouro" placeholder="Logradouro" value="{{ old('logradouro') }}" required>
+                        <label for="floatingLogradouro">Logradouro</label>
+                        @error('logradouro')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control rounded-3 @error('numero') is-invalid @enderror" id="floatingNumero" name="numero" placeholder="Número" value="{{ old('numero') }}" required>
+                        <label for="floatingNumero">Número</label>
+                        @error('numero')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('bairro') is-invalid @enderror" id="floatingBairro" name="bairro" placeholder="Bairro" value="{{ old('bairro') }}" required>
+                        <label for="floatingBairro">Bairro</label>
+                        @error('bairro')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('cidade') is-invalid @enderror" id="floatingCidade" name="cidade" placeholder="Cidade" value="{{ old('cidade') }}" required>
+                        <label for="floatingCidade">Cidade</label>
+                        @error('cidade')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('estado') is-invalid @enderror" id="floatingEstado" name="estado" placeholder="UF" maxlength="2" value="{{ old('estado') }}" required>
+                        <label for="floatingEstado">Estado</label>
+                        @error('estado')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('cep') is-invalid @enderror" id="floatingCEP" name="cep" placeholder="XXXXX-XXX" value="{{ old('cep') }}" required>
+                        <label for="floatingCEP">CEP</label>
+                        @error('cep')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="time" class="form-control rounded-3 @error('inicio_expediente') is-invalid @enderror" id="floatingInicioExpediente" name="inicio_expediente" placeholder="Início do Expediente" value="{{ old('inicio_expediente') }}" required step ="1">
+                        <label for="floatingInicioExpediente">Início Expediente</label>
+                        @error('inicio_expediente')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="time" class="form-control rounded-3 @error('termino_expediente') is-invalid @enderror" id="floatingTerminoExpediente" name="termino_expediente" placeholder="Término do Expediente" value="{{ old('termino_expediente') }}" required step ="1">
+                        <label for="floatingTerminoExpediente">Término Expediente</label>
+                        @error('termino_expediente')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-3 @error('emailCadasProp') is-invalid @enderror" id="floatingEmailCadasProp" name="emailCadasProp" placeholder="name@example.com" value="{{ old('emailCadasProp') }}" required>
+                        <label for="floatingEmailCadasProp">Email</label>
+                        @error('emailCadasProp')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control rounded-3 @error('senhaCadasProp') is-invalid @enderror" id="floatingPasswordCadasProp" name="senhaCadasProp" placeholder="Senha" value="{{ old('senhaCadasProp') }}" required>
+                        <label for="floatingPasswordCadasProp">Senha</label>
+                        @error('senhaCadasProp')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
+                    <small class="text-body-secondary">Ao clicar em cadastrar, você concorda com os termos de uso.</small>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-
-    <!-- Poup-up de cadastro pro profissional-->
-    <div class="modal fade" id="signupModalProfissional" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Cadastro de Profissional</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-5 pt-0">
-                    <form action="{{ route('cadastrarProfissional') }}" method="POST">
-                    @csrf
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingName" name="nome" placeholder="" required>
-                            <label for="floatingName">Nome Completo</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="date" class="form-control rounded-3" id="floatingDate" name="data_nascimento" placeholder="" required>
-                            <label for="floatingDate">Data de Nascimento</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingCpf" name="cpf" placeholder="" required>
-                            <label for="floatingDate">CPF</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control rounded-3" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" required>
-                            <label for="floatingDate">Telefone</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control rounded-3" id="floatingInput" name="email" placeholder="name@example.com" required>
-                            <label for="floatingInput">Email address</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password" required>
-                            <label for="floatingPassword">Senha</label>
-                        </div>
-                        <button href="" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
-                        <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
-                    </form>
-                </div>
+<!-- Poup-up de login pro proprietário-->
+<div class="modal fade" id="signinModalProprietario" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Log In Estabelecimento</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <form action="{{ route('loginEstab') }}" method="POST">
+                @csrf
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-3 @error('emailLoginProp') is-invalid @enderror" id="floatingInput" name="emailLoginProp" placeholder="name@example.com" value="{{ old('emailLoginProp') }}" required>
+                        <label for="floatingInput">Email address</label>
+                        @error('emailLoginProp')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control rounded-3 @error('senhaLoginProp') is-invalid @enderror" id="floatingPassword" name="senhaLoginProp" placeholder="Password" value="{{ old('senhaLoginProp') }}" required>
+                        <label for="floatingPassword">Senha</label>
+                        @error('senhaLoginProp')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="text-center mb-3">
+                        <a class="" data-bs-toggle="modal" data-bs-target="#signupModalProprietario" style="cursor: pointer;">Não tenho conta</a> 
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Poup-up de login pro profissional-->
-    <div class="modal fade" id="signinModalProfissional" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Log In Profissional</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-5 pt-0">
-                    <form action="{{ route('loginProfissional') }}" method="POST">
-                    @csrf
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control rounded-3" id="floatingInput" name="email" placeholder="name@example.com">
-                            <label for="floatingInput">Email address</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control rounded-3" id="floatingPassword" name="senha" placeholder="Password">
-                            <label for="floatingPassword">Senha</label>
-                        </div>
-                        <div class="text-center mb-3">
-                            <a class="" data-bs-toggle="modal" data-bs-target="#signupModalProfissional" style="cursor: pointer;">Não tenho conta</a>
-                        </div>
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
-                    </form>
-                </div>
+
+<!-- Poup-up de cadastro pro profissional-->
+<div class="modal fade" id="signupModalProfissional" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Cadastro de Profissional</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <form action="{{ route('cadastrarProfissional') }}" method="POST">
+                @csrf
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('nome') is-invalid @enderror" id="floatingName" name="nome" placeholder="Nome Completo" value="{{ old('nome') }}" required required>
+                        <label for="floatingName">Nome Completo</label>
+                        @error('nome')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control rounded-3 @error('data_nascimento') is-invalid @enderror" id="floatingDate" name="data_nascimento" placeholder="Data de Nascimento" value="{{ old('data_nascimento') }}" required>
+                        <label for="floatingDate">Data de Nascimento</label>
+                        @error('data_nascimento')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('cpf') is-invalid @enderror" id="floatingCpf" name="cpf" placeholder="CPF" value="{{ old('cpf') }}" required>
+                        <label for="floatingDate">CPF</label>
+                        @error('cpf')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control rounded-3 @error('telefone') is-invalid @enderror" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" value="{{ old('telefone') }}" required>
+                        <label for="floatingDate">Telefone</label>
+                        @error('telefone')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-3 @error('emailCadasProf') is-invalid @enderror" id="floatingInput" name="emailCadasProf" placeholder="name@example.com" value="{{ old('emailCadasProf') }}" required>
+                        <label for="floatingInput">Email address</label>
+                        @error('emailCadasProf')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control rounded-3 @error('senhaCadasProf') is-invalid @enderror" id="floatingPassword" name="senhaCadasProf" placeholder="Password" value="{{ old('senhaCadasProf') }}" required>
+                        <label for="floatingPassword">Senha</label>
+                        @error('senhaCadasProf')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <button href="" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
+                    <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Poup-up de login pro profissional-->
+<div class="modal fade" id="signinModalProfissional" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Log In Profissional</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <form action="{{ route('loginProfissional') }}" method="POST">
+                @csrf
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-3 @error('emailLoginProf') is-invalid @enderror" id="floatingInput" name="emailLoginProf" placeholder="name@example.com" value="{{ old('emailLoginProf') }}" required>
+                        <label for="floatingInput">Email address</label>
+                        @error('emailLoginProf')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control rounded-3 @error('senhaLoginProf') is-invalid @enderror" id="floatingPassword" name="senhaLoginProf" placeholder="Password" value="{{ old('senhaLoginProf') }}" required>
+                        <label for="floatingPassword">Senha</label>
+                        @error('senhaLoginProf')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="text-center mb-3">
+                        <a class="" data-bs-toggle="modal" data-bs-target="#signupModalProfissional" style="cursor: pointer;">Não tenho conta</a>
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Mostrar modal de cadastro do Estabelecimento se houver erros de cadastro
+        @if ($errors->has('razao_social') || $errors->has('nome_fantasia') || $errors->has('telefone') || $errors->has('cnpj') 
+        || $errors->has('logradouro') || $errors->has('numero') || $errors->has('bairro') || $errors->has('cidade') 
+        || $errors->has('estado') || $errors->has('cep') || $errors->has('inicio_expediente') || $errors->has('termino_expediente')
+        || $errors->has('emailCadasProp')|| $errors->has('senhaCadasProp'))
+            var signupModal = new bootstrap.Modal(document.getElementById('signupModalProprietario'));
+            signupModal.show();
+        @endif
+
+        // Mostrar modal de login do Estabelecimento se houver erros de login
+        @if ($errors->has('emailLoginProp') || $errors->has('senhaLoginProp'))
+            var signinModal = new bootstrap.Modal(document.getElementById('signinModalProprietario'));
+            signinModal.show();
+        @endif
+
+        // Mostrar modal de cadastro do Profissional se houver erros de login
+        @if ($errors->has('nome') || $errors->has('data_nascimento') || $errors->has('cpf') || $errors->has('telefone') || $errors->has('emailCadasProf') || $errors->has('senhaCadasProf'))
+            var signupModal = new bootstrap.Modal(document.getElementById('signupModalProfissional'));
+            signupModal.show();
+        @endif
+
+        // Mostrar modal de login do Profissional se houver erros de login
+        @if ($errors->has('emailLoginProf') || $errors->has('senhaLoginProf'))
+            var signinModal = new bootstrap.Modal(document.getElementById('signinModalProfissional'));
+            signinModal.show();
+        @endif
+    });
+</script>
 @endsection

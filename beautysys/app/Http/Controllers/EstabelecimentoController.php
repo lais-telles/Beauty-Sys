@@ -28,15 +28,20 @@ class EstabelecimentoController extends Controller
             'cep' => 'required|string|max:9',
             'inicio_expediente' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
             'termino_expediente' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
-            'email' => 'required|string|email|max:255|unique:estabelecimentos',
-            'senha' => 'required|string|min:8',
+            'emailCadasProp' => 'required|string|email|max:255|unique:estabelecimentos',
+            'senhaCadasProp' => 'required|string|min:8',
         ]);
 
-        // Chama o método para criar o estabelecimento no model
-        Estabelecimento::cadastrarEstabelecimento($validatedData);
-
-        // Redireciona para a página index com uma mensagem de sucesso
-        return redirect()->back()->with('success', 'Estabelecimento cadastrado com sucesso!');
+        try {
+            // Chama o método para criar o estabelecimento no model
+            Estabelecimento::cadastrarEstabelecimento($validatedData);
+    
+            // Redireciona para a página index com uma mensagem de sucesso
+            return redirect()->route('Parceiro')->with('success', 'Estabelecimento cadastrado com sucesso!');
+        } catch (\Throwable $th) {
+            // Se ocorrer um erro, redireciona com uma mensagem de erro
+            return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o profissional. Tente novamente.');
+        }
     }
 
     // Método de login
@@ -44,22 +49,22 @@ class EstabelecimentoController extends Controller
     {
         // Validação dos campos de entrada
         $validatedData = $request->validate([
-            'email' => 'required|string|email|max:255',
-            'senha' => 'required|string|min:8',
+            'emailLoginProp' => 'required|string|email|max:255',
+            'senhaLoginProp' => 'required|string|min:8',
         ]);
 
         // Recuperar o usuário do banco com base no e-mail
-        $user = DB::table('estabelecimentos')->where('email', $request->input('email'))->first();
+        $user = DB::table('estabelecimentos')->where('email', $request->input('emailLoginProp'))->first();
 
         // Comparar a senha fornecida com a senha armazenada
-        if ($user && Hash::check($request->input('senha'), $user->senha)) {
+        if ($user && Hash::check($request->input('senhaLoginProp'), $user->senha)) {
             // Login bem-sucedido
             Session::put('id_estabelecimento', $user->id_estabelecimento);
             Session::put('nome_fantasia', $user->nome_fantasia);
             return view('home-pj');
         } else {
             // Se falhar, redirecionar de volta com erro
-            return back()->withErrors(['email' => 'Credenciais inválidas'])->withInput();
+            return redirect()->back()->with('error', 'Email ou senha inválidos');
         }
     }
 
