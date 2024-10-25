@@ -25,7 +25,7 @@ class ProfissionalController extends Controller
             'data_nascimento' => 'required|date',
             'cpf' => 'required|string|max:14',
             'telefone' => 'required|string|max:15',
-            'emailCadasProf' => 'required|string|email|max:255|unique:profissionais',
+            'emailCadasProf' => 'required|string|email|max:255|unique:profissionais,email',
             'senhaCadasProf' => 'required|string|min:8',
         ]);
 
