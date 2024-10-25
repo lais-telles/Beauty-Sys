@@ -3,7 +3,7 @@
 @section('title', 'Realizar agendamento')
 
 @section('content')
-<section class="d-flex ms-5 me-5 mb-5" style="margin-top: 15rem;">
+<section class="d-flex ms-5 me-5 mb-5" style="margin-top: 13rem;">
     <div class="container">
         <div class="row">
             <div class="col-md-6 d-flex align-items-center">
@@ -81,7 +81,7 @@
                     <div class="mb-3">
                         <label for="servico" class="form-label">Escolha o Serviço</label>
                         <select class="form-select" id="servico" name="servico" required>
-                        <option value="" disabled {{ old('servico') ? '' : 'selected' }}>Selecione um servico</option>
+                        <option value="" disabled {{ old('servico') ? '' : 'selected' }} required>Selecione um servico</option>
                              @if($servicos)
                                 @foreach($servicos as $servico)
                                     <!-- Exibe as outras opções -->
@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="opcao_pag" class="form-label">Escolha o Serviço</label>
+                        <label for="opcao_pag" class="form-label">Escolha a forma de pagamento</label>
                         <select class="form-select" id="opcao_pag" name="opcao_pag" required>
                             <option value="" disabled selected>Selecione uma forma de pagamento</option>
                             <option value="1">Pix</option>
@@ -132,6 +132,21 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
+    // Função para desativar selects
+    function desativarSelects(ids) {
+        ids.forEach(function(id) {
+            $(id).empty().append('<option value="" disabled selected>Sem opções disponíveis</option>');
+            $(id).prop('disabled', true);
+        });
+    }
+
+    // Função para reativar um select
+    function reativarSelect(id, defaultText) {
+        $(id).empty().append('<option value="" disabled selected>' + defaultText + '</option>');
+        $(id).prop('disabled', false);
+    }
+
+    // Evento de mudança do Estabelecimento
     $('#estabelecimento').change(function() {
         var idEstabelecimento = $(this).val();
         if (idEstabelecimento) {
@@ -141,15 +156,25 @@ $(document).ready(function() {
                 data: { id: idEstabelecimento },
                 success: function(data) {
                     $('#profissional').empty();
-                    $('#profissional').append('<option value="" disabled selected>Selecione um profissional</option>');
-                    $.each(data.profissionais, function(key, value) {
-                        $('#profissional').append('<option value="' + value.id_profissional + '">' + value.nome + '</option>');
-                    });
+                    
+                    if (data.profissionais.length === 0) {
+                        desativarSelects(['#profissional', '#servico', '#horario_inicio']);
+                    } else {
+                        reativarSelect('#profissional', 'Selecione um profissional');
+                        $.each(data.profissionais, function(key, value) {
+                            $('#profissional').append('<option value="' + value.id_profissional + '">' + value.nome + '</option>');
+                        });
+                    }
+                    desativarSelects(['#servico', '#horario_inicio']); // Desativa serviço e horário enquanto um profissional não é selecionado
+                },
+                error: function() {
+                    alert('Erro ao carregar profissionais');
                 }
             });
         }
     });
 
+    // Evento de mudança do Profissional
     $('#profissional').change(function() {
         var idProfissional = $(this).val();
         var idEstabelecimento = $('#estabelecimento').val();
@@ -160,42 +185,81 @@ $(document).ready(function() {
                 data: { id_profissional: idProfissional, id_estabelecimento: idEstabelecimento },
                 success: function(data) {
                     $('#servico').empty();
-                    $('#servico').append('<option value="" disabled selected>Selecione um serviço</option>');
-                    $.each(data.servicos, function(key, value) {
-                        $('#servico').append('<option value="' + value.id_servico + '">' + value.nome + '</option>');
-                    });
+                    
+                    if (data.servicos.length === 0) {
+                        desativarSelects(['#servico', '#horario_inicio']);
+                    } else {
+                        reativarSelect('#servico', 'Selecione um serviço');
+                        $.each(data.servicos, function(key, value) {
+                            $('#servico').append('<option value="' + value.id_servico + '">' + value.nome + '</option>');
+                        });
+                    }
+                    desativarSelects(['#horario_inicio']); // Desativa horário enquanto um serviço não é selecionado
+                },
+                error: function() {
+                    alert('Erro ao carregar serviços');
                 }
             });
         }
     });
 
+    // Evento de mudança da Data
     $('#data').blur(function() {
-    var idProfissional = $('#profissional').val();
-    var dataRealizacao = $(this).val();
+        var idProfissional = $('#profissional').val();
+        var dataRealizacao = $(this).val();
 
-    // Verifica se a data está no formato completo YYYY-MM-DD
-    if (idProfissional && dataRealizacao && dataRealizacao.length === 10) {
-        $.ajax({
-            url: "{{ route('getHorarios') }}", // Rota para obter horários
-            type: "GET",
-            data: { id_profissional: idProfissional, data_realizacao: dataRealizacao },
-            success: function(data) {
-                $('#horario_inicio').empty();
-                $('#horario_inicio').append('<option value="" disabled selected>Selecione um horário</option>');
-                $.each(data.horarios, function(key, value) {
-                    $('#horario_inicio').append('<option value="' + value.intervalo_hora + '">' + value.intervalo_hora + '</option>');
-                });
-            },
-            error: function() {
-                alert('Erro ao carregar horários');
-            }
-        });
+        if (idProfissional && dataRealizacao && dataRealizacao.length === 10) {
+            $.ajax({
+                url: "{{ route('getHorarios') }}", // Rota para obter horários
+                type: "GET",
+                data: { id_profissional: idProfissional, data_realizacao: dataRealizacao },
+                success: function(data) {
+                    $('#horario_inicio').empty();
+                    
+                    if (data.horarios.length === 0) {
+                        $('#horario_inicio').append('<option value="" disabled selected>Sem horários disponíveis</option>');
+                        $('#horario_inicio').prop('disabled', true);
+                    } else {
+                        reativarSelect('#horario_inicio', 'Selecione um horário');
+                        $.each(data.horarios, function(key, value) {
+                            $('#horario_inicio').append('<option value="' + value.intervalo_hora + '">' + value.intervalo_hora + '</option>');
+                        });
+                    }
+                },
+                error: function() {
+                    alert('Erro ao carregar horários');
+                }
+            });
+        }
+    });
+});
+
+
+$(document).ready(function() {
+    // Função para verificar se todos os campos estão preenchidos
+    function validarFormulario() {
+        var estabelecimento = $('#estabelecimento').val();
+        var profissional = $('#profissional').val();
+        var servico = $('#servico').val();
+        var opcaoPag = $('#opcao_pag').val();
+        var dataRealizacao = $('#data').val();
+        var horarioInicio = $('#horario_inicio').val();
+        
+        if (!estabelecimento || !profissional || !servico || !opcaoPag || !dataRealizacao || !horarioInicio) {
+            alert("Por favor, preencha todos os campos antes de finalizar o agendamento.");
+            return false; // Impede o envio do formulário
+        }
+        return true; // Permite o envio do formulário
     }
+
+    // Intercepta o evento de envio do formulário
+    $('#formAgendamento').on('submit', function(e) {
+        if (!validarFormulario()) {
+            e.preventDefault(); // Cancela o envio do formulário se houver campos vazios
+        }
+    });
 });
 
 
-
-
-});
 </script>
 @endsection
