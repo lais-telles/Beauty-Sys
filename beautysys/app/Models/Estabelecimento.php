@@ -60,8 +60,8 @@ class Estabelecimento extends Model
             'CEP' => $data['cep'],
             'inicio_expediente' => $data['inicio_expediente'],
             'termino_expediente' => $data['termino_expediente'],
-            'email' => $data['email'],
-            'senha' => Hash::make($data['senha']),
+            'email' => $data['emailCadasProp'],
+            'senha' => Hash::make($data['senhaCadasProp']),
         ]);
     }
     
