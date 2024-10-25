@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar
 use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
 use App\Models\Grade;  // Importe o modelo Grade
+use App\Rules\validaCPF;
 
 class ProfissionalController extends Controller
 {
@@ -23,7 +24,7 @@ class ProfissionalController extends Controller
         $validatedData = $request->validate([
             'nome' => 'required|string|max:50',
             'data_nascimento' => 'required|date',
-            'cpf' => 'required|string|max:14',
+            'cpf' => ['required', new validaCPF],
             'telefone' => 'required|string|max:15',
             'emailCadasProf' => 'required|string|email|max:255|unique:profissionais,email',
             'senhaCadasProf' => 'required|string|min:8',
