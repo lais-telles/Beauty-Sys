@@ -43,8 +43,8 @@ class Profissional extends Model
             'data_nasc' => $data['data_nascimento'],
             'CPF' => $data['cpf'],
             'telefone' => $data['telefone'],
-            'email' => $data['email'],
-            'senha' => Hash::make($data['senha']),
+            'email' => $data['emailCadasProf'],
+            'senha' => Hash::make($data['senhaCadasProf']),
         ]);
     }
 
