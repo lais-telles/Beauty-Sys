@@ -4,20 +4,8 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-/**
- * @author Wallace Maxters <wallacemaxters@gmail.com>
- */
 class validaCPF implements Rule
 {
-
-
-    /**
-     * Valida se o CPF é válido
-     * 
-     * @param string $attribute
-     * @param string $value
-    * @return boolean
-    */
 
     public function passes($attribute, $value)
     {
@@ -47,3 +35,8 @@ class validaCPF implements Rule
     	return 'O campo :attribute não é um CPF válido.';
     }
 }
+
+/**
+ * @author Wallace Maxters <wallacemaxters@gmail.com>
+ * https://github.com/LaravelLegends/pt-br-validator/tree/master/src/pt-br-validator/Rules
+ */

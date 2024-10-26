@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session; // Para armazenar sessão
 use App\Models\Estabelecimento; // Certifique-se de importar o modelo
 use App\Models\Profissional; // Certifique-se de importar o modelo
 use App\Rules\validaCPF;
+use App\Rules\validaCelular;
 
 class ClienteController extends Controller
 {
@@ -21,7 +22,7 @@ class ClienteController extends Controller
             'nome' => 'required|string|max:50',
             'data_nascimento' => 'required|date',
             'cpf' => ['required', new validaCPF],
-            'telefone' => 'required|string|max:15',
+            'telefone' => ['required', new validaCelular],
             'email' => 'required|string|email|max:255|unique:clientes',
             'senha' => 'required|string|min:8',
         ]);
