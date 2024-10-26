@@ -28,7 +28,7 @@ class EstabelecimentoController extends Controller
             'cep' => 'required|string|max:9',
             'inicio_expediente' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
             'termino_expediente' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
-            'emailCadasProp' => 'required|string|email|max:255|unique:estabelecimentos',
+            'emailCadasProp' => 'required|string|email|max:255|unique:estabelecimentos,email',
             'senhaCadasProp' => 'required|string|min:8',
         ]);
 

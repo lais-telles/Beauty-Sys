@@ -32,7 +32,7 @@ class validaCPF implements Rule
 
     public function message()
     {
-    	return 'O campo :attribute não é um CPF válido.';
+    	return 'CPF inválido.';
     }
 }
 

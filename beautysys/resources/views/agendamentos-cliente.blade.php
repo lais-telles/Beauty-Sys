@@ -43,6 +43,7 @@
                 @endif 
                 </tbody>
             </table>
+            <p><a class="btn btn-lg btn-primary" href="{{ route ('dadosRealizarAgendamento') }}">Agendar novamente</a></p>
         </div>
     </div>
 </section>

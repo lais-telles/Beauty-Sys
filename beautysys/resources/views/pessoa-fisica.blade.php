@@ -156,7 +156,7 @@
 
                     <!-- Senha -->
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control rounded-3 @error('senha') is-invalid @enderror" id="floatingPassword" name="senha" placeholder="Senha" required>
+                        <input type="password" class="form-control rounded-3 @error('senha') is-invalid @enderror" id="floatingPassword" name="senha" placeholder="Senha" value="{{ old('senha') }}" required>
                         <label for="floatingPassword">Senha</label>
                         @error('senha')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -171,7 +171,6 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="signinModal" tabindex="-1" aria-labelledby="signinModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-4 shadow">
@@ -183,14 +182,14 @@
                 <form action="{{ route('loginCliente') }}" method="POST">
                     @csrf
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control rounded-3 @error('emailLogin') is-invalid @enderror" id="floatingInputLogin" name="emailLogin" placeholder="name@example.com" value="{{ old('emailLogin') }}">
+                        <input type="email" class="form-control rounded-3 @error('emailLogin') is-invalid @enderror" id="floatingInputLogin" name="emailLogin" placeholder="name@example.com" value="{{ old('emailLogin') }}" required>
                         <label for="floatingInputLogin">Email address</label>
                         @error('emailLogin')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control rounded-3 @error('senhaLogin') is-invalid @enderror" id="floatingPasswordLogin" name="senhaLogin" placeholder="Password">
+                        <input type="password" class="form-control rounded-3 @error('senhaLogin') is-invalid @enderror" id="floatingPasswordLogin" name="senhaLogin" placeholder="Password" value="{{ old('senhaLogin') }}" required>
                         <label for="floatingPasswordLogin">Senha</label>
                         @error('senhaLogin')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -205,7 +204,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
