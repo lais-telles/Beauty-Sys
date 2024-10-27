@@ -11,12 +11,13 @@ use App\Models\Estabelecimento; // Certifique-se de importar o modelo
 use App\Models\Profissional; // Certifique-se de importar o modelo
 use App\Rules\validaCPF;
 use App\Rules\validaCelular;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ClienteController extends Controller
 {
     // Função para salvar o cliente no banco de dados
-    public function cadastrarCliente(Request $request)
-    {
+    public function cadastrarCliente(Request $request){
         // Valida os dados enviados pelo modal
         $validatedData = $request->validate([
             'nome' => 'required|string|max:50',
@@ -41,55 +42,56 @@ class ClienteController extends Controller
 
 
     // Método de login
-    public function loginCliente(Request $request)
-    {
+    public function loginCliente(Request $request){
         // Validação dos campos de entrada
         $validatedData = $request->validate([
             'emailLogin' => 'required|string|email|max:255',
             'senhaLogin' => 'required|string|min:8',
         ]);
 
-        // Recuperar o usuário do banco com base no e-mail
-        $user = DB::table('clientes')->where('email', $request->input('emailLogin'))->first();
-
-        // Comparar a senha fornecida com a senha armazenada
-        if ($user && Hash::check($request->input('senhaLogin'), $user->senha)) {
-            // Login bem-sucedido
-            Session::put('id_cliente', $user->id_cliente);
-            Session::put('nome', $user->nome);
-            return view('home-pf')->with('success', 'Login realizado com sucesso!');
+        // Tentar autenticar o cliente usando o guard 'cliente'
+        if (Auth::guard('cliente')->attempt(['email' => $request->input('emailLogin'), 'password' => $request->input('senhaLogin')])) {
+            // Login bem-sucedido, redirecionar para a página inicial do cliente
+            return redirect()->route('PaginaInicialPf')->with('success', 'Login realizado com sucesso!');
         } else {
-            // Se falhar, redirecionar de volta com erro
+            // Login falhou, redirecionar de volta com uma mensagem de erro
             return redirect()->back()->with('error', 'Email ou senha inválidos');
         }
     }
 
-    // Método de logout
-    public function logoutCliente(Request $request)
-    {
-        // Limpa a sessão do cliente
-        Session::flush();
 
-        // Redireciona para a página de login (ou qualquer outra página)
-        return view('index')->with('success', 'Logout realizado com sucesso!');
+    // Método de logout
+    public function logoutCliente() {
+        // Realiza o logout
+        Auth::guard('cliente')->logout();
+
+        // Verifica se o cliente ainda está autenticado após o logout
+        $isAuthenticated = Auth::guard('cliente')->check();
+
+        // Log para depuração
+        Log::info('Cliente realizou logout. Sessão autenticada: ' . ($isAuthenticated ? 'Sim' : 'Não'));
+
+        // Opcional: Exibir mensagem na tela também
+        if ($isAuthenticated) {
+            return redirect()->route('Index')->with('error', 'Erro ao encerrar a sessão.');
+        }
+
+        return redirect()->route('Index')->with('success', 'Logout realizado com sucesso!');
     }
+
 
     // Método para exibir os agendamentos
     public function exibirAgendamentos(){
-        // Captura o id do cliente da sessão
-        $id = Session::get('id_cliente');
+    // Captura o id do cliente autenticado usando Auth
+    $id_cliente = Auth::guard('cliente')->id();
 
-        // Verifica se o id do cliente está presente na sessão
-        if (!$id) {
-            return redirect()->route('login')->with('error', 'É necessário estar logado para ver os agendamentos.');
-        }
+    // Chama a procedure armazenada e passa o id do cliente
+    $agendamentos = DB::select('CALL exibir_agendamentos_cliente(?)', [$id_cliente]);
 
-        // Chama a procedure armazenada e passa o id do estabelecimento
-        $agendamentos = DB::select('CALL exibir_agendamentos_cliente(?)', [$id]);
+    // Retorna a view com os agendamentos
+    return view('agendamentos-cliente', compact('agendamentos'));
+}
 
-        // Retorna a view com os agendamentos
-        return view('agendamentos-cliente', compact('agendamentos'));
-    }
 
     // Método para ir para a página de adm
     public function admCliente() {
@@ -102,7 +104,7 @@ class ClienteController extends Controller
     // Método para buscar cliente
     public function buscarCliente(Request $request){
         // Captura o id do estabelecimento da sessão
-        $id_cliente = Session::get('id_cliente');
+        $id_cliente = Auth::guard('cliente')->id();
    
         // Obtém o registro do estabelecimento
         $registro = Cliente::find($id_cliente);
@@ -119,7 +121,7 @@ class ClienteController extends Controller
     // Método para salvar alterações
     public function alterarCadastro(Request $request) {
         // Captura o id do cliente da sessão
-        $id_cliente = Session::get('id_cliente');
+        $id_cliente = Auth::guard('cliente')->id();
         $telefone = $request->input('telefone');
         $email = $request->input('email');
 
@@ -141,7 +143,7 @@ class ClienteController extends Controller
     
         // Verifica se $id_profissional está definido
         if ($id_estabelecimento) { // Aqui deve ser $id_estabelecimento, não $idEstabelecimento
-            $profissional = Profissional::where('estabel_vinculado', $id_estabelecimento)->get(); // Corrigido
+            $profissional = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
         } else {
             $profissional = Profissional::all();
         }
@@ -207,7 +209,7 @@ class ClienteController extends Controller
     }    
     
     public function realizarAgendamento(Request $request){
-        $id_cliente = Session::get('id_cliente');
+        $id_cliente = auth()->guard('cliente')->id();
         $id_profissional = $request->input('profissional');
         $id_pag = $request->input('opcao_pag');
         $data_realizacao = $request->input('data_realizacao');

@@ -24,7 +24,7 @@ Route::get('/', function () {
 Route::get('/beautysys', [IndexController::class, 'Index'])->name('Index');
 Route::get('/pessoa-física', [IndexController::class, 'PessoaFisica'])->name('PessoaFisica');
 Route::get('/parceiros', [IndexController::class, 'Parceiro'])->name('Parceiro');
-Route::get('/home-pf', [IndexController::class, 'HomePf'])->name('PaginaInicialPf');
+
 Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialPj');
 Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->name('PaginaInicialProfissional');
 //Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
@@ -32,53 +32,57 @@ Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProp
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
 
 // --------------------------------------Rotas do cliente ----------------------------------------------------
+
 // Rota para cadastrar um cliente usando o método 'cadastrarCliente'
 Route::post('/clientes/cadastrar', [ClienteController::class, 'cadastrarCliente'])->name('cadastrarCliente');
 
 // Rota para realizar login do cliente usando o método 'loginCliente'
 Route::post('cliente/login', [ClienteController::class, 'loginCliente'])->name('loginCliente');
 
-// Rota para realizar logout do cliente usando o método 'logoutCliente'
-Route::post('cliente/logout', [ClienteController::class, 'logoutCliente'])->name('logoutCliente');
-
-// Rota para exibição dos agendamentos realizados pelo cliente
-Route::get('/agendamentosCliente', [ClienteController::class, 'exibirAgendamentos'])->name('visAgdCliente');
-
-// Rota para administração de conta do cliente com o método 'admCliente'
-Route::get('/admCliente', [ClienteController::class, 'admCliente'])->name('admCliente');
-
-//Rota para a tela de perfil do cliente com as respectivas informações do cliente logado
-Route::get('cliente/perfil', [ClienteController::class, 'buscarCliente'])->name('infoCadastroCli');
-
-//Rota para salvar alterações de cadastro
-Route::post('cliente/atualiza', [ClienteController::class, 'alterarCadastro'])->name('alteraCadastroCli');
-
-//Rota para coletar dados necessários para a realização de um agendamento
-Route::get('realizar-agendamento', [ClienteController::class, 'dadosRealizarAgendamento'])->name('dadosRealizarAgendamento');
-
-//Rota para a função AJAX responsável pela consulta dos profissionais disponíveis
-Route::get('/get-profissionais', [ClienteController::class, 'getProfissionais'])->name('getProfissionais');
-
-//Rota para a função AJAX responsável pela consulta dos serviços disponíveis
-Route::get('/get-servicos', [ClienteController::class, 'getServicos'])->name('getServicos');
-
-//Rota para a função AJAX responsável pela consulta dos horários disponíveis
-Route::get('/get-horarios', [ClienteController::class, 'getHorarios'])->name('getHorarios');
-
-//Rota responsável pela finalização de um agendamento
-Route::post('agendamento/finalizar', [ClienteController::class, 'realizarAgendamento'])->name('realizarAgendamento');
-
-//Rota para exibir todos os profissionais disponíveis na plataforma
-Route::get('profissionais', [ClienteController::class, 'listaProfissionais'])->name('listaProfissionais');
-
-//Rota para exibir todos os estabelecimentos disponíveis na plataforma
-Route::get('estabelecimentos', [ClienteController::class, 'listaEstab'])->name('listaEstab');
-
-//Rota para exibir todos os estabelecimentos disponíveis na plataforma da área de login
+// Rota para exibir todos os estabelecimentos disponíveis na plataforma da área de login
 Route::get('estabelecimentos/login', [ClienteController::class, 'listaEstabLogin'])->name('listaEstabLogin');
 
-//Rota para realizar a pesquisa de serviços, profissionais ou estabelecimentos
-Route::post('pesquisa', [ClienteController::class, 'realizarPesquisa'])->name('realizarPesquisa');
+// Rotas privadas (requer autenticação do cliente)
+Route::middleware('auth:cliente')->group(function () {
+
+    // Página inicial do cliente
+    Route::get('/home-pf', [IndexController::class, 'HomePf'])->name('PaginaInicialPf');
+
+    // Rota para realizar logout do cliente usando o método 'logoutCliente'
+    Route::post('cliente/logout', [ClienteController::class, 'logoutCliente'])->name('logoutCliente');
+
+    // Rota para exibição dos agendamentos realizados pelo cliente
+    Route::get('/agendamentosCliente', [ClienteController::class, 'exibirAgendamentos'])->name('visAgdCliente');
+
+    // Rota para administração de conta do cliente com o método 'admCliente'
+    Route::get('/admCliente', [ClienteController::class, 'admCliente'])->name('admCliente');
+
+    // Rota para a tela de perfil do cliente com as respectivas informações do cliente logado
+    Route::get('cliente/perfil', [ClienteController::class, 'buscarCliente'])->name('infoCadastroCli');
+
+    // Rota para salvar alterações de cadastro
+    Route::post('cliente/atualiza', [ClienteController::class, 'alterarCadastro'])->name('alteraCadastroCli');
+
+    // Rota para coletar dados necessários para a realização de um agendamento
+    Route::get('realizar-agendamento', [ClienteController::class, 'dadosRealizarAgendamento'])->name('dadosRealizarAgendamento');
+
+    // Rota responsável pela finalização de um agendamento
+    Route::post('agendamento/finalizar', [ClienteController::class, 'realizarAgendamento'])->name('realizarAgendamento');
+
+    // Rota para exibir todos os profissionais disponíveis na plataforma
+    Route::get('profissionais', [ClienteController::class, 'listaProfissionais'])->name('listaProfissionais');
+
+    // Rota para exibir todos os estabelecimentos disponíveis na plataforma
+    Route::get('estabelecimentos', [ClienteController::class, 'listaEstab'])->name('listaEstab');
+
+    // Rotas AJAX
+    Route::get('/get-profissionais', [ClienteController::class, 'getProfissionais'])->name('getProfissionais');
+    Route::get('/get-servicos', [ClienteController::class, 'getServicos'])->name('getServicos');
+    Route::get('/get-horarios', [ClienteController::class, 'getHorarios'])->name('getHorarios');
+
+    // Rota para realizar a pesquisa de serviços, profissionais ou estabelecimentos
+    Route::post('pesquisa', [ClienteController::class, 'realizarPesquisa'])->name('realizarPesquisa');
+});
 
 // --------------------------------------- Rotas do Profissional -----------------------------------------------
 // Rota para cadastrar um profissional usando o método 'cadastrarProfissional'
