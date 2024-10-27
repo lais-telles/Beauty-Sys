@@ -16,7 +16,12 @@
 @endsection
 
 @section('content')
-<section style="margin-top: 10rem;">
+<section style="margin-top: 11rem;">
+    @if (session('alert'))
+        <div class="alert alert-warning">
+            {{ session('alert') }}
+        </div>
+    @endif
     <div class="video-container">
         <video id="video_apresentacao" autoplay muted loop>
             <source src="{{ asset('videos/video-apresentacao.mp4') }}">
