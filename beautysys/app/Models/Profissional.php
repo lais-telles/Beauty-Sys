@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB; // Importando a classe DB
+use Illuminate\Foundation\Auth\User as Authenticatable; // Importando Authenticatable para autenticação
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
-class Profissional extends Model
+class Profissional extends Authenticatable
 {
     use HasFactory;
 
@@ -27,7 +27,6 @@ class Profissional extends Model
         'senha',
     ];
 
-
     // Desativa os timestamps automáticos
     public $timestamps = false;
 
@@ -35,6 +34,12 @@ class Profissional extends Model
     protected $hidden = [
         'senha',
     ];
+
+    // Adiciona a função getAuthPassword para autenticação
+    public function getAuthPassword()
+    {
+        return $this->senha;
+    }
 
     public static function cadastrarProfissional($data) {
         // Cria o profissional com os dados validados e criptografa a senha
@@ -48,9 +53,7 @@ class Profissional extends Model
         ]);
     }
 
-    public static function atualizarProfissional($id_profissional, $telefone, $email) {
-        $profissional = self::find($id_profissional);
-        
+    public static function atualizarProfissional($id_profissional, $telefone, $email) {      
         return DB::statement('CALL atualizar_profissional(?, ?, ?)', [
             $id_profissional,
             $telefone,

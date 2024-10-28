@@ -24,9 +24,7 @@ Route::get('/', function () {
 Route::get('/beautysys', [IndexController::class, 'Index'])->name('Index');
 Route::get('/pessoa-física', [IndexController::class, 'PessoaFisica'])->name('PessoaFisica');
 Route::get('/parceiros', [IndexController::class, 'Parceiro'])->name('Parceiro');
-
 Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialPj');
-Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->name('PaginaInicialProfissional');
 //Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
 Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
@@ -44,7 +42,6 @@ Route::get('estabelecimentos/login', [ClienteController::class, 'listaEstabLogin
 
 // Rotas privadas (requer autenticação do cliente)
 Route::middleware('auth:cliente')->group(function () {
-
     // Página inicial do cliente
     Route::get('/home-pf', [IndexController::class, 'HomePf'])->name('PaginaInicialPf');
 
@@ -89,45 +86,52 @@ Route::middleware('auth:cliente')->group(function () {
 Route::post('/profissionais/cadastrar', [ProfissionalController::class, 'cadastrarProfissional'])->name('cadastrarProfissional');
 
 // Rota para realizar login do profissional usando o método 'loginProfissional'
-Route::post('profissional/login', [ProfissionalController::class, 'loginProfissional'])->name('loginProfissional');
+Route::post('/profissional/login', [ProfissionalController::class, 'loginProfissional'])->name('loginProfissional');
 
-// Rota para realizar logout do profissional usando o método 'logoutProfissional'
-Route::post('profissional/logout', [ProfissionalController::class, 'logoutProfissional'])->name('logoutProfissional');
-
-// Rota para ir para a área de cadastro de grade horária usando o método 'gradeProf'
-Route::get('profissional/grade', [ProfissionalController::class, 'gradeProf'])->name('gradeProf');
-
-// Rota para deletar um horário com o método 'deletarHorario'
-Route::delete('profissional/grade/{id}', [ProfissionalController::class, 'deletarHorario'])->name('deletarHorario');
-
-// Rota para salvar um horário com o método 'salvarGrade'
-Route::post('profissional/salvarG', [ProfissionalController::class, 'salvarGrade'])->name('salvarGrade');
-
-//Rota para atualizar o status dos agendamentos
-Route::post('/agendamentos/status', [ProfissionalController::class, 'atualizarStatusAgendamentos'])->name('agendamentosStatus');
-
-//Rota para exibição dos agendamentos realizados com o profissional logado
-Route::get('/agendamentos', [ProfissionalController::class, 'exibirAgendamentosProf'])->name('exibirAgendamentosProf');
-
-// Rota para administração de conta do Profissional com o método 'admProf'
-Route::get('/admProfissional', [ProfissionalController::class, 'admProf'])->name('admProf');
-
-//Rota para a tela de perfil do profissional com as respectivas informações do profissional logado
-Route::get('profissional/perfil', [ProfissionalController::class, 'buscarProfissional'])->name('infoCadastroP');
-
-//Rota para salvar alterações de cadastro
-Route::post('profissional/atualiza', [ProfissionalController::class, 'alterarCadastro'])->name('alteraCadastroProf');
-
-// Rota para tela de solicitação/ visuialização de vínculo
-Route::get('profissional/vinculo', [ProfissionalController::class, 'vinculoProf'])->name('vinculoProf');
-
-Route::post('/solicitar-vinculo', [ProfissionalController::class, 'solicitarVinculo'])->name('profissional.solicitarVinculo');
-
-//Rota para a tela de associar serviços ao profissional
-Route::get('servico/profissional', [ProfissionalController::class, 'servicosProf'])->name('servicosProf');
-
-//Rota para associar um novo serviço
-Route::post('associar/servico', [ProfissionalController::class, 'associarServ'])->name('associarServ');
+// Rotas privadas (requer autenticação do profissional)
+Route::middleware('auth:profissional')->group(function () {
+    // Página inicial do profissional
+    Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->name('PaginaInicialProfissional');
+    
+    // Rota para realizar logout do profissional usando o método 'logoutProfissional'
+    Route::post('profissional/logout', [ProfissionalController::class, 'logoutProfissional'])->name('logoutProfissional');
+    
+    // Rota para ir para a área de cadastro de grade horária usando o método 'gradeProf'
+    Route::get('profissional/grade', [ProfissionalController::class, 'gradeProf'])->name('gradeProf');
+    
+    // Rota para deletar um horário com o método 'deletarHorario'
+    Route::delete('profissional/grade/{id}', [ProfissionalController::class, 'deletarHorario'])->name('deletarHorario');
+    
+    // Rota para salvar um horário com o método 'salvarGrade'
+    Route::post('profissional/salvarG', [ProfissionalController::class, 'salvarGrade'])->name('salvarGrade');
+    
+    //Rota para atualizar o status dos agendamentos
+    Route::post('/agendamentos/status', [ProfissionalController::class, 'atualizarStatusAgendamentos'])->name('agendamentosStatus');
+    
+    //Rota para exibição dos agendamentos realizados com o profissional logado
+    Route::get('/agendamentos', [ProfissionalController::class, 'exibirAgendamentosProf'])->name('exibirAgendamentosProf');
+    
+    // Rota para administração de conta do Profissional com o método 'admProf'
+    Route::get('/admProfissional', [ProfissionalController::class, 'admProf'])->name('admProf');
+    
+    //Rota para a tela de perfil do profissional com as respectivas informações do profissional logado
+    Route::get('profissional/perfil', [ProfissionalController::class, 'buscarProfissional'])->name('infoCadastroP');
+    
+    //Rota para salvar alterações de cadastro
+    Route::post('profissional/atualiza', [ProfissionalController::class, 'alterarCadastro'])->name('alteraCadastroProf');
+    
+    // Rota para tela de solicitação/ visuialização de vínculo
+    Route::get('profissional/vinculo', [ProfissionalController::class, 'vinculoProf'])->name('vinculoProf');
+    
+    // Rota para solicitação de vínculo
+    Route::post('/solicitar-vinculo', [ProfissionalController::class, 'solicitarVinculo'])->name('profissional.solicitarVinculo');
+    
+    //Rota para a tela de associar serviços ao profissional
+    Route::get('servico/profissional', [ProfissionalController::class, 'servicosProf'])->name('servicosProf');
+    
+    //Rota para associar um novo serviço
+    Route::post('associar/servico', [ProfissionalController::class, 'associarServ'])->name('associarServ');
+});
 
 // ---------------------------------------------- Rotas do Estabelecimento ---------------------------------------
 // Rota para cadastrar um estabelecimento usando o método 'cadastrarEstabelecimento'

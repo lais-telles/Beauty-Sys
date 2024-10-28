@@ -46,6 +46,12 @@ return [
             'driver' => 'session',
             'provider' => 'clientes',
         ],
+
+        // Guard para profissionais
+        'profissional' => [
+            'driver' => 'session',
+            'provider' => 'profissionais',
+        ],
     ],
 
     /*
@@ -75,6 +81,12 @@ return [
         'clientes' => [
             'driver' => 'eloquent',
             'model' => App\Models\Cliente::class,
+        ],
+
+        // Provider para profissionais usando o model Profissinal
+        'profissionais' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Profissional::class,
         ],
     ],
 

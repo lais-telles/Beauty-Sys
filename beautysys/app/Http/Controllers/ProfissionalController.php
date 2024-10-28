@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
 use App\Models\Grade;  // Importe o modelo Grade
 use App\Rules\validaCPF;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ProfissionalController extends Controller
 {
@@ -52,17 +54,12 @@ class ProfissionalController extends Controller
             'senhaLoginProf' => 'required|string|min:8',
         ]);
 
-        // Recuperar o usuário do banco com base no e-mail
-        $user = DB::table('profissionais')->where('email', $request->input('emailLoginProf'))->first();
-
-        // Comparar a senha fornecida com a senha armazenada
-        if ($user && Hash::check($request->input('senhaLoginProf'), $user->senha)) {
-            // Login bem-sucedido
-            Session::put('id_profissional', $user->id_profissional);
-            Session::put('nome', $user->nome);
-            return view('home-profissional')->with('success', 'Login realizado com sucesso!');
+        // Tentar autenticar o profissional usando o guard 'profissional'
+        if (Auth::guard('profissional')->attempt(['email' => $request->input('emailLoginProf'), 'password' => $request->input('senhaLoginProf')])) {
+            // Login bem-sucedido, redirecionar para a página inicial do cliente
+            return redirect()->route('PaginaInicialProfissional')->with('success', 'Login realizado com sucesso!');
         } else {
-            // Se falhar, redirecionar de volta com erro
+            // Login falhou, redirecionar de volta com uma mensagem de erro
             return redirect()->back()->with('error', 'Email ou senha inválidos');
         }
     }
@@ -70,23 +67,28 @@ class ProfissionalController extends Controller
     // Método de logout
     public function logoutProfissional(Request $request)
     {
-        // Limpa a sessão do cliente
-        Session::flush();
+        // Realiza o logout
+        Auth::guard('profissional')->logout();
 
-        // Redireciona para a página de login (ou qualquer outra página)
-        return view('index')->with('success', 'Logout realizado com sucesso!');
+        // Verifica se o cliente ainda está autenticado após o logout
+        $isAuthenticated = Auth::guard('profissional')->check();
+
+        // Log para depuração
+        Log::info('Profissional realizou logout. Sessão autenticada: ' . ($isAuthenticated ? 'Sim' : 'Não'));
+
+        // Opcional: Exibir mensagem na tela também
+        if ($isAuthenticated) {
+            return redirect()->route('Index')->with('error', 'Erro ao encerrar a sessão.');
+        }
+
+        return redirect()->route('Index')->with('success', 'Logout realizado com sucesso!');
     }
 
     // Método de exibição da grade horária
     public function gradeProf() {
-        // Recupera o ID do profissional armazenado na sessão
-        $idProfissional = Session::get('id_profissional');
-    
-        // Verifica se o ID está presente
-        if (!$idProfissional) {
-            return redirect()->route('login')->with('error', 'Profissional não autenticado');
-        }
-    
+        // Captura o id do profissional autenticado usando Auth
+        $idProfissional = Auth::guard('profissional')->id();
+
         // Obter o ID do estabelecimento vinculado ao profissional
         $idEstabelecimento = DB::table('profissionais')
             ->where('id_profissional', $idProfissional)
@@ -157,8 +159,8 @@ class ProfissionalController extends Controller
             'hora_termino' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
         ]);
         
-        // Recupera o ID do profissional armazenado na sessão
-        $id = Session::get('id_profissional');
+        // Captura o id do profissional autenticado usando Auth
+        $id = Auth::guard('profissional')->id();
 
         // Verifica se já existe uma grade cadastrada para o mesmo dia da semana
         $gradeExistente = Grade::where('id_profissional', $id)
@@ -189,8 +191,8 @@ class ProfissionalController extends Controller
 
     // Método para buscar profissional
     public function buscarProfissional(Request $request){
-        // Captura o id do estabelecimento da sessão
-        $id_profissional = Session::get('id_profissional');
+        // Captura o id do profissional autenticado usando Auth
+        $id_profissional = Auth::guard('profissional')->id();
    
         // Obtém o registro do estabelecimento
         $registro = Profissional::find($id_profissional);
@@ -206,8 +208,8 @@ class ProfissionalController extends Controller
 
     // Método para salvar alterações
     public function alterarCadastro(Request $request) {
-        // Captura o id do estabelecimento da sessão
-        $id_profissional = Session::get('id_profissional');
+        // Captura o id do profissional autenticado usando Auth
+        $id_profissional = Auth::guard('profissional')->id();
         $telefone = $request->input('telefone');
         $email = $request->input('email');
 
@@ -217,8 +219,8 @@ class ProfissionalController extends Controller
     }
 
     public function exibirAgendamentosProf() {
-        // Captura o id do profissional da sessão
-        $id_profissional = Session::get('id_profissional');
+        // Captura o id do profissional autenticado usando Auth
+        $id_profissional = Auth::guard('profissional')->id();
 
         // Buscando todos os status disponíveis no banco de dados
         $statusAgendamentos = DB::table('status_agendamentos')->get();
@@ -258,13 +260,8 @@ class ProfissionalController extends Controller
     // Método de exibição do vinculo
     public function vinculoProf()
     {
-        // Recupera o ID do profissional armazenado na sessão
-        $idProfissional = Session::get('id_profissional');
-
-        // Verifica se o ID está presente
-        if (!$idProfissional) {
-            return redirect()->route('login')->with('error', 'Profissional não autenticado');
-        }
+        // Captura o id do profissional autenticado usando Auth
+        $idProfissional = Auth::guard('profissional')->id();
 
         // Chama o stored procedure passando o ID do profissional
         $vinculo = DB::select('CALL consulta_vinculo(?)', [$idProfissional]);
@@ -277,7 +274,8 @@ class ProfissionalController extends Controller
 
     public function solicitarVinculo(Request $request)
     {
-        $idProfissional = Session::get('id_profissional');
+        // Captura o id do profissional autenticado usando Auth
+        $idProfissional = Auth::guard('profissional')->id();
         $id_estabelecimento = $request->input('id_estabelecimento');
 
         try {
@@ -289,18 +287,13 @@ class ProfissionalController extends Controller
     }
 
     public function servicosProf(){
-        // Recupera o ID do profissional armazenado na sessão
-        $idProfissional = Session::get('id_profissional');
+        // Captura o id do profissional autenticado usando Auth
+        $idProfissional = Auth::guard('profissional')->id();
 
         // Recupera o ID do estabelecimento vinculado armazenado na sessão
         $idEstab = DB::table('profissionais')
                 ->where('id_profissional', $idProfissional)
                 ->value('estabel_vinculado');
-
-        // Verifica se o ID está presente
-        if (!$idProfissional) {
-            return redirect()->route('login')->with('error', 'Profissional não autenticado');
-        }
 
         // Chama o stored procedure passando o ID do profissional
         $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$idProfissional]);
@@ -313,7 +306,8 @@ class ProfissionalController extends Controller
 
     public function associarServ(Request $request)
     {
-        $idProfissional = Session::get('id_profissional');
+        // Captura o id do profissional autenticado usando Auth
+        $idProfissional = Auth::guard('profissional')->id();
         $id_servico = $request->input('id_servico');
 
         try {
