@@ -82,15 +82,15 @@ class ClienteController extends Controller
 
     // Método para exibir os agendamentos
     public function exibirAgendamentos(){
-    // Captura o id do cliente autenticado usando Auth
-    $id_cliente = Auth::guard('cliente')->id();
+        // Captura o id do cliente autenticado usando Auth
+        $id_cliente = Auth::guard('cliente')->id();
 
-    // Chama a procedure armazenada e passa o id do cliente
-    $agendamentos = DB::select('CALL exibir_agendamentos_cliente(?)', [$id_cliente]);
+        // Chama a procedure armazenada e passa o id do cliente
+        $agendamentos = DB::select('CALL exibir_agendamentos_cliente(?)', [$id_cliente]);
 
-    // Retorna a view com os agendamentos
-    return view('agendamentos-cliente', compact('agendamentos'));
-}
+        // Retorna a view com os agendamentos
+        return view('agendamentos-cliente', compact('agendamentos'));
+    }
 
 
     // Método para ir para a página de adm
