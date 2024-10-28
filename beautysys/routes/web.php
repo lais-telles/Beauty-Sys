@@ -29,7 +29,7 @@ Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialP
 Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
 
-// --------------------------------------Rotas do cliente ----------------------------------------------------
+// -------------------------------------- Rotas do cliente ----------------------------------------------------
 
 // Rota para cadastrar um cliente usando o método 'cadastrarCliente'
 Route::post('/clientes/cadastrar', [ClienteController::class, 'cadastrarCliente'])->name('cadastrarCliente');
@@ -82,6 +82,7 @@ Route::middleware('auth:cliente')->group(function () {
 });
 
 // --------------------------------------- Rotas do Profissional -----------------------------------------------
+
 // Rota para cadastrar um profissional usando o método 'cadastrarProfissional'
 Route::post('/profissionais/cadastrar', [ProfissionalController::class, 'cadastrarProfissional'])->name('cadastrarProfissional');
 
@@ -134,6 +135,7 @@ Route::middleware('auth:profissional')->group(function () {
 });
 
 // ---------------------------------------------- Rotas do Estabelecimento ---------------------------------------
+
 // Rota para cadastrar um estabelecimento usando o método 'cadastrarEstabelecimento'
 Route::post('/estabelecimentos/cadastrar', [EstabelecimentoController::class, 'cadastrarEstabelecimento'])->name('cadastrarEstabelecimento');
 
@@ -161,6 +163,7 @@ Route::delete('profissional/servico/{id}', [EstabelecimentoController::class, 'd
 //Rota para exibição dos agendamentos realizados no estabelecimento logado
 Route::get('/agendamentos/estab', [EstabelecimentoController::class, 'exibirAgendamentosEstab'])->name('exibirAgendamentosEstab');
 
+// Rota para exibição da view dashboard-pj
 Route::get('estabelecimento/dashboard', [EstabelecimentoController::class, 'dashboardEstab'])->name('DashboardPj');
 
 //Rota para exibição dos profissionais vinculados com o estabelecimento
