@@ -103,9 +103,6 @@ Route::delete('profissional/grade/{id}', [ProfissionalController::class, 'deleta
 // Rota para salvar um horário com o método 'salvarGrade'
 Route::post('profissional/salvarG', [ProfissionalController::class, 'salvarGrade'])->name('salvarGrade');
 
-// Rota para deletar um horário com o método 'deletarServico'
-Route::delete('profissional/servico/{id}', [ProfissionalController::class, 'deletarServico'])->name('deletarServico');
-
 //Rota para atualizar o status dos agendamentos
 Route::post('/agendamentos/status', [ProfissionalController::class, 'atualizarStatusAgendamentos'])->name('agendamentosStatus');
 
@@ -153,6 +150,9 @@ Route::get('proprietario/servicos', [EstabelecimentoController::class, 'listaSer
 
 //Rota para a realização do cadastro de serviços
 Route::post('/cadastrar-servico', [EstabelecimentoController::class, 'cadastrarServico'])->name('cadastrarServico');
+
+// Rota para deletar um horário com o método 'deletarServico'
+Route::delete('profissional/servico/{id}', [EstabelecimentoController::class, 'deletarServico'])->name('deletarServico');
 
 //Rota para exibição dos agendamentos realizados no estabelecimento logado
 Route::get('/agendamentos/estab', [EstabelecimentoController::class, 'exibirAgendamentosEstab'])->name('exibirAgendamentosEstab');

@@ -156,6 +156,20 @@ class EstabelecimentoController extends Controller
         return redirect()->back()->with('success', 'Serviço cadastrado com sucesso!');
     }
 
+    // Método para deletar serviço
+    public function deletarServico($id)
+    {
+        // Lógica para encontrar e deletar o horário pelo ID
+        $horario = DB::table('servicos')->where('id_servico', $id)->first();
+
+        if ($horario) {
+            DB::table('servicos')->where('id_servico', $id)->delete();
+            return redirect()->route('listaServicos')->with('success', 'Serviço deletado com sucesso.');
+        }
+
+        return redirect()->route('listaServicos')->with('error', 'Serviço não encontrado.');
+    }
+
     public function exibirAgendamentosEstab(){
         // Captura o id do estabelecimento da sessão
         $id_estabelecimento = Session::get('id_estabelecimento');
