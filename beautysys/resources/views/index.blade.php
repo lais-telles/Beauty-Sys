@@ -24,7 +24,7 @@
     @endif
     <div class="video-container">
         <video id="video_apresentacao" autoplay muted loop>
-            <source src="{{ asset('videos/video-apresentacao.mp4') }}">
+            <source src="{{ asset('videos/apresentacao.mp4') }}">
             Your browser does not support the video tag.
         </video>
     </div>
