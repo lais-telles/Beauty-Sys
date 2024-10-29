@@ -182,8 +182,21 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_estabelecimento
 END$$
 
 -- Exibe os agendamentos recebidos por um profissional
-CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_profissional` (IN `p_id_profissional` INT)   BEGIN
-SELECT a.id_agendamento, c.nome AS nome_cliente, s.nome AS servico, a.data_realizacao, a.horario_inicio, a.horario_termino, a.valor_total, fp.descricao AS formas_pagamento, a.id_profissional, sa.descricao AS status
+CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_profissional`(IN `p_id_profissional` INT)
+BEGIN
+SELECT a.id_agendamento, 
+       c.nome AS nome_cliente, 
+       s.nome AS servico, 
+       a.data_realizacao, 
+       a.horario_inicio, 
+       a.horario_termino, 
+       a.valor_total, 
+       fp.descricao AS formas_pagamento, 
+       a.id_profissional, 
+       sa.descricao AS status,
+       (SELECT COUNT(*) 
+         FROM agendamentos 
+         WHERE id_profissional = p_id_profissional) AS total_agendamentos
 FROM agendamentos AS a
 JOIN clientes AS c ON a.id_cliente = c.id_cliente
 JOIN servicos AS s ON a.id_servico = s.id_servico
@@ -221,7 +234,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_produtos_mais_populares_por_
 END$$
 
 -- Exibe os profissionais vinculados em um estabelecimento
-CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_profissionais_vinculados` (IN `p_id_estabelecimento` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_profissionais_vinculados`(IN `p_id_estabelecimento` INT)
+BEGIN
     SELECT 
         v.id_vinculo, 
         v.id_profissional, 
@@ -230,7 +244,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_profissionais_vinculados` (I
         p.telefone, 
         p.email, 
         v.status_vinculo, 
-        v.data_vinculo
+        v.data_vinculo,
+        (SELECT COUNT(*) 
+         FROM vinculos 
+         WHERE id_estabelecimento = p_id_estabelecimento) AS total_profissionais
     FROM vinculos AS v
     JOIN profissionais AS p ON p.id_profissional = v.id_profissional
     WHERE v.id_estabelecimento = p_id_estabelecimento;
