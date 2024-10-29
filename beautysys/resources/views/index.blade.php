@@ -16,12 +16,35 @@
 @endsection
 
 @section('content')
-<section style="margin-top: 11rem;">
+<section style="margin-top: 10rem;">
     @if (session('alert'))
-        <div class="alert alert-warning">
-            {{ session('alert') }}
+        <!-- Modal Trigger -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
+                alertModal.show();
+            });
+        </script>
+
+        <!-- Modal -->
+        <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-center" id="alertModalLabel">Aviso</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center alert alert-warning">
+                        {{ session('alert') }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
         </div>
     @endif
+
     <div class="video-container">
         <video id="video_apresentacao" autoplay muted loop>
             <source src="{{ asset('videos/apresentacao.mp4') }}">
