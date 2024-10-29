@@ -56,7 +56,7 @@ class ProfissionalController extends Controller
 
         // Tentar autenticar o profissional usando o guard 'profissional'
         if (Auth::guard('profissional')->attempt(['email' => $request->input('emailLoginProf'), 'password' => $request->input('senhaLoginProf')])) {
-            // Login bem-sucedido, redirecionar para a página inicial do cliente
+            // Login bem-sucedido, redirecionar para a página inicial do profissional
             return redirect()->route('PaginaInicialProfissional')->with('success', 'Login realizado com sucesso!');
         } else {
             // Login falhou, redirecionar de volta com uma mensagem de erro
@@ -70,7 +70,7 @@ class ProfissionalController extends Controller
         // Realiza o logout
         Auth::guard('profissional')->logout();
 
-        // Verifica se o cliente ainda está autenticado após o logout
+        // Verifica se o profissional ainda está autenticado após o logout
         $isAuthenticated = Auth::guard('profissional')->check();
 
         // Log para depuração
@@ -135,7 +135,6 @@ class ProfissionalController extends Controller
             'select_horario' => $select_horario
         ]);
     }
-    
 
     // Método para deletar horário
     public function deletarHorario($id)
