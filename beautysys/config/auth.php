@@ -52,6 +52,12 @@ return [
             'driver' => 'session',
             'provider' => 'profissionais',
         ],
+
+        // Guard para estabelecimentos
+        'estabelecimento' => [
+            'driver' => 'session',
+            'provider' => 'estabelecimentos',
+        ],
     ],
 
     /*
@@ -83,10 +89,16 @@ return [
             'model' => App\Models\Cliente::class,
         ],
 
-        // Provider para profissionais usando o model Profissinal
+        // Provider para profissionais usando o model Profissional
         'profissionais' => [
             'driver' => 'eloquent',
             'model' => App\Models\Profissional::class,
+        ],
+
+        // Provider para profissionais usando o model Estabelecimento
+        'estabelecimentos' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Estabelecimento::class,
         ],
     ],
 

@@ -24,9 +24,7 @@ Route::get('/', function () {
 Route::get('/beautysys', [IndexController::class, 'Index'])->name('Index');
 Route::get('/pessoa-física', [IndexController::class, 'PessoaFisica'])->name('PessoaFisica');
 Route::get('/parceiros', [IndexController::class, 'Parceiro'])->name('Parceiro');
-Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialPj');
 //Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
-Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
 
 // -------------------------------------- Rotas do cliente ----------------------------------------------------
@@ -142,32 +140,40 @@ Route::post('/estabelecimentos/cadastrar', [EstabelecimentoController::class, 'c
 // Rota para realizar login do estabelecimento usando o método 'loginEstab'
 Route::post('estabelecimento/login', [EstabelecimentoController::class, 'loginEstab'])->name('loginEstab');
 
-// Rota para realizar logout do estabelecimento usando o método 'logoutEstab'
-Route::post('estabelecimento/logout', [EstabelecimentoController::class, 'logoutEstab'])->name('logoutEstab');
+Route::middleware('auth:estabelecimento')->group(function () {
+    // Página inicial do estabelecimento
+    Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialPj');
 
-//Rota para a tela de perfil do estabelecimento com as respectivas informações do estabelecimento logado
-Route::get('estabelecimento/perfil', [EstabelecimentoController::class, 'buscarEstabelecimento'])->name('InfoCadastro');
+    // Rota para realizar logout do estabelecimento usando o método 'logoutEstab'
+    Route::post('estabelecimento/logout', [EstabelecimentoController::class, 'logoutEstab'])->name('logoutEstab');
+    
+    //Rota para a tela de perfil do estabelecimento com as respectivas informações do estabelecimento logado
+    Route::get('estabelecimento/perfil', [EstabelecimentoController::class, 'buscarEstabelecimento'])->name('InfoCadastro');
+    
+    //Rota para alterações cadastrais
+    Route::post('estabelecimento/atualiza', [EstabelecimentoController::class, 'alterarCadastro']) ->name('AlteraCadastro');
+    
+    //Rota para a página de serviços
+    Route::get('proprietario/servicos', [EstabelecimentoController::class, 'listaServicos'])->name('listaServicos');
+    
+    //Rota para a realização do cadastro de serviços
+    Route::post('/cadastrar-servico', [EstabelecimentoController::class, 'cadastrarServico'])->name('cadastrarServico');
+    
+    // Rota para deletar um horário com o método 'deletarServico'
+    Route::delete('profissional/servico/{id}', [EstabelecimentoController::class, 'deletarServico'])->name('deletarServico');
+    
+    //Rota para exibição dos agendamentos realizados no estabelecimento logado
+    Route::get('/agendamentos/estab', [EstabelecimentoController::class, 'exibirAgendamentosEstab'])->name('exibirAgendamentosEstab');
+    
+    // Rota para exibição da view dashboard-pj
+    Route::get('estabelecimento/dashboard', [EstabelecimentoController::class, 'dashboardEstab'])->name('DashboardPj');
+    
+    //Rota para exibição dos profissionais vinculados com o estabelecimento
+    Route::get('/estabelecimento/vinculo', [EstabelecimentoController::class, 'exibirVinculosEstab'])->name('exibirVinculosEstab');
+    
+    //Rota para atualizar o status dos vinculos
+    Route::post('/vinculos/status', [EstabelecimentoController::class, 'atualizarStatusVinculo'])->name('atualizarStatusVinculo');
 
-//Rota para alterações cadastrais
-Route::post('estabelecimento/atualiza', [EstabelecimentoController::class, 'alterarCadastro']) ->name('AlteraCadastro');
-
-//Rota para a página de serviços
-Route::get('proprietario/servicos', [EstabelecimentoController::class, 'listaServicos'])->name('listaServicos');
-
-//Rota para a realização do cadastro de serviços
-Route::post('/cadastrar-servico', [EstabelecimentoController::class, 'cadastrarServico'])->name('cadastrarServico');
-
-// Rota para deletar um horário com o método 'deletarServico'
-Route::delete('profissional/servico/{id}', [EstabelecimentoController::class, 'deletarServico'])->name('deletarServico');
-
-//Rota para exibição dos agendamentos realizados no estabelecimento logado
-Route::get('/agendamentos/estab', [EstabelecimentoController::class, 'exibirAgendamentosEstab'])->name('exibirAgendamentosEstab');
-
-// Rota para exibição da view dashboard-pj
-Route::get('estabelecimento/dashboard', [EstabelecimentoController::class, 'dashboardEstab'])->name('DashboardPj');
-
-//Rota para exibição dos profissionais vinculados com o estabelecimento
-Route::get('/estabelecimento/vinculo', [EstabelecimentoController::class, 'exibirVinculosEstab'])->name('exibirVinculosEstab');
-
-//Rota para atualizar o status dos vinculos
-Route::post('/vinculos/status', [EstabelecimentoController::class, 'atualizarStatusVinculo'])->name('atualizarStatusVinculo');
+    // Rota para a página de adm do estabelecimento
+    Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
+});

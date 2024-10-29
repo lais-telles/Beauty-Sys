@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB; // Importando a classe DB
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\User as Authenticatable; // Importando Authenticatable para autenticação
 
-class Estabelecimento extends Model
+class Estabelecimento extends Authenticatable
 {
     use HasFactory;
 
@@ -44,6 +45,11 @@ class Estabelecimento extends Model
         'senha',
     ];
 
+    // Adiciona a função getAuthPassword para autenticação
+    public function getAuthPassword()
+    {
+        return $this->senha;
+    }
 
     public static function cadastrarEstabelecimento($data){
         // Cria o estabelecimento com os dados validados e criptografa a senha

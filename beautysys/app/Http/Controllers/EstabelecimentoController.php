@@ -8,6 +8,8 @@ use App\Models\Servico;  // Importe o modelo Servico
 use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
 use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class EstabelecimentoController extends Controller
 {
@@ -53,17 +55,12 @@ class EstabelecimentoController extends Controller
             'senhaLoginProp' => 'required|string|min:8',
         ]);
 
-        // Recuperar o usuário do banco com base no e-mail
-        $user = DB::table('estabelecimentos')->where('email', $request->input('emailLoginProp'))->first();
-
-        // Comparar a senha fornecida com a senha armazenada
-        if ($user && Hash::check($request->input('senhaLoginProp'), $user->senha)) {
-            // Login bem-sucedido
-            Session::put('id_estabelecimento', $user->id_estabelecimento);
-            Session::put('nome_fantasia', $user->nome_fantasia);
-            return view('home-pj');
+        // Tentar autenticar o estabelecimento usando o guard 'estabelecimento'
+        if (Auth::guard('estabelecimento')->attempt(['email' => $request->input('emailLoginProp'), 'password' => $request->input('senhaLoginProp')])) {
+            // Login bem-sucedido, redirecionar para a página inicial do estabelecimento
+            return redirect()->route('PaginaInicialPj')->with('success', 'Login realizado com sucesso!');
         } else {
-            // Se falhar, redirecionar de volta com erro
+            // Login falhou, redirecionar de volta com uma mensagem de erro
             return redirect()->back()->with('error', 'Email ou senha inválidos');
         }
     }
@@ -71,17 +68,26 @@ class EstabelecimentoController extends Controller
     // Método de logout
     public function logoutEstab(Request $request)
     {
-        // Limpa a sessão do cliente
-        Session::flush();
+        // Realiza o logout
+        Auth::guard('estabelecimento')->logout();
 
-        // Redireciona para a página de login (ou qualquer outra página)
-        return view('index')->with('success', 'Logout realizado com sucesso!');
+        // Verifica se o estabelecimento ainda está autenticado após o logout
+        $isAuthenticated = Auth::guard('estabelecimento')->check();
+
+        // Log para depuração
+        Log::info('Estabelecimento realizou logout. Sessão autenticada: ' . ($isAuthenticated ? 'Sim' : 'Não'));
+
+        // Opcional: Exibir mensagem na tela também
+        if ($isAuthenticated) {
+            return redirect()->route('Index')->with('error', 'Erro ao encerrar a sessão.');
+        }
+
+        return redirect()->route('Index')->with('success', 'Logout realizado com sucesso!');
     }
 
-
     public function buscarEstabelecimento(Request $request){
-        // Captura o id do estabelecimento da sessão
-        $id_estabelecimento = Session::get('id_estabelecimento');
+        // Captura o id do estabelecimento autenticado usando Auth
+        $id_estabelecimento = Auth::guard('estabelecimento')->id();
    
         // Obtém o registro do estabelecimento
         $registro = Estabelecimento::find($id_estabelecimento);
@@ -95,10 +101,9 @@ class EstabelecimentoController extends Controller
         return view('info-cadEstab', compact('registro'));
     }
 
-
     public function alterarCadastro(Request $request) {
         // Captura o id do estabelecimento da sessão
-        $id_estabelecimento = Session::get('id_estabelecimento');
+        $id_estabelecimento = Auth::guard('estabelecimento')->id();
         $nome_fantasia = $request->input('nome_fantasia');
         $telefone = $request->input('telefone');
         $logradouro = $request->input('logradouro');
@@ -119,8 +124,8 @@ class EstabelecimentoController extends Controller
 
 
     public function listaServicos() {
-        // Captura o id do estabelecimento da sessão
-        $id_estabelecimento = Session::get('id_estabelecimento');
+        // Captura o id do estabelecimento autenticado usando Auth
+        $id_estabelecimento = Auth::guard('estabelecimento')->id();
    
         // Obtém o registro do estabelecimento
         $servicos = Servico::where('id_estabelecimento', $id_estabelecimento)->get();
@@ -140,8 +145,9 @@ class EstabelecimentoController extends Controller
             'duracao.not_in' => 'A duração não pode ser zero. Por favor, insira um valor válido.',
             'duracao.date_format' => 'A duração não pode ser zero. Por favor, insira um valor válido.',
         ]);
-        // Obtendo o id_estabelecimento da sessão
-        $id_estabelecimento = session('id_estabelecimento');
+        
+        // Captura o id do estabelecimento autenticado usando Auth
+        $id_estabelecimento = Auth::guard('estabelecimento')->id();
     
         // Chamada do método do modelo para cadastrar o serviço
         Servico::cadastrarServico(
@@ -171,8 +177,8 @@ class EstabelecimentoController extends Controller
     }
 
     public function exibirAgendamentosEstab(){
-        // Captura o id do estabelecimento da sessão
-        $id_estabelecimento = Session::get('id_estabelecimento');
+        // Captura o id do estabelecimento autenticado usando Auth
+        $id_estabelecimento = Auth::guard('estabelecimento')->id();
 
         // Chama a procedure armazenada e passa o id do estabelecimento
         $agendamentos = DB::select('CALL exibir_agendamentos_estabelecimento(?)', [$id_estabelecimento]);
@@ -181,10 +187,9 @@ class EstabelecimentoController extends Controller
         return view('agendamentos-estab', compact('agendamentos'));
     }
 
-
     public function dashboardEstab(){
-        // Captura o id do estabelecimento da sessão
-        $id_estabelecimento = Session::get('id_estabelecimento');
+        // Captura o id do estabelecimento autenticado usando Auth
+        $id_estabelecimento = Auth::guard('estabelecimento')->id();
     
         // Executa os procedimentos armazenados e captura os resultados
         $profissionais = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
@@ -209,8 +214,8 @@ class EstabelecimentoController extends Controller
     }
     
     public function exibirVinculosEstab() {
-        // Captura o id do estabelecimento da sessão
-        $id_estabelecimento = Session::get('id_estabelecimento');
+        // Captura o id do estabelecimento autenticado usando Auth
+        $id_estabelecimento = Auth::guard('estabelecimento')->id();
     
         // Chama a procedure armazenada e passa o id do estabelecimento
         $vinculos = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
@@ -221,7 +226,6 @@ class EstabelecimentoController extends Controller
         // Retorna a view com os vínculos e as opções de status
         return view('vinculo-estab', compact('vinculos', 'statusOptions'));
     }
-    
 
     public function atualizarStatusVinculo(Request $request) {
         $status = $request->input('status_vinculo'); // Recebe o novo status diretamente do ENUM
