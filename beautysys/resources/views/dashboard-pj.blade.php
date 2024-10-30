@@ -58,10 +58,32 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        Estatísticas de Serviços
+                        Serviços populares
                     </div>
                     <div class="card-body">
                         <canvas id="servicosChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Profissionais populares
+                    </div>
+                    <div class="card-body">
+                        <canvas id="profissionaisChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Horários de pico
+                    </div>
+                    <div class="card-body">
+                        <canvas id="horariosChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -70,10 +92,12 @@
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <canvas id="agendamentosChart" width="400" height="200"></canvas>
 
 <script>
+Chart.register(ChartDataLabels);
+
     // Extraindo os dados do array agendamentos_por_mes
     var meses = @json($data['agendamentos_por_mes']);
     
@@ -100,15 +124,26 @@
             datasets: [{
                 label: 'Agendamentos',
                 data: agendamentosData,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                backgroundColor: 'rgba(255, 99, 132)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             }]
         },
+        
         options: {
             scales: {
                 y: {
                     beginAtZero: true
+                }
+            },
+            plugins: {
+                datalabels: {
+                    anchor: 'end', // Alinha o valor no final do ponto
+                    align: 'top', // Alinha o valor acima do ponto
+                    color: '#000', // Cor do valor
+                    formatter: (value) => {
+                        return value; // Exibe o valor acima de cada ponto
+                    }
                 }
             }
         }
@@ -127,15 +162,75 @@
         data: {
             labels: labels, // Usa os nomes dos serviços coletados
             datasets: [{
-                label: 'Número de Serviços',
+                label: 'Número de agendamentos',
                 data: dataValues, // Usa os totais de agendamentos coletados
                 backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 99, 132, 0.2)'
+                    'rgba(120, 255, 235)',
+                    'rgba(75, 192, 192)',
+                    'rgba(255, 206, 86)',
+                    'rgba(153, 102, 255)',
+                    'rgba(255, 159, 64)',
+                    'rgba(255, 99, 132)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false // Oculta a legenda "Número de Serviços"
+                },
+                datalabels: {
+                    anchor: 'end',
+                    align: 'top',
+                    color: '#000',
+                    formatter: (value) => {
+                        return value; // Exibe o valor
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: Math.max(...dataValues) * 2.0 // Aumenta o limite máximo para 20% acima do valor mais alto
+                }
+            }
+        },
+    
+    });
+
+
+    // Coleta os dados dos profissionais populares da variável 'data'
+    var ProfissionaisPopulares = @json($data['profissionais_populares']);
+    
+    // Mapeia os nomes dos profissionais e os totais de agendamentos
+    var labels = ProfissionaisPopulares.map(profissional => profissional.nome_profissional);
+    var dataValues = ProfissionaisPopulares.map(profissional => profissional.total_agendamentos);
+
+
+    var ctx2 = document.getElementById('profissionaisChart').getContext('2d');
+    var profissionaisChart = new Chart(ctx2, {
+        type: 'pie', // Mude o tipo para 'pie'
+        data: {
+            labels: labels, // Usa os nomes dos profissionais
+            datasets: [{
+                label: 'Número de agendamentos',
+                data: dataValues, // Usa os totais de agendamentos coletados
+                backgroundColor: [
+                    'rgba(54, 162, 235)',
+                    'rgba(75, 192, 192)',
+                    'rgba(255, 206, 86)',
+                    'rgba(153, 102, 255)',
+                    'rgba(255, 159, 64)',
+                    'rgba(255, 99, 132)'
                 ],
                 borderColor: [
                     'rgba(54, 162, 235, 1)',
@@ -155,17 +250,68 @@
                     align: 'end',
                     color: '#000',
                     formatter: (value) => {
-                        return value; // Exibe o valor
+                        return value; // Exibe o valor no centro da fatia
+                    }
+                }
+            }
+        }
+    });
+
+
+    // Coleta os dados dos horários de pico da variável 'data'
+    var HorariosPico = @json($data['horarios_pico']);
+
+    // Mapeia os horários e as quantidades
+    var labels = HorariosPico.map(horario => horario.horario_inicio); // Corrigido
+    var dataValues = HorariosPico.map(horario => horario.quantidade); // Corrigido
+
+    var ctx2 = document.getElementById('horariosChart').getContext('2d');
+    var horariosChart = new Chart(ctx2, {
+        type: 'polarArea', // Mude para 'bar' ou 'line'
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Número de agendamentos',
+                data: dataValues,
+                backgroundColor: [
+                    'rgba(255, 99, 132)', // Rosa
+                    'rgba(54, 162, 235)', // Azul
+                    'rgba(75, 192, 192)', // Verde Água
+                    'rgba(255, 206, 86)', // Amarelo
+                    'rgba(153, 102, 255)', // Roxo
+                    'rgba(255, 159, 64)'  // Laranja
+                ],
+
+                borderColor: [
+                    'rgba(255, 0, 0)',   
+                    'rgba(0, 0, 255)',   
+                    'rgba(0, 255, 0)',   
+                    'rgba(255, 255, 0)', 
+                    'rgba(255, 0, 255)', 
+                    'rgba(255, 150, 100)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    anchor: 'center',
+                    align: 'top',
+                    color: '#000',
+                    formatter: (value) => {
+                        return value; // Exibe o valor no centro da fatia
                     }
                 }
             },
             scales: {
                 y: {
-                    beginAtZero: true
+                    display: false,
+                    beginAtZero: true,
+                    max: Math.max(...dataValues) * 1.2 // Aumenta o limite máximo para 20% acima do valor mais alto
                 }
             }
-        },
-    
+        }
     });
 
 </script>

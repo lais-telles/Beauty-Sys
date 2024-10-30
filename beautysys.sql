@@ -406,6 +406,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `gerar_horarios` (IN `p_id_profissio
 
 END$$
 
+-- Exibe a quantidade de agendamentos por horários
+CREATE DEFINER=`root`@`localhost` PROCEDURE `horarios_pico` (IN `p_id_estabelecimento` INT)   BEGIN
+    SELECT a.horario_inicio, COUNT(a.horario_inicio) AS quantidade
+    FROM agendamentos AS a
+    JOIN profissionais AS p ON a.id_profissional = p.id_profissional
+    JOIN estabelecimentos AS e ON p.estabel_vinculado = e.id_estabelecimento
+    WHERE e.id_estabelecimento = p_id_estabelecimento
+    GROUP BY a.horario_inicio;
+END$$
+
 -- Registra a solicitação de vínculo entre profissional e estabelecimento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_vinculo` (IN `p_estabelecimento_id` INT, IN `p_profissional_id` INT)   BEGIN
     -- Verificar se já existe um vínculo ativo entre o profissional e o estabelecimento
@@ -933,6 +943,17 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estrutura stand-in para view `estabelecimentos_populares`
+-- (Veja abaixo para a visão atual)
+--
+CREATE TABLE `estabelecimentos_populares` (
+`nome_fantasia` varchar(40)
+,`total_agendamentos` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `formas_pagamentos`
 --
 
@@ -1238,6 +1259,17 @@ CREATE TABLE `profissionais_agendamentos` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura stand-in para view `profissionais_populares`
+-- (Veja abaixo para a visão atual)
+--
+CREATE TABLE `profissionais_populares` (
+`nome` varchar(50)
+,`COUNT(a.id_agendamento)` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `profissionais_servicos`
 --
 
@@ -1389,11 +1421,29 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estrutura para view `estabelecimentos_populares`
+--
+DROP TABLE IF EXISTS `estabelecimentos_populares`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `estabelecimentos_populares`  AS SELECT `e`.`nome_fantasia` AS `nome_fantasia`, count(`a`.`id_agendamento`) AS `total_agendamentos` FROM ((`estabelecimentos` `e` join `profissionais` `p` on(`p`.`estabel_vinculado` = `e`.`id_estabelecimento`)) join `agendamentos` `a` on(`a`.`id_profissional` = `p`.`id_profissional`)) GROUP BY `e`.`nome_fantasia` ORDER BY count(`a`.`id_agendamento`) DESC LIMIT 0, 3 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para view `profissionais_agendamentos`
 --
 DROP TABLE IF EXISTS `profissionais_agendamentos`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `profissionais_agendamentos`  AS SELECT `profissionais`.`nome` AS `nome`, `agendamentos`.`data_realizacao` AS `data_realizacao`, `agendamentos`.`valor_total` AS `valor_total` FROM (`profissionais` join `agendamentos` on(`profissionais`.`id_profissional` = `agendamentos`.`id_profissional`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para view `profissionais_populares`
+--
+DROP TABLE IF EXISTS `profissionais_populares`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `profissionais_populares`  AS SELECT `p`.`nome` AS `nome`, count(`a`.`id_agendamento`) AS `COUNT(a.id_agendamento)` FROM (`profissionais` `p` join `agendamentos` `a` on(`a`.`id_profissional` = `p`.`id_profissional`)) GROUP BY `p`.`nome` ORDER BY count(`a`.`id_agendamento`) DESC LIMIT 0, 3 ;
 
 --
 -- Índices para tabelas despejadas
