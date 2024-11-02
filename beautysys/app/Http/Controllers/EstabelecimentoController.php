@@ -20,7 +20,7 @@ class EstabelecimentoController extends Controller
         $validatedData = $request->validate([
             'razao_social' => 'required|string|max:40',
             'nome_fantasia' => 'required|string|max:40',
-            'telefone' => 'required|string|max:15',
+            'telefoneEstab' => 'required|string|max:15',
             'cnpj' => 'required|string|max:18',
             'logradouro' => 'required|string|max:40',
             'numero' => 'required|string|max:10',
@@ -105,7 +105,7 @@ class EstabelecimentoController extends Controller
         // Captura o id do estabelecimento da sessão
         $id_estabelecimento = Auth::guard('estabelecimento')->id();
         $nome_fantasia = $request->input('nome_fantasia');
-        $telefone = $request->input('telefone');
+        $telefone = $request->input('telefoneEstab');
         $logradouro = $request->input('logradouro');
         $numero = $request->input('numero');
         $bairro = $request->input('bairro');

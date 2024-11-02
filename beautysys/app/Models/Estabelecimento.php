@@ -56,7 +56,7 @@ class Estabelecimento extends Authenticatable
         return self::create([
             'razao_social' => $data['razao_social'],
             'nome_fantasia' => $data['nome_fantasia'],
-            'telefone' => $data['telefone'],
+            'telefone' => $data['telefoneEstab'],
             'CNPJ' => $data['cnpj'],
             'logradouro' => $data['logradouro'],
             'numero' => $data['numero'],
