@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Rules\validaCNPJ;
 
 class EstabelecimentoController extends Controller
 {
@@ -21,7 +22,7 @@ class EstabelecimentoController extends Controller
             'razao_social' => 'required|string|max:40',
             'nome_fantasia' => 'required|string|max:40',
             'telefoneEstab' => 'required|string|max:15',
-            'cnpj' => 'required|string|max:18',
+            'cnpj' => ['required', new validaCNPJ],
             'logradouro' => 'required|string|max:40',
             'numero' => 'required|string|max:10',
             'bairro' => 'required|string|max:40',
