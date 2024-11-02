@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
 use App\Models\Grade;  // Importe o modelo Grade
 use App\Rules\validaCPF;
+use App\Rules\validaData;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -25,7 +26,7 @@ class ProfissionalController extends Controller
         // Valida os dados enviados pelo modal
         $validatedData = $request->validate([
             'nome' => 'required|string|max:50',
-            'data_nascimento' => 'required|date',
+            'data_nascimento' => ['required', new validaData],
             'cpf' => ['required', new validaCPF],
             'telefone' => 'required|string|max:15',
             'emailCadasProf' => 'required|string|email|max:255|unique:profissionais,email',
