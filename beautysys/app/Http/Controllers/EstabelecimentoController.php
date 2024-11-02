@@ -42,7 +42,7 @@ class EstabelecimentoController extends Controller
             return redirect()->route('Parceiro')->with('success', 'Estabelecimento cadastrado com sucesso!');
         } catch (\Throwable $th) {
             // Se ocorrer um erro, redireciona com uma mensagem de erro
-            return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o profissional. Tente novamente.');
+            return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o estabelecimento. Tente novamente.');
         }
     }
 
@@ -164,17 +164,29 @@ class EstabelecimentoController extends Controller
 
     // Método para deletar serviço
     public function deletarServico($id)
-    {
-        // Lógica para encontrar e deletar o horário pelo ID
-        $horario = DB::table('servicos')->where('id_servico', $id)->first();
+{
+    // Lógica para encontrar o serviço pelo ID
+    $servico = DB::table('servicos')->where('id_servico', $id)->first();
 
-        if ($horario) {
-            DB::table('servicos')->where('id_servico', $id)->delete();
-            return redirect()->route('listaServicos')->with('success', 'Serviço deletado com sucesso.');
+    if ($servico) {
+        // Verifica se há agendamentos associados ao serviço
+        $hasAgendamentos = DB::table('agendamentos')->where('id_servico', $id)->exists();
+
+        if ($hasAgendamentos) {
+            return back()->with('error', 'Não é possível deletar o serviço, pois ele está associado a agendamentos.');
         }
 
-        return redirect()->route('listaServicos')->with('error', 'Serviço não encontrado.');
+        try {
+            DB::table('servicos')->where('id_servico', $id)->delete();
+            return redirect()->route('listaServicos')->with('success', 'Serviço deletado com sucesso.');
+        } catch (\QueryException $e) {
+            return back()->with('error', 'Não é possível deletar o serviço, pois ele está associado a um profissional.');
+        }
     }
+
+    return redirect()->route('listaServicos')->with('error', 'Serviço não encontrado.');
+}
+
 
     public function exibirAgendamentosEstab(){
         // Captura o id do estabelecimento autenticado usando Auth
