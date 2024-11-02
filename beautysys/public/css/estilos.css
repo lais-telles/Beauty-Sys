@@ -151,3 +151,13 @@ h1, h2, h3 {
     background-color: #f2f2f2; /* Cor de fundo ao passar o mouse */
     transform: translateY(-2px); /* Levanta ligeiramente a linha */
 }
+
+.form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-floating {
+    position: relative;
+    margin-bottom: 1rem;
+}

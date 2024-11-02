@@ -188,20 +188,53 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    <!-- Select inicio expediente -->
                     <div class="form-floating mb-3">
-                        <input type="time" class="form-control rounded-3 @error('inicio_expediente') is-invalid @enderror" id="floatingInicioExpediente" name="inicio_expediente" placeholder="Início do Expediente" value="{{ old('inicio_expediente') }}" required step ="1">
-                        <label for="floatingInicioExpediente">Início Expediente</label>
+                        <select class="form-select rounded-3 @error('inicio_expediente') is-invalid @enderror" 
+                                id="floatingInicioExpediente" 
+                                name="inicio_expediente" 
+                                required>
+                            <option value="" disabled {{ old('inicio_expediente') ? '' : 'selected' }}>Selecione um horário</option>
+                            @php
+                                // Gera os horários de 08:00 a 18:00 com incrementos de 30 minutos
+                                for ($h = 6; $h <= 23; $h++) {
+                                    for ($m = 0; $m < 60; $m += 30) {
+                                        // Adiciona os segundos '00' ao formato
+                                        $time = sprintf('%02d:%02d:00', $h, $m);
+                                        echo "<option value=\"$time\" " . (old('inicio_expediente') == $time ? 'selected' : '') . ">$time</option>";
+                                    }
+                                }
+                            @endphp
+                        </select>
+                        <label for="floatingInicioExpediente">Início do Expediente</label>
                         @error('inicio_expediente')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    <!-- Select termino expediente -->
                     <div class="form-floating mb-3">
-                        <input type="time" class="form-control rounded-3 @error('termino_expediente') is-invalid @enderror" id="floatingTerminoExpediente" name="termino_expediente" placeholder="Término do Expediente" value="{{ old('termino_expediente') }}" required step ="1">
-                        <label for="floatingTerminoExpediente">Término Expediente</label>
+                        <select class="form-select rounded-3 @error('termino_expediente') is-invalid @enderror" 
+                                id="floatingTerminoExpediente" 
+                                name="termino_expediente" 
+                                required>
+                            <option value="" disabled {{ old('termino_expediente') ? '' : 'selected' }}>Selecione um horário</option>
+                            @php
+                                // Gera os horários de 08:00 a 18:00 com incrementos de 30 minutos
+                                for ($h = 6; $h <= 23; $h++) {
+                                    for ($m = 0; $m < 60; $m += 30) {
+                                        // Adiciona os segundos '00' ao formato
+                                        $time = sprintf('%02d:%02d:00', $h, $m);
+                                        echo "<option value=\"$time\" " . (old('termino_expediente') == $time ? 'selected' : '') . ">$time</option>";
+                                    }
+                                }
+                            @endphp
+                        </select>
+                        <label for="floatingTerminoExpediente">Término do Expediente</label>
                         @error('termino_expediente')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control rounded-3 @error('emailCadasProp') is-invalid @enderror" id="floatingEmailCadasProp" name="emailCadasProp" placeholder="name@example.com" value="{{ old('emailCadasProp') }}" required>
                         <label for="floatingEmailCadasProp">Email</label>
@@ -395,6 +428,16 @@
             locale: "pt",
             allowInput: true, // Permite que o usuário digite a data
             yearRange: 100 // Intervalo de anos visível no seletor
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#floatingTerminoExpediente", {
+            enableTime: true, // Ativa a seleção de horário
+            noCalendar: true, // Desativa a seleção de data
+            dateFormat: "H:i", // Formato de saída para a hora
+            time_24hr: true, // Exibir no formato 24 horas
+            minuteIncrement: 1 // Incrementos de minutos
         });
     });
 </script>
