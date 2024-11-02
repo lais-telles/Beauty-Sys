@@ -7,7 +7,7 @@
 @section('nav-buttons')
 <ul class="nav d-flex flex-wrap justify-content-start">
     <li class="nav-item">
-        <a href="{{ route('PessoaFisica') }}" class="btn btn-custom ms-4">Pessoa física</a>
+        <a href="{{ route('PessoaFisica') }}" class="btn btn-custom ms-4">Cliente</a>
     </li>
     <li class="nav-item">
         <a href="{{ route('Parceiro') }}" class="btn btn-custom2 ms-2">Profissional/Estabelecimento</a>
