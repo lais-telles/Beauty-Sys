@@ -133,9 +133,9 @@
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control rounded-3 @error('telefone') is-invalid @enderror" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" value="{{ old('telefone') }}" required>
+                        <input type="text" class="form-control rounded-3 @error('telefone') is-invalid @enderror" id="floatingTelefone" name="telefoneEstab" placeholder="(XX) XXXXX-XXXX" value="{{ old('telefoneEstab') }}" required>
                         <label for="floatingTelefone">Telefone</label>
-                        @error('telefone')
+                        @error('telefoneEstab')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -287,14 +287,14 @@
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control rounded-3 @error('cpf') is-invalid @enderror" id="floatingCpf" name="cpf" placeholder="CPF" value="{{ old('cpf') }}" required>
-                        <label for="floatingDate">CPF</label>
+                        <label for="floatingCpf">CPF</label>
                         @error('cpf')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control rounded-3 @error('telefone') is-invalid @enderror" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" value="{{ old('telefone') }}" required>
-                        <label for="floatingDate">Telefone</label>
+                        <label for="floatingTelefone">Telefone</label>
                         @error('telefone')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -385,5 +385,20 @@
             signinModal.show();
         @endif
     });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        flatpickr("#floatingDate", {
+            dateFormat: "Y-m-d",
+            altInput: true, // Exibe um campo separado para visualização amigável
+            altFormat: "d/m/Y", // Formato amigável para exibição
+            maxDate: "today",
+            locale: "pt",
+            allowInput: true, // Permite que o usuário digite a data
+            yearRange: 100 // Intervalo de anos visível no seletor
+        });
+    });
 </script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 @endsection

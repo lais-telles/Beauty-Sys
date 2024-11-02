@@ -219,6 +219,21 @@
             signinModal.show();
         @endif
     });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        flatpickr("#floatingDate", {
+            dateFormat: "Y-m-d",
+            altInput: true, // Exibe um campo separado para visualização amigável
+            altFormat: "d/m/Y", // Formato amigável para exibição
+            maxDate: "today",
+            locale: "pt",
+            allowInput: true, // Permite que o usuário digite a data
+            yearRange: 100 // Intervalo de anos visível no seletor
+        });
+    });
 </script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 @endsection
