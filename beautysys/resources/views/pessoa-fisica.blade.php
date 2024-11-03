@@ -198,7 +198,35 @@
                     <div class="text-center mb-3">
                         <a class="" data-bs-toggle="modal" data-bs-target="#signupModal" style="cursor: pointer;">Não tenho conta</a>
                     </div>
+                    <div class="text-center mb-3">
+                        <a class="" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" style="cursor: pointer;">Esqueci a senha</a>
+                    </div>
                     <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPAsswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Reset de senha</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <form action="{{ route('esqueceuSenhaCliente') }}" method="POST">
+                    @csrf
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-3 @error('emailResetSenha') is-invalid @enderror" id="floatingForgotPassword" name="emailResetSenha" placeholder="name@example.com" value="{{ old('emailResetSenha') }}" required>
+                        <label for="floatingForgotPassword">Email address</label>
+                        @error('emailResetSenha')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Enviar</button>
                 </form>
             </div>
         </div>
