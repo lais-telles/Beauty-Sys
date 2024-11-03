@@ -21,7 +21,7 @@ class EstabelecimentoController extends Controller
         $validatedData = $request->validate([
             'razao_social' => 'required|string|max:40',
             'nome_fantasia' => 'required|string|max:40',
-            'telefoneEstab' => 'required|string|max:15',
+            'telefoneEstab' => ['required', new validaCelular],
             'cnpj' => ['required', new validaCNPJ],
             'logradouro' => 'required|string|max:40',
             'numero' => 'required|string|max:10',
