@@ -737,7 +737,7 @@ CREATE TABLE `clientes` (
   `data_nasc` date DEFAULT NULL,
   `CPF` varchar(14) DEFAULT NULL,
   `telefone` varchar(15) DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `senha` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1130,6 +1130,31 @@ INSERT INTO `itens_pedido` (`id_pedido`, `id_produto`, `qtd_item`) VALUES
 (1, 1, 2),
 (2, 3, 1),
 (3, 5, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `logs_tokens`
+--
+
+CREATE TABLE `logs_tokens` (
+  `token` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `created_at` varchar(255) NOT NULL,
+  `used_at` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `password_resets_clientes`
+--
+
+CREATE TABLE `resets_senha_clientes` (
+  `token` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `created_at` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
