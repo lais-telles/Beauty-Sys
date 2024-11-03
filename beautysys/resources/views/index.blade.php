@@ -17,7 +17,7 @@
 
 @section('content')
 <section style="margin-top: 10rem;">
-    @if (session('alert'))
+    @if (session('alert') || session('success') || session('error'))
         <!-- Modal Trigger -->
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -34,8 +34,12 @@
                         <h5 class="modal-title text-center" id="alertModalLabel">Aviso</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body text-center alert alert-warning">
-                        {{ session('alert') }}
+                    <div class="modal-body text-center 
+                        @if(session('alert')) alert alert-warning 
+                        @elseif(session('success')) alert alert-success 
+                        @elseif(session('error')) alert alert-danger 
+                        @endif">
+                        {{ session('alert') ?? session('success') ?? session('error') }}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>

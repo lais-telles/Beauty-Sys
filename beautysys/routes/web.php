@@ -38,6 +38,21 @@ Route::post('cliente/login', [ClienteController::class, 'loginCliente'])->name('
 // Rota para exibir todos os estabelecimentos disponíveis na plataforma da área de login
 Route::get('estabelecimentos/login', [ClienteController::class, 'listaEstabLogin'])->name('listaEstabLogin');
 
+//Rota para solicitação de link para redefinição de senha via email
+Route::post('esqueceu-senha/cliente', [ClienteController::class, 'esqueceuSenhaCliente'])->name('esqueceuSenhaCliente');
+
+// Rota para o envio do email com o link para redefinição de senha
+Route::get('reset-senha/cliente/{token}', [ClienteController::class, 'resetSenhaCliente'])->name('resetSenhaCliente');
+
+// Rota para a definição de uma nova senha
+Route::post('nova-senha/cliente', [ClienteController::class, 'definirNovaSenhaCliente'])->name('definirNovaSenhaCliente');
+
+//Rota adicional para evitar o acesso indevido a rota de nova senha (Vou verificar a viabilidade de fazer um middleware para isso)
+Route::get('nova-senha/cliente', function () {
+    return redirect()->route('Index')->with('error', 'Acesso inválido!');
+});
+
+
 // Rotas privadas (requer autenticação do cliente)
 Route::middleware('auth:cliente')->group(function () {
     // Página inicial do cliente

@@ -122,10 +122,10 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
-            'table' => 'password_reset_tokens',
-            'expire' => 60,
+        'clientes' => [
+            'provider' => 'clientes',
+            'table' => 'resets_senha_clientes',
+            'expire' => 2,
             'throttle' => 60,
         ],
     ],
