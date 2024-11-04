@@ -1159,6 +1159,30 @@ CREATE TABLE `resets_senha_clientes` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `resets_senha_estabelecimentos`
+--
+
+CREATE TABLE `resets_senha_estabelecimentos` (
+  `token` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `created_at` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `resets_senha_profissionais`
+--
+
+CREATE TABLE `resets_senha_profissionais` (
+  `token` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `created_at` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `pedidos`
 --
 
