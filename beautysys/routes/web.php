@@ -42,7 +42,7 @@ Route::get('estabelecimentos/login', [ClienteController::class, 'listaEstabLogin
 Route::post('esqueceu-senha/cliente', [ClienteController::class, 'esqueceuSenhaCliente'])->name('esqueceuSenhaCliente');
 
 // Rota para o envio do email com o link para redefinição de senha
-Route::get('reset-senha/cliente/{token}', [ClienteController::class, 'resetSenhaCliente'])->name('resetSenhaCliente');
+Route::get('/reset-senha/cliente/', [ClienteController::class, 'resetSenhaCliente'])->name('resetSenhaCliente');
 
 // Rota para a definição de uma nova senha
 Route::post('nova-senha/cliente', [ClienteController::class, 'definirNovaSenhaCliente'])->name('definirNovaSenhaCliente');
@@ -102,6 +102,21 @@ Route::post('/profissionais/cadastrar', [ProfissionalController::class, 'cadastr
 // Rota para realizar login do profissional usando o método 'loginProfissional'
 Route::post('/profissional/login', [ProfissionalController::class, 'loginProfissional'])->name('loginProfissional');
 
+//Rota para solicitação de link para redefinição de senha via email
+Route::post('esqueceu-senha/profissional', [ProfissionalController::class, 'esqueceuSenhaProfissional'])->name('esqueceuSenhaProfissional');
+
+// Rota para o envio do email com o link para redefinição de senha
+Route::get('/reset-senha/profissional', [ProfissionalController::class, 'resetSenhaProfissional'])->name('resetSenhaProfissional');
+
+// Rota para a definição de uma nova senha
+Route::post('nova-senha/profissional', [ProfissionalController::class, 'definirNovaSenhaProfissional'])->name('definirNovaSenhaProfissional');
+
+// Rota adicional para evitar o acesso indevido à rota de nova senha (Vou verificar a viabilidade de fazer um middleware para isso)
+Route::get('nova-senha/profissional', function () {
+    return redirect()->route('Index')->with('error', 'Acesso inválido!');
+});
+
+
 // Rotas privadas (requer autenticação do profissional)
 Route::middleware('auth:profissional')->group(function () {
     // Página inicial do profissional
@@ -154,6 +169,20 @@ Route::post('/estabelecimentos/cadastrar', [EstabelecimentoController::class, 'c
 
 // Rota para realizar login do estabelecimento usando o método 'loginEstab'
 Route::post('estabelecimento/login', [EstabelecimentoController::class, 'loginEstab'])->name('loginEstab');
+
+// Rota para solicitação de link para redefinição de senha via email
+Route::post('esqueceu-senha/estabelecimento', [EstabelecimentoController::class, 'esqueceuSenhaEstabelecimento'])->name('esqueceuSenhaEstabelecimento');
+
+// Rota para o envio do email com o link para redefinição de senha
+Route::get('/reset-senha/estabelecimento', [EstabelecimentoController::class, 'resetSenhaEstabelecimento'])->name('resetSenhaEstabelecimento');
+
+// Rota para a definição de uma nova senha
+Route::post('nova-senha/estabelecimento', [EstabelecimentoController::class, 'definirNovaSenhaEstabelecimento'])->name('definirNovaSenhaEstabelecimento');
+
+// Rota adicional para evitar o acesso indevido à rota de nova senha (Vou verificar a viabilidade de fazer um middleware para isso)
+Route::get('nova-senha/estabelecimento', function () {
+    return redirect()->route('Index')->with('error', 'Acesso inválido!');
+});
 
 Route::middleware('auth:estabelecimento')->group(function () {
     // Página inicial do estabelecimento

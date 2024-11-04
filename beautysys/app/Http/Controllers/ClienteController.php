@@ -81,7 +81,7 @@ class ClienteController extends Controller
             return redirect()->route('Index')->with('error', 'Acesso inválido.');
         }
     
-        $resetRecord = DB::table('resets_senha_clientes')->where('email', $email)->first();
+        $resetRecord = DB::table('resets_senha_clientes')->where('email', $email)->where('token', $token)->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
