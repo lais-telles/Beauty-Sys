@@ -26,6 +26,7 @@ Route::get('/pessoa-física', [IndexController::class, 'PessoaFisica'])->name('P
 Route::get('/parceiros', [IndexController::class, 'Parceiro'])->name('Parceiro');
 //Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
+Route::get('/confirma-email', [IndexController::class, 'confirmaEmail'])->name('confirmaEmail');
 
 // -------------------------------------- Rotas do cliente ----------------------------------------------------
 

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetSenhaEmail;
+use App\Mail\ConfirmaEmail;
 
 class ClienteController extends Controller
 {
@@ -31,21 +32,25 @@ class ClienteController extends Controller
             'senha' => 'required|string|min:8',
         ]);
 
+        
         try {
             // Chama o método para criar o cliente no model
             Cliente::cadastrarCliente($validatedData);
 
+            // Envia o e-mail de confirmação
+            Mail::to($validatedData['email'])->send(new ConfirmaEmail($validatedData['email']));
+
             // Redireciona para a página com uma mensagem de sucesso
-            return redirect()->route('PessoaFisica')->with('success', 'Cliente cadastrado com sucesso!');
+            return redirect()->route('PessoaFisica')->with('success', 'Cliente cadastrado com sucesso. Por favor, verifique seu e-mail!');
         } catch (\Exception $e) {
             // Se ocorrer um erro, redireciona com uma mensagem de erro
             return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o cliente. Tente novamente.');
         }
     }
 
+    // Função para enviar o e-mail de redefinição de senha
     public function esqueceuSenhaCliente(Request $request)
     {
-        // Corrigido para corresponder ao campo correto
         $email = $request->input('emailResetSenha'); 
     
         // Buscar o cliente pelo email no banco de dados
@@ -72,7 +77,7 @@ class ClienteController extends Controller
         }
     }
     
-
+    // Função para retornar a tela para definição de uma nova senha
     public function resetSenhaCliente(Request $request) {
         $email = $request->query('email');
         $token = $request->query('token');
@@ -105,33 +110,32 @@ class ClienteController extends Controller
     
         return view('nova-senhaCliente', compact('token', 'email'));
     }
-        
-    
 
+    // Função para o processamento e inserção da nova senha na tabela clientes
     public function definirNovaSenhaCliente(Request $request){
         // Valida a entrada
         $request->validate([
-            'new_password' => 'required|min:8', // Adicione outras regras de validação conforme necessário
+            'new_password' => 'required|min:8', 
         ]);
 
         /// Obtém o email da sessão
         $email = session('email');
 
-        // Verifique se o token é válido e se o email existe na tabela resets_senha_clientes
+        // Verifica se o token é válido e se o email existe na tabela resets_senha_clientes
         $resetRecord = DB::table('resets_senha_clientes')->where('email', $email)->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
         }else {
 
-            // Busca o cliente pelo ID
+            // Busca o cliente pelo email
             $cliente = Cliente::where('email', $email)->first();
 
             DB::table('logs_tokens')->insert([
                 'email' => $resetRecord->email,
                 'token' => $resetRecord->token,
                 'created_at' => $resetRecord->created_at,
-                'used_at' => now(), // Para registrar quando o link foi usado
+                'used_at' => now(),
             ]);
 
             DB::table('resets_senha_clientes')->where('email', $email)->delete();
@@ -153,13 +157,19 @@ class ClienteController extends Controller
             'senhaLogin' => 'required|string|min:8',
         ]);
 
-        // Tentar autenticar o cliente usando o guard 'cliente'
-        if (Auth::guard('cliente')->attempt(['email' => $request->input('emailLogin'), 'password' => $request->input('senhaLogin')])) {
-            // Login bem-sucedido, redirecionar para a página inicial do cliente
-            return redirect()->route('PaginaInicialPf')->with('success', 'Login realizado com sucesso!');
+        $email_verificado = Cliente::where('email', $validatedData['emailLogin'])->where('email_verificado', 1)->first();
+
+        if($email_verificado){
+            // Tentar autenticar o cliente usando o guard 'cliente'
+            if (Auth::guard('cliente')->attempt(['email' => $request->input('emailLogin'), 'password' => $request->input('senhaLogin')])) {
+                // Login bem-sucedido, redirecionar para a página inicial do cliente
+                return redirect()->route('PaginaInicialPf')->with('success', 'Login realizado com sucesso!');
+            } else {
+                // Login falhou, redirecionar de volta com uma mensagem de erro
+                return redirect()->back()->with('error', 'Email ou senha inválidos');
+            }
         } else {
-            // Login falhou, redirecionar de volta com uma mensagem de erro
-            return redirect()->back()->with('error', 'Email ou senha inválidos');
+            return redirect()->back()->with('error', 'Email não verificado!');
         }
     }
 

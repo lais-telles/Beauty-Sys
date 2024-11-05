@@ -738,7 +738,8 @@ CREATE TABLE `clientes` (
   `CPF` varchar(14) DEFAULT NULL,
   `telefone` varchar(15) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `senha` varchar(255) DEFAULT NULL
+  `senha` varchar(255) DEFAULT NULL,
+  `email_verificado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
