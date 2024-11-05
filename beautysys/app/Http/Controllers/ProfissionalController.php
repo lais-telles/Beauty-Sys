@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Session; // Para armazenar sessão
 use App\Models\Grade;  // Importe o modelo Grade
 use App\Rules\validaCPF;
 use App\Rules\validaData;
+use App\Rules\validaCelular;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
