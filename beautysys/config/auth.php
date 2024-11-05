@@ -125,10 +125,23 @@ return [
         'clientes' => [
             'provider' => 'clientes',
             'table' => 'resets_senha_clientes',
-            'expire' => 2,
+            'expire' => 1,
+            'throttle' => 60,
+        ],
+        'profissionais' => [
+            'provider' => 'profissionais',
+            'table' => 'resets_senha_profissionais',
+            'expire' => 1,
+            'throttle' => 60,
+        ],
+        'estabelecimentos' => [
+            'provider' => 'estabelecimentos',
+            'table' => 'resets_senha_estabelecimentos',
+            'expire' => 1,
             'throttle' => 60,
         ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Session; // Para armazenar sessão
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Rules\validaCNPJ;
+use App\Rules\validaCelular;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetSenhaEmail;
 
 class EstabelecimentoController extends Controller
 {
@@ -44,6 +48,104 @@ class EstabelecimentoController extends Controller
         } catch (\Throwable $th) {
             // Se ocorrer um erro, redireciona com uma mensagem de erro
             return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o estabelecimento. Tente novamente.');
+        }
+    }
+
+    public function esqueceuSenhaEstabelecimento(Request $request){
+        // Corrigido para corresponder ao campo correto
+        $email = $request->input('emailResetSenhaEstab'); 
+    
+        // Buscar o cliente pelo email no banco de dados
+        $estabelecimento = DB::table('estabelecimentos')->where('email', $email)->first();
+    
+        // Verificar se o cliente foi encontrado
+        if ($estabelecimento) {
+            // Gerar um token para redefinição de senha
+            $token = Str::random(60);
+            
+            // Inserir o token no banco de dados para esse email
+            DB::table('resets_senha_estabelecimentos')->insert([
+                'email' => $estabelecimento->email,
+                'token' => $token,
+                'created_at' => now(),
+            ]);
+    
+            // Enviar o email de redefinição de senha
+            Mail::to($estabelecimento->email)->send(new ResetSenhaEmail($estabelecimento, $token, 'estabelecimento'));
+    
+            return redirect()->back()->with('status', 'Email de redefinição de senha enviado!');
+        } else {
+            return redirect()->back()->with('error', 'Email não encontrado');
+        }
+    }
+    
+
+    public function resetSenhaEstabelecimento(Request $request){
+        $email = $request->query('email');
+        $token = $request->query('token');
+
+        if (!$email || !$token) {
+            return redirect()->route('Index')->with('error', 'Acesso inválido.');
+        }
+    
+        $resetRecord = DB::table('resets_senha_estabelecimentos')->where('email', $email)->where('token', $token)->first();
+    
+        if (!$resetRecord) {
+            return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
+        }
+    
+        $expireTime = config('auth.passwords.estabelecimentos.expire');
+        if (now()->diffInMinutes($resetRecord->created_at) > $expireTime) {
+            DB::table('logs_tokens')->insert([
+                'email' => $resetRecord->email,
+                'token' => $resetRecord->token,
+                'created_at' => $resetRecord->created_at,
+                'used_at' => now(),
+            ]);
+    
+            DB::table('resets_senha_estabelecimentos')->where('email', $email)->delete();
+    
+            return redirect()->route('Index')->with('error', 'O link de redefinição de senha expirou.');
+        }
+    
+        session(['email' => $email, 'token' => $token]);
+    
+        return view('nova-senhaEstab', compact('token', 'email'));
+    }
+
+    public function definirNovaSenhaEstabelecimento(Request $request){
+        // Valida a entrada
+        $request->validate([
+            'new_password' => 'required|min:8', // Adicione outras regras de validação conforme necessário
+        ]);
+
+        /// Obtém o email da sessão
+        $email = session('email');
+
+        // Verifique se o token é válido e se o email existe na tabela resets_senha_clientes
+        $resetRecord = DB::table('resets_senha_estabelecimentos')->where('email', $email)->first();
+    
+        if (!$resetRecord) {
+            return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
+        }else {
+
+            // Busca o cliente pelo ID
+            $estabelecimento = Estabelecimento::where('email', $email)->first();
+
+            DB::table('logs_tokens')->insert([
+                'email' => $resetRecord->email,
+                'token' => $resetRecord->token,
+                'created_at' => $resetRecord->created_at,
+                'used_at' => now(), // Para registrar quando o link foi usado
+            ]);
+
+            DB::table('resets_senha_estabelecimentos')->where('email', $email)->delete();
+            
+            // Atualiza a senha
+            $estabelecimento->senha = Hash::make($request->input('new_password'));
+            $estabelecimento->save();
+            
+            return redirect()->route('Index')->with('success', 'Senha redefinida com sucesso');
         }
     }
 

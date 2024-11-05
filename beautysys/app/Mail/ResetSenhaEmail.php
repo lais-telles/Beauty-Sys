@@ -13,20 +13,33 @@ class ResetSenhaEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $cliente;
+    public $user;
     public $token;
+    public $userType;
 
-    public function __construct($cliente, $token)
+    public function __construct($user, $token, $userType)
     {
-        $this->cliente = $cliente;
+        $this->user = $user;
         $this->token = $token;
+        $this->userType = $userType;
     }
 
     public function build()
     {
+        // Define a rota com base no tipo de usuário
+        $routeName = match ($this->userType) {
+            'cliente' => 'resetSenhaCliente',
+            'profissional' => 'resetSenhaProfissional',
+            'estabelecimento' => 'resetSenhaEstabelecimento',
+            default => throw new \Exception('Tipo de usuário inválido')
+        };
+
         return $this->view('reset-password')
                     ->with([
-                        'link' => route('resetSenhaCliente', ['token' => $this->token, 'email' => $this->cliente->email]),
+                        'link' => route($routeName, [
+                            'token' => $this->token,
+                            'email' => $this->user->email,
+                        ]),
                     ]);
     }
 }

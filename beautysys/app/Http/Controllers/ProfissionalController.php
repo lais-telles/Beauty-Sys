@@ -17,6 +17,9 @@ use App\Rules\validaCPF;
 use App\Rules\validaData;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetSenhaEmail;
 
 class ProfissionalController extends Controller
 {
@@ -44,6 +47,107 @@ class ProfissionalController extends Controller
             return redirect()->back()->with('error', 'Ocorreu um erro ao cadastrar o profissional. Tente novamente.');
         }
 
+    }
+
+    public function esqueceuSenhaProfissional(Request $request)
+    {
+        // Corrigido para corresponder ao campo correto
+        $email = $request->input('emailResetSenhaProf'); 
+    
+        // Buscar o cliente pelo email no banco de dados
+        $profissional = DB::table('profissionais')->where('email', $email)->first();
+    
+        // Verificar se o cliente foi encontrado
+        if ($profissional) {
+            // Gerar um token para redefinição de senha
+            $token = Str::random(60);
+            
+            // Inserir o token no banco de dados para esse email
+            DB::table('resets_senha_profissionais')->insert([
+                'email' => $profissional->email,
+                'token' => $token,
+                'created_at' => now(),
+            ]);
+    
+            // Enviar o email de redefinição de senha
+            Mail::to($profissional->email)->send(new ResetSenhaEmail($profissional, $token, 'profissional'));
+    
+            return redirect()->back()->with('status', 'Email de redefinição de senha enviado!');
+        } else {
+            return redirect()->back()->with('error', 'Email não encontrado');
+        }
+    }
+    
+
+    public function resetSenhaProfissional(Request $request) {
+        $email = $request->query('email');
+        $token = $request->query('token');
+
+        if (!$email || !$token) {
+            return redirect()->route('Index')->with('error', 'Acesso inválido.');
+        }
+    
+        $resetRecord = DB::table('resets_senha_profissionais')->where('email', $email)->where('token', $token)->first();
+    
+        if (!$resetRecord) {
+            return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
+        }
+    
+        $expireTime = config('auth.passwords.profissionais.expire');
+        if (now()->diffInMinutes($resetRecord->created_at) > $expireTime) {
+            DB::table('logs_tokens')->insert([
+                'email' => $resetRecord->email,
+                'token' => $resetRecord->token,
+                'created_at' => $resetRecord->created_at,
+                'used_at' => now(),
+            ]);
+    
+            DB::table('resets_senha_profissionais')->where('email', $email)->delete();
+    
+            return redirect()->route('Index')->with('error', 'O link de redefinição de senha expirou.');
+        }
+    
+        session(['email' => $email, 'token' => $token]);
+    
+        return view('nova-senhaProf', compact('token', 'email'));
+    }
+        
+    
+
+    public function definirNovaSenhaProfissional(Request $request){
+        // Valida a entrada
+        $request->validate([
+            'new_password' => 'required|min:8', // Adicione outras regras de validação conforme necessário
+        ]);
+
+        /// Obtém o email da sessão
+        $email = session('email');
+
+        // Verifique se o token é válido e se o email existe na tabela resets_senha_clientes
+        $resetRecord = DB::table('resets_senha_profissionais')->where('email', $email)->first();
+    
+        if (!$resetRecord) {
+            return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
+        }else {
+
+            // Busca o cliente pelo ID
+            $profissional = Profissional::where('email', $email)->first();
+
+            DB::table('logs_tokens')->insert([
+                'email' => $resetRecord->email,
+                'token' => $resetRecord->token,
+                'created_at' => $resetRecord->created_at,
+                'used_at' => now(), // Para registrar quando o link foi usado
+            ]);
+
+            DB::table('resets_senha_profissionais')->where('email', $email)->delete();
+            
+            // Atualiza a senha
+            $profissional->senha = Hash::make($request->input('new_password'));
+            $profissional->save();
+            
+            return redirect()->route('Index')->with('success', 'Senha redefinida com sucesso');
+        }
     }
 
     // Método de login

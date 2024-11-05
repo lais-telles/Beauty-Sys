@@ -64,7 +64,7 @@ class ClienteController extends Controller
             ]);
     
             // Enviar o email de redefinição de senha
-            Mail::to($cliente->email)->send(new ResetSenhaEmail($cliente, $token));
+            Mail::to($cliente->email)->send(new ResetSenhaEmail($cliente, $token, 'cliente'));
     
             return redirect()->back()->with('status', 'Email de redefinição de senha enviado!');
         } else {
@@ -103,7 +103,7 @@ class ClienteController extends Controller
     
         session(['email' => $email, 'token' => $token]);
     
-        return view('nova-senha', compact('token', 'email'));
+        return view('nova-senhaCliente', compact('token', 'email'));
     }
         
     
