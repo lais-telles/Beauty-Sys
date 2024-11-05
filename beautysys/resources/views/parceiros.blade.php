@@ -108,7 +108,7 @@
 </section>
 
 <!-- Poup-up de cadastro pro proprietário-->
-<div class="modal fade" id="signupModalProprietario" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+<div class="modal fade" id="signupModalEstab" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-4 shadow">
             <div class="modal-header p-5 pb-4 border-bottom-0">
@@ -283,7 +283,10 @@
                         @enderror
                     </div>
                     <div class="text-center mb-3">
-                        <a class="" data-bs-toggle="modal" data-bs-target="#signupModalProprietario" style="cursor: pointer;">Não tenho conta</a> 
+                        <a class="" data-bs-toggle="modal" data-bs-target="#signupModalEstab" style="cursor: pointer;">Não tenho conta</a> 
+                    </div>
+                    <div class="text-center mb-3">
+                        <a class="" data-bs-toggle="modal" data-bs-target="#forgotPasswordModalEstab" style="cursor: pointer;">Esqueci a senha</a>
                     </div>
                     <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
                 </form>
@@ -382,12 +385,64 @@
                     <div class="text-center mb-3">
                         <a class="" data-bs-toggle="modal" data-bs-target="#signupModalProfissional" style="cursor: pointer;">Não tenho conta</a>
                     </div>
+                    <div class="text-center mb-3">
+                        <a class="" data-bs-toggle="modal" data-bs-target="#forgotPasswordModalProf" style="cursor: pointer;">Esqueci a senha</a>
+                    </div>
                     <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Entrar</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="forgotPasswordModalEstab" tabindex="-1" aria-labelledby="forgotPAsswordModalLabelEstab" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Reset de senha</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <form action="{{ route('esqueceuSenhaEstabelecimento') }}" method="POST">
+                    @csrf
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-3 @error('emailResetSenhaEstab') is-invalid @enderror" id="floatingForgotPasswordEstab" name="emailResetSenhaEstab" placeholder="name@example.com" value="{{ old('emailResetSenhaEstab') }}" required>
+                        <label for="floatingForgotPasswordEstab">Email address</label>
+                        @error('emailResetSenhaEstab')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="forgotPasswordModalProf" tabindex="-1" aria-labelledby="forgotPAsswordModalLabelProf" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Reset de senha</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5 pt-0">
+                <form action="{{ route('esqueceuSenhaProfissional') }}" method="POST">
+                    @csrf
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control rounded-3 @error('emailResetSenha') is-invalid @enderror" id="floatingForgotPasswordProf" name="emailResetSenhaProf" placeholder="name@example.com" value="{{ old('emailResetSenhaProf') }}" required>
+                        <label for="floatingForgotPasswordProf">Email address</label>
+                        @error('emailResetSenhaProf')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
