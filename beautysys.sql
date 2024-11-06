@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21/10/2024 às 23:18
+-- Tempo de geração: 06/11/2024 às 21:05
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -481,68 +481,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `profissionais_populares` (IN `p_id_
         total_agendamentos DESC;
 END$$
 
--- Realiza a pesquisa de produtos, servicos, profissionais e estabelecimentos
-CREATE DEFINER=`root`@`localhost` PROCEDURE `realizar_pesquisa`(IN `termo_pesquisa` VARCHAR(30))
-BEGIN 
-    -- Pesquisa na tabela servicos
-    SELECT 
-        s.id_servico AS id, 
-        s.nome AS descricao, 
-        s.valor, 
-        e.nome_fantasia AS nome_fantasia, 
-        e.id_estabelecimento AS id_estabelecimento
-    FROM 
-        servicos AS s
-    JOIN 
-        estabelecimentos AS e ON e.id_estabelecimento = s.id_estabelecimento
-    WHERE 
-        s.nome LIKE CONCAT('%', termo_pesquisa, '%')
-
-    UNION
-
-    -- Pesquisa na tabela produtos
-    SELECT 
-        id_produto AS id, 
-        nome AS descricao, 
-        valor, 
-        NULL AS nome_fantasia, 
-        NULL AS id_estabelecimento
-    FROM 
-        produtos
-    WHERE 
-        nome LIKE CONCAT('%', termo_pesquisa, '%')
-    
-    UNION
-    
-    -- Pesquisa na tabela estabelecimentos
-    SELECT 
-        id_estabelecimento AS id, 
-        nome_fantasia AS descricao, 
-        NULL AS valor, 
-        nome_fantasia AS nome_fantasia, 
-        id_estabelecimento AS id_estabelecimento
-    FROM 
-        estabelecimentos 
-    WHERE 
-        nome_fantasia LIKE CONCAT('%', termo_pesquisa, '%')
-        OR razao_social LIKE CONCAT('%', termo_pesquisa, '%')
-    
-    UNION
-    
-    -- Pesquisa na tabela profissionais
-    SELECT 
-        id_profissional AS id, 
-        nome AS descricao, 
-        NULL AS valor, 
-        NULL AS nome_fantasia, 
-        NULL AS id_estabelecimento
-    FROM 
-        profissionais 
-    WHERE 
-        nome LIKE CONCAT('%', termo_pesquisa, '%');
-END$$
-
--- Registra um agendamento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `realizar_agendamento` (IN `p_id_cliente` INT, IN `p_id_profissional` INT, IN `p_id_opcaopag` INT, IN `p_data_realizacao` DATE, IN `p_horario_inicio` TIME, IN `p_id_servico` INT)   BEGIN
     DECLARE p_id_agendamento INT;
     DECLARE p_valor_total DECIMAL(10,2);
@@ -614,6 +552,65 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `realizar_pedido` (IN `p_id_cliente`
     SET valor_total = p_valor_total
     WHERE id_pedido = p_id_pedido;
 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `realizar_pesquisa` (IN `termo_pesquisa` VARCHAR(30))   BEGIN 
+    -- Pesquisa na tabela servicos
+    SELECT 
+        s.id_servico AS id, 
+        s.nome AS descricao, 
+        s.valor, 
+        e.nome_fantasia AS nome_fantasia, 
+        e.id_estabelecimento AS id_estabelecimento
+    FROM 
+        servicos AS s
+    JOIN 
+        estabelecimentos AS e ON e.id_estabelecimento = s.id_estabelecimento
+    WHERE 
+        s.nome LIKE CONCAT('%', termo_pesquisa, '%')
+
+    UNION
+
+    -- Pesquisa na tabela produtos
+    SELECT 
+        id_produto AS id, 
+        nome AS descricao, 
+        valor, 
+        NULL AS nome_fantasia, 
+        NULL AS id_estabelecimento
+    FROM 
+        produtos
+    WHERE 
+        nome LIKE CONCAT('%', termo_pesquisa, '%')
+    
+    UNION
+    
+    -- Pesquisa na tabela estabelecimentos
+    SELECT 
+        id_estabelecimento AS id, 
+        nome_fantasia AS descricao, 
+        NULL AS valor, 
+        nome_fantasia AS nome_fantasia, 
+        id_estabelecimento AS id_estabelecimento
+    FROM 
+        estabelecimentos 
+    WHERE 
+        nome_fantasia LIKE CONCAT('%', termo_pesquisa, '%')
+        OR razao_social LIKE CONCAT('%', termo_pesquisa, '%')
+    
+    UNION
+    
+    -- Pesquisa na tabela profissionais
+    SELECT 
+        id_profissional AS id, 
+        nome AS descricao, 
+        NULL AS valor, 
+        NULL AS nome_fantasia, 
+        NULL AS id_estabelecimento
+    FROM 
+        profissionais 
+    WHERE 
+        nome LIKE CONCAT('%', termo_pesquisa, '%');
 END$$
 
 -- Registro o vínculo entre serviço e profissional
@@ -746,15 +743,16 @@ CREATE TABLE `clientes` (
 -- Despejando dados para a tabela `clientes`
 --
 
-INSERT INTO `clientes` (`id_cliente`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`) VALUES
-(1, 'João Almeida da Silva', '1990-01-01', '123.456.789-00', '(19) 98908-3696', 'Luis@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC'),
-(2, 'Amanda Cruz da Silva', '1991-01-01', '123.456.789-01', '(11) 98908-3691', 'amanda_silva@gmail.com', 'senha456'),
-(3, 'Luis Carlos da Silva', '1992-01-01', '123.456.789-02', '(11) 98908-3692', 'Luis@teste.com', 'senha789'),
-(4, 'Teste01', '2001-01-01', '49333379851', '19989085358', 'teste01@gmail.com', '$2y$12$v/7IJoM3Zlf1OMu6YXl6yuN98Sh61gA9TB4T4cR/ZAwarZvc4S13y'),
-(5, 'Ellie', '2003-03-13', '21516161', '15155151', 'Ellies@gmail.com', '$2y$12$5xk67e3b6DzmL1ifDgQoA.0pqzITNjnyi0/NYbTWSldVMKEp5u30q'),
-(6, 'Larissa', '2001-03-12', '5651526525', '41541515', 'larissa@gmail.com', '$2y$12$OKQ3GbIZyNlyo/RZlHIfxeLSZ9dTSRTq7alZj6OB9X7oruTbrgBne'),
-(7, 'Larissa', '1999-03-12', '5651526525', '41541515', 'larissa1@gmail.com', '$2y$12$/wD8lWwiXKSZR8cjEji2KOfBr8n.2oZpMpPOsOiPhJ7t4NMbLSn8i'),
-(8, 'Larissa', '1999-03-12', '5651526525', '41541515', 'larissa2@gmail.com', '$2y$12$ws2ybBZcUntYfgXPfdOUfepHrkWzGhD8pTPPD7uie3NuEcYNpOHFe');
+INSERT INTO `clientes` (`id_cliente`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`, `email_verificado`) VALUES
+(1, 'João Almeida da Silva', '1990-01-01', '123.456.789-00', '(19) 98908-3696', 'Luis@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1),
+(2, 'Amanda Cruz da Silva', '1991-01-01', '123.456.789-01', '(11) 98908-3691', 'amanda_silva@gmail.com', 'senha456', 1),
+(3, 'Luis Carlos da Silva', '1992-01-01', '123.456.789-02', '(11) 98908-3692', 'Luis@teste.com', 'senha789', 1),
+(4, 'Teste01', '2001-01-01', '49333379851', '19989085358', 'teste01@gmail.com', '$2y$12$v/7IJoM3Zlf1OMu6YXl6yuN98Sh61gA9TB4T4cR/ZAwarZvc4S13y', 1),
+(5, 'Ellie', '2003-03-13', '21516161', '15155151', 'Ellies@gmail.com', '$2y$12$5xk67e3b6DzmL1ifDgQoA.0pqzITNjnyi0/NYbTWSldVMKEp5u30q', 1),
+(6, 'Larissa', '2001-03-12', '5651526525', '41541515', 'larissa@gmail.com', '$2y$12$OKQ3GbIZyNlyo/RZlHIfxeLSZ9dTSRTq7alZj6OB9X7oruTbrgBne', 1),
+(7, 'Larissa', '1999-03-12', '5651526525', '41541515', 'larissa1@gmail.com', '$2y$12$/wD8lWwiXKSZR8cjEji2KOfBr8n.2oZpMpPOsOiPhJ7t4NMbLSn8i', 1),
+(8, 'Larissa', '1999-03-12', '5651526525', '41541515', 'larissa2@gmail.com', '$2y$12$ws2ybBZcUntYfgXPfdOUfepHrkWzGhD8pTPPD7uie3NuEcYNpOHFe', 1),
+(37, 'Rodrigo', '2001-03-02', '49333379851', '(19) 98908-5358', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$I3ax0q36kJjDOqBP5PypBuNXvrEGxbjhhWb.eiKzANIp/qP3X3exy', 1);
 
 --
 -- Acionadores `clientes`
@@ -779,6 +777,20 @@ CREATE TRIGGER `atualizacao_cliente` AFTER UPDATE ON `clientes` FOR EACH ROW BEG
 END
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `confirmacoes_emails`
+--
+
+CREATE TABLE `confirmacoes_emails` (
+  `token` varchar(255) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `created_at` varchar(255) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `tipo_usuario` enum('cliente','profissional','estabelecimento','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -845,21 +857,23 @@ CREATE TABLE `estabelecimentos` (
   `CEP` varchar(9) DEFAULT NULL,
   `inicio_expediente` time DEFAULT NULL,
   `termino_expediente` time DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
-  `senha` varchar(255) DEFAULT NULL
+  `email` varchar(100) DEFAULT NULL,
+  `senha` varchar(255) DEFAULT NULL,
+  `email_verificado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `estabelecimentos`
 --
 
-INSERT INTO `estabelecimentos` (`id_estabelecimento`, `razao_social`, `nome_fantasia`, `telefone`, `CNPJ`, `logradouro`, `numero`, `bairro`, `cidade`, `estado`, `CEP`, `inicio_expediente`, `termino_expediente`, `email`, `senha`) VALUES
-(1, 'Barbearia Auxiliadora ltda.', 'Barbearia ML', '(11) 97836-0100', '12.345.678/0001-00', 'Rua Odete Santos', 1780, 'Centro', 'Paulínia', 'SP', '09700-000', '08:00:00', '18:00:00', 'ml@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC'),
-(2, 'Salão de beleza Gilberto e Cia.', 'Espaço do Gigi', '(11) 97836-0101', '12.345.678/0001-01', 'Rua Alberto de Nóbrega', 100, 'Centro', 'Hortolândia', 'SP', '02000-000', '08:00:00', '17:00:00', 'gigi@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC'),
-(3, 'Espaço da beleza ltda.', 'Beleza e Cia.', '(11) 97836-0109', '12.345.678/0001-0', 'Avenida Drummond', 1850, 'Centro', 'Campinas', 'SP', '03700-000', '08:00:00', '17:30:00', 'beleza@exemplo.com', 'senha789'),
-(4, 'Teste01 ltda.', 'Teste Fantasia', '(19) 96325-7896', '12.345.678/0001-08', 'Rua teste 01', 1, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '08:00:00', '18:00:00', 'teste_email@gmail.com', '$2y$12$cxoOV/XKGAn3FjEurMJKh.N3sjcCBAX5rwkTnHS0krmyQ4ovuJKY.'),
-(5, 'Teste02 ltda.', 'Teste Fantasia2', '19989085358', '12.345.678/0001-08', 'Rua teste 01', 120, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '07:00:00', '17:00:00', 'teste_email02@gmail.com', ''),
-(6, 'Teste03 ltda.', 'Teste Fantasia3', '19333333333', '12.345.678/0001-10', 'Rua teste 03', 123, 'Bairro 03', 'Cidade 03', 'EP', '12589-427', '07:30:00', '17:00:00', 'teste_email03@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC');
+INSERT INTO `estabelecimentos` (`id_estabelecimento`, `razao_social`, `nome_fantasia`, `telefone`, `CNPJ`, `logradouro`, `numero`, `bairro`, `cidade`, `estado`, `CEP`, `inicio_expediente`, `termino_expediente`, `email`, `senha`, `email_verificado`) VALUES
+(1, 'Barbearia Auxiliadora ltda.', 'Barbearia ML', '(11) 97836-0100', '12.345.678/0001-00', 'Rua Odete Santos', 1780, 'Centro', 'Paulínia', 'SP', '09700-000', '08:00:00', '18:00:00', 'ml@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1),
+(2, 'Salão de beleza Gilberto e Cia.', 'Espaço do Gigi', '(11) 97836-0101', '12.345.678/0001-01', 'Rua Alberto de Nóbrega', 100, 'Centro', 'Hortolândia', 'SP', '02000-000', '08:00:00', '17:00:00', 'gigi@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1),
+(3, 'Espaço da beleza ltda.', 'Beleza e Cia.', '(11) 97836-0109', '12.345.678/0001-0', 'Avenida Drummond', 1850, 'Centro', 'Campinas', 'SP', '03700-000', '08:00:00', '17:30:00', 'beleza@exemplo.com', 'senha789', 1),
+(4, 'Teste01 ltda.', 'Teste Fantasia', '(19) 96325-7896', '12.345.678/0001-08', 'Rua teste 01', 1, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '08:00:00', '18:00:00', 'teste_email@gmail.com', '$2y$12$cxoOV/XKGAn3FjEurMJKh.N3sjcCBAX5rwkTnHS0krmyQ4ovuJKY.', 1),
+(5, 'Teste02 ltda.', 'Teste Fantasia2', '19989085358', '12.345.678/0001-08', 'Rua teste 01', 120, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '07:00:00', '17:00:00', 'teste_email02@gmail.com', '', 1),
+(6, 'Teste03 ltda.', 'Teste Fantasia3', '19333333333', '12.345.678/0001-10', 'Rua teste 03', 123, 'Bairro 03', 'Cidade 03', 'EP', '12589-427', '07:30:00', '17:00:00', 'teste_email03@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1),
+(11, 'Teste', 'rgdsgfre', '(19) 98908-5358', '25.284.836/0001-96', 'ksgjfd', 564, 'dfgd', 'dfsg', 'gd', '63214', '07:30:00', '13:30:00', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$Vfw1LkpE3a8jymf47wUpoO2GOjxKPvUpcVOSDLilpxnMPmg8BwP8a', 1);
 
 --
 -- Acionadores `estabelecimentos`
@@ -1040,7 +1054,8 @@ INSERT INTO `historico_clientes` (`id_alteracao`, `id_cliente`, `campo_alterado`
 (4, 1, 'email', 'joao_al@gmail.com', 'Luis@gmail.com', '2024-09-13 16:51:43'),
 (5, 1, 'senha', 'senha123', 'senha@123', '2024-09-13 16:51:43'),
 (6, 2, 'email', 'jorge_silva@gmail.com', 'amanda_silva@gmail.com', '2024-09-13 15:15:10'),
-(7, 1, 'senha', 'senha@123', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-11 19:57:36');
+(7, 1, 'senha', 'senha@123', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-11 19:57:36'),
+(15, 37, 'senha', '$2y$12$fwT33lpG.YIg6OE82XZ88up', '$2y$12$I3ax0q36kJjDOqBP5PypBuN', '2024-11-06 16:43:25');
 
 -- --------------------------------------------------------
 
@@ -1082,7 +1097,8 @@ INSERT INTO `historico_estabelecimentos` (`id_alteracao`, `id_estabelecimento`, 
 (18, 6, 'telefone', '19933333333', '19333333333', '2024-10-09 15:55:38'),
 (19, 1, 'senha', 'senha123', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-11 19:45:29'),
 (20, 1, 'email', 'ml@exemplo.com', 'ml@gmail.com', '2024-10-11 19:46:02'),
-(21, 2, 'senha', 'senha456', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-16 20:00:27');
+(21, 2, 'senha', 'senha456', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-16 20:00:27'),
+(24, 11, 'senha', '$2y$12$9YiUGf.t4CRqRrWRfEols.B', '$2y$12$Vfw1LkpE3a8jymf47wUpoO2', '2024-11-06 16:42:55');
 
 -- --------------------------------------------------------
 
@@ -1109,7 +1125,8 @@ INSERT INTO `historico_profissionais` (`id_alteracao`, `id_profissional`, `campo
 (3, 2, 'telefone', '(11) 90981-0541', '(19) 90981-0541', '2024-09-13 17:03:02'),
 (4, 2, 'senha', 'senha654', 'senha@melhorainda', '2024-09-13 17:03:02'),
 (5, 1, 'senha', 'senha@melhor', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-11 19:33:16'),
-(6, 3, 'senha', 'senha321', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-16 19:59:09');
+(6, 3, 'senha', 'senha321', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-16 19:59:09'),
+(10, 20, 'senha', '$2y$12$YjSrnVtaX4gcDD8oB/3xneb', '$2y$12$0aYXCsl6nSz6wH8Iy.b35eY', '2024-11-06 16:44:01');
 
 -- --------------------------------------------------------
 
@@ -1139,47 +1156,38 @@ INSERT INTO `itens_pedido` (`id_pedido`, `id_produto`, `qtd_item`) VALUES
 --
 
 CREATE TABLE `logs_tokens` (
+  `id_token` int(11) NOT NULL,
   `token` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `created_at` varchar(255) NOT NULL,
-  `used_at` varchar(255) NOT NULL
+  `used_at` varchar(255) NOT NULL,
+  `motivo` enum('redefinição de senha','confirmação de email','','') NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `tipo_usuario` enum('cliente','profissional','estabelecimento','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Estrutura para tabela `password_resets_clientes`
+-- Despejando dados para a tabela `logs_tokens`
 --
 
-CREATE TABLE `resets_senha_clientes` (
-  `token` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `created_at` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `resets_senha_estabelecimentos`
---
-
-CREATE TABLE `resets_senha_estabelecimentos` (
-  `token` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `created_at` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `resets_senha_profissionais`
---
-
-CREATE TABLE `resets_senha_profissionais` (
-  `token` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `created_at` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `logs_tokens` (`id_token`, `token`, `email`, `created_at`, `used_at`, `motivo`, `id_usuario`, `tipo_usuario`) VALUES
+(1, 'mrMkjtkuIyxeonBb9V6AS2uVRzDRPfHEfxgaNH4O1Pwua8J0QQZQyhxI0sbe', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 16:06:38', '2024-11-06 16:09:21', 'redefinição de senha', 27, 'cliente'),
+(2, 'tRDveEjS7TbYs8xLvp32YPuGvQhUstoUxbdBQxsTCCjROyGVdK4fTDV4zI7j', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 16:14:14', '2024-11-06 16:14:52', 'redefinição de senha', 27, 'cliente'),
+(3, 'pGxS5FQvMXAIS8TegmA1QABa4wFWg4NESapcCpnr83rXc9KB35QZ03Bo2PsS', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 16:18:32', '2024-11-06 16:19:22', 'redefinição de senha', 14, 'profissional'),
+(4, 'sQ7ZhMp7e94brsHWG2Yc4F6uhUlqV4K9RKBkKCxhICMu1nHXJlTGSEvrhvuc', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 16:23:08', '2024-11-06 16:23:39', 'redefinição de senha', 8, 'estabelecimento'),
+(5, 'yDG4NAkCqTPthij2dOdaIGIKZjvbAPesGgtFGgzqhn5dLwBQ1SlBWK7pJT8F', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 17:56:10', '2024-11-06 17:56:55', 'confirmação de email', 33, 'cliente'),
+(6, 'Zmpb0bldjbvsGhbn0aAUjJZVIFxtQgpUoNoBmineERxkynezmpJki9wokIgx', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 17:58:52', '2024-11-06 17:59:16', 'confirmação de email', 34, 'cliente'),
+(7, '6Zi5bwupAh56vPyZkD1D86fpkgJPVT4xZiKFMWtLT53jdsUtxkWQ1dsc2Jqk', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 18:56:50', '2024-11-06 18:57:08', 'confirmação de email', 35, 'cliente'),
+(8, 'Qux9KxRMHBNOcZDTl5t9oRNKqRfvme9AJxqiBzQD5nXTYNjjZU9lt9DKepkL', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:08:52', '2024-11-06 19:09:25', 'confirmação de email', 17, 'profissional'),
+(9, 'nHTk5Tvr2iGs8ln1Rf5K5LC8unJuEqGu4MJXosdE0YdJgCLm5YB8uFsqX9Xz', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:19:26', '2024-11-06 19:23:57', 'confirmação de email', 36, 'cliente'),
+(10, 'lqRb4SY2M8cxFKnprmfc7V4ESKnt5zBIQzKdPQrqClyeqeWOTeQEKA80N11F', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:20:13', '2024-11-06 19:25:13', 'confirmação de email', 19, 'profissional'),
+(11, 'SZTNPszaFXgOfBWBYD09ConFh4kUZp6CLZV3pK6wIIFNAQsUAiISGBZNagoO', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:32:11', '2024-11-06 19:32:35', 'confirmação de email', 37, 'cliente'),
+(12, 'mQupbA3hZ9VKAj9SqzQeNsTtZ2z3Cie2xjVAmnvU9Ukb0NZ5nznV6QcPbbG8', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:30:50', '2024-11-06 19:32:53', 'confirmação de email', 20, 'profissional'),
+(13, '0kjMq1L1McItrRhfLbIl151cqgZUC3KVreQB7aW7GVdtfwEbngkuH9LB17SU', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:29:53', '2024-11-06 19:33:03', 'confirmação de email', 10, 'estabelecimento'),
+(14, 'GtoYRuBUdXhRoYeel4qsMviXx3DvgkgmQHxKwQwClu8Nms8a6OPU6GgdvVs4', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:41:23', '2024-11-06 19:41:53', 'confirmação de email', 11, 'estabelecimento'),
+(15, 'T1UFzbNyv4LKBwiSh5bNLpCnRMxb1JO43KTU6dxa5nL8VShq4SDDOvUdcypX', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:42:03', '2024-11-06 19:42:54', 'redefinição de senha', 11, 'estabelecimento'),
+(16, '4zLew1IwZiRcRJgE48MZSogcKQpoxo1Tps5uphHjvLADTcCOENDLdduUh5Kl', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:33:35', '2024-11-06 19:43:25', 'redefinição de senha', 37, 'cliente'),
+(17, 'G0qJWDSHOZheLcYRRCXfEO6RBWyMFuNyRiXghhqpSFhNzOIB8AtXGBPfV60q', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:33:57', '2024-11-06 19:44:01', 'redefinição de senha', 20, 'profissional');
 
 -- --------------------------------------------------------
 
@@ -1243,24 +1251,26 @@ CREATE TABLE `profissionais` (
   `data_nasc` date DEFAULT NULL,
   `CPF` varchar(14) DEFAULT NULL,
   `telefone` varchar(15) DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `senha` varchar(255) DEFAULT NULL,
-  `estabel_vinculado` int(11) DEFAULT NULL
+  `estabel_vinculado` int(11) DEFAULT NULL,
+  `email_verificado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `profissionais`
 --
 
-INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`, `estabel_vinculado`) VALUES
-(1, 'Jeremias de Arruda Silva', '1990-01-01', '987.654.321-00', '(19) 98987-0540', 'jeremias@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1),
-(2, 'Juliana da Silva Costa', '1991-01-01', '987.654.321-01', '(19) 90981-0541', 'juliana@teste.com', 'senha@melhorainda', 3),
-(3, 'Aline Costa Albuquerque', '1992-01-01', '987.654.321-02', '(11) 90981-0542', 'aline@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', NULL),
-(4, 'Sheila Almeida', '1998-11-23', '987.654.321-02', '(11) 90981-054', 'sheila@teste.com', 'senha123', 2),
-(5, 'Juriscleison da Costa', '1993-04-01', '132.256.456-02', '1908007070', 'jusriscleison@gmail.com', 'senha123', 1),
-(6, 'Otávio Ferreira', '1975-12-31', '256.145.486-01', '199995452', 'tavinho@outlook.com', 'senha123', 2),
-(7, 'Bruce Lee', '1968-05-06', '456.256.324-15', '1965165655', 'kungfu@yahoo.com', 'senha123', 1),
-(8, 'Ronaldo Silveira', '1999-03-12', '65561561', '195226512', 'ronaldo@teste.com', '$2y$12$o/SwkMeE3/Kp4HSOL2gnIucs35o1TvFQFkgi.aMLCfwrEW7sjuVsu', 1);
+INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`, `estabel_vinculado`, `email_verificado`) VALUES
+(1, 'Jeremias de Arruda Silva', '1990-01-01', '987.654.321-00', '(19) 98987-0540', 'jeremias@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1, 1),
+(2, 'Juliana da Silva Costa', '1991-01-01', '987.654.321-01', '(19) 90981-0541', 'juliana@teste.com', 'senha@melhorainda', 3, 1),
+(3, 'Aline Costa Albuquerque', '1992-01-01', '987.654.321-02', '(11) 90981-0542', 'aline@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', NULL, 1),
+(4, 'Sheila Almeida', '1998-11-23', '987.654.321-02', '(11) 90981-054', 'sheila@teste.com', 'senha123', 2, 1),
+(5, 'Juriscleison da Costa', '1993-04-01', '132.256.456-02', '1908007070', 'jusriscleison@gmail.com', 'senha123', 1, 1),
+(6, 'Otávio Ferreira', '1975-12-31', '256.145.486-01', '199995452', 'tavinho@outlook.com', 'senha123', 2, 1),
+(7, 'Bruce Lee', '1968-05-06', '456.256.324-15', '1965165655', 'kungfu@yahoo.com', 'senha123', 1, 1),
+(8, 'Ronaldo Silveira', '1999-03-12', '65561561', '195226512', 'ronaldo@teste.com', '$2y$12$o/SwkMeE3/Kp4HSOL2gnIucs35o1TvFQFkgi.aMLCfwrEW7sjuVsu', 1, 1),
+(20, 'Rodrigo', '2001-03-02', '49333379851', '(19) 98908-5358', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$0aYXCsl6nSz6wH8Iy.b35eYtPRHyBPmu1Srm1gZ0opW52aObaLxwi', NULL, 1);
 
 --
 -- Acionadores `profissionais`
@@ -1344,6 +1354,20 @@ INSERT INTO `profissionais_servicos` (`id_profissional`, `id_servico`) VALUES
 (6, 4),
 (7, 1),
 (8, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `resets_senhas`
+--
+
+CREATE TABLE `resets_senhas` (
+  `token` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `created_at` varchar(255) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `tipo_usuario` enum('cliente','profissional','estabelecimento','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1597,6 +1621,12 @@ ALTER TABLE `itens_pedido`
   ADD KEY `fk_itens_pedido02` (`id_produto`);
 
 --
+-- Índices de tabela `logs_tokens`
+--
+ALTER TABLE `logs_tokens`
+  ADD PRIMARY KEY (`id_token`);
+
+--
 -- Índices de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
@@ -1688,7 +1718,7 @@ ALTER TABLE `categorias_servico`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de tabela `enderecos`
@@ -1700,7 +1730,7 @@ ALTER TABLE `enderecos`
 -- AUTO_INCREMENT de tabela `estabelecimentos`
 --
 ALTER TABLE `estabelecimentos`
-  MODIFY `id_estabelecimento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_estabelecimento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `formas_pagamentos`
@@ -1718,19 +1748,25 @@ ALTER TABLE `grades_horario`
 -- AUTO_INCREMENT de tabela `historico_clientes`
 --
 ALTER TABLE `historico_clientes`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `historico_estabelecimentos`
 --
 ALTER TABLE `historico_estabelecimentos`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de tabela `historico_profissionais`
 --
 ALTER TABLE `historico_profissionais`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de tabela `logs_tokens`
+--
+ALTER TABLE `logs_tokens`
+  MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de tabela `pedidos`
@@ -1748,7 +1784,7 @@ ALTER TABLE `produtos`
 -- AUTO_INCREMENT de tabela `profissionais`
 --
 ALTER TABLE `profissionais`
-  MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `servicos`
