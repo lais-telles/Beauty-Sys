@@ -8,7 +8,9 @@ use App\Models\Estabelecimento;  // Importe o modelo Estabelecimento
 use App\Models\Vinculo;  // Importe o modelo Vinculo
 use App\Models\Agendamento;  // Importe o modelo Agendamento
 use App\Models\Servico;  // Importe o modelo Servico
-use App\Models\Formas_pagamento;  // Importe o modelo Formas_pagamento
+use App\Models\Formas_pagamento;
+use App\Models\ResetSenha; 
+use App\Models\LogsToken;   // Importe o modelo Formas_pagamento
 use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
 use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
@@ -56,7 +58,7 @@ class ProfissionalController extends Controller
         $email = $request->input('emailResetSenhaProf'); 
     
         // Buscar o cliente pelo email no banco de dados
-        $profissional = DB::table('profissionais')->where('email', $email)->first();
+        $profissional = Profissional::where('email', $email)->first();
     
         // Verificar se o cliente foi encontrado
         if ($profissional) {
@@ -64,10 +66,12 @@ class ProfissionalController extends Controller
             $token = Str::random(60);
             
             // Inserir o token no banco de dados para esse email
-            DB::table('resets_senha_profissionais')->insert([
+            ResetSenha::create([
                 'email' => $profissional->email,
                 'token' => $token,
                 'created_at' => now(),
+                'id_usuario' => $profissional->id_profissional,
+                'tipo_usuario' => 'profissional',
             ]);
     
             // Enviar o email de redefinição de senha
@@ -88,22 +92,27 @@ class ProfissionalController extends Controller
             return redirect()->route('Index')->with('error', 'Acesso inválido.');
         }
     
-        $resetRecord = DB::table('resets_senha_profissionais')->where('email', $email)->where('token', $token)->first();
+        $resetRecord = ResetSenha::where('email', $email)->where('token', $token)->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
         }
     
+        $profissional = Profissional::where('email', $email);
+
         $expireTime = config('auth.passwords.profissionais.expire');
         if (now()->diffInMinutes($resetRecord->created_at) > $expireTime) {
-            DB::table('logs_tokens')->insert([
+            LogsToken::create([
                 'email' => $resetRecord->email,
                 'token' => $resetRecord->token,
                 'created_at' => $resetRecord->created_at,
                 'used_at' => now(),
+                'motivo' => 'redefinição de senha',
+                'id_usuario' => $profissional->id_profissional,
+                'tipo_usuario' => 'profissional',
             ]);
     
-            DB::table('resets_senha_profissionais')->where('email', $email)->delete();
+            Profissional::where('email', $email)->delete();
     
             return redirect()->route('Index')->with('error', 'O link de redefinição de senha expirou.');
         }
@@ -125,7 +134,7 @@ class ProfissionalController extends Controller
         $email = session('email');
 
         // Verifique se o token é válido e se o email existe na tabela resets_senha_clientes
-        $resetRecord = DB::table('resets_senha_profissionais')->where('email', $email)->first();
+        $resetRecord = ResetSenha::where('email', $email)->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
@@ -134,14 +143,17 @@ class ProfissionalController extends Controller
             // Busca o cliente pelo ID
             $profissional = Profissional::where('email', $email)->first();
 
-            DB::table('logs_tokens')->insert([
+            LogsToken::create([
                 'email' => $resetRecord->email,
                 'token' => $resetRecord->token,
                 'created_at' => $resetRecord->created_at,
-                'used_at' => now(), // Para registrar quando o link foi usado
+                'used_at' => now(),
+                'motivo' => 'Redefinição de senha',
+                'id_usuario' => $profissional->id_profissional,
+                'tipo_usuario' => 'profissional',
             ]);
 
-            DB::table('resets_senha_profissionais')->where('email', $email)->delete();
+            ResetSenha::where('email', $email)->delete();
             
             // Atualiza a senha
             $profissional->senha = Hash::make($request->input('new_password'));

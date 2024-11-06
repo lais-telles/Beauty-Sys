@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar
 use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
 use App\Models\Estabelecimento; // Certifique-se de importar o modelo
-use App\Models\Profissional; // Certifique-se de importar o modelo
+use App\Models\Profissional;
+use App\Models\ResetSenha;
+use App\Models\LogsToken; 
 use App\Rules\validaCPF;
 use App\Rules\validaCelular;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +56,7 @@ class ClienteController extends Controller
         $email = $request->input('emailResetSenha'); 
     
         // Buscar o cliente pelo email no banco de dados
-        $cliente = DB::table('clientes')->where('email', $email)->first();
+        $cliente = Cliente::where('email', $email)->first();
     
         // Verificar se o cliente foi encontrado
         if ($cliente) {
@@ -62,10 +64,12 @@ class ClienteController extends Controller
             $token = Str::random(60);
             
             // Inserir o token no banco de dados para esse email
-            DB::table('resets_senha_clientes')->insert([
+            ResetSenha::create([
                 'email' => $cliente->email,
                 'token' => $token,
                 'created_at' => now(),
+                'id_usuario' => $cliente->id_cliente,
+                'tipo_usuario' => 'cliente',
             ]);
     
             // Enviar o email de redefinição de senha
@@ -86,22 +90,28 @@ class ClienteController extends Controller
             return redirect()->route('Index')->with('error', 'Acesso inválido.');
         }
     
-        $resetRecord = DB::table('resets_senha_clientes')->where('email', $email)->where('token', $token)->first();
+        $resetRecord = ResetSenha::where('email', $email)->where('token', $token)->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
         }
     
+        // Busca o cliente pelo ID
+        $cliente = Cliente::where('email', $email)->first();
+
         $expireTime = config('auth.passwords.clientes.expire');
         if (now()->diffInMinutes($resetRecord->created_at) > $expireTime) {
-            DB::table('logs_tokens')->insert([
+            LogsToken::create([
                 'email' => $resetRecord->email,
                 'token' => $resetRecord->token,
                 'created_at' => $resetRecord->created_at,
                 'used_at' => now(),
+                'motivo' => 'redefinição de senha',
+                'id_usuario' => $cliente->id_cliente,
+                'tipo_usuario' => 'cliente'
             ]);
     
-            DB::table('resets_senha_clientes')->where('email', $email)->delete();
+            ResetSenha::where('email', $email)->delete();
     
             return redirect()->route('Index')->with('error', 'O link de redefinição de senha expirou.');
         }
@@ -122,7 +132,7 @@ class ClienteController extends Controller
         $email = session('email');
 
         // Verifica se o token é válido e se o email existe na tabela resets_senha_clientes
-        $resetRecord = DB::table('resets_senha_clientes')->where('email', $email)->first();
+        $resetRecord = ResetSenha::where('email', $email)->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
@@ -131,14 +141,17 @@ class ClienteController extends Controller
             // Busca o cliente pelo email
             $cliente = Cliente::where('email', $email)->first();
 
-            DB::table('logs_tokens')->insert([
+            LogsToken::create([
                 'email' => $resetRecord->email,
                 'token' => $resetRecord->token,
                 'created_at' => $resetRecord->created_at,
                 'used_at' => now(),
+                'motivo' => 'Redefinição de senha',
+                'id_usuario' => $cliente->id_cliente,
+                'tipo_usuario' => 'cliente',
             ]);
 
-            DB::table('resets_senha_clientes')->where('email', $email)->delete();
+            ResetSenha::where('email', $email)->delete();
             
             // Atualiza a senha
             $cliente->senha = Hash::make($request->input('new_password'));

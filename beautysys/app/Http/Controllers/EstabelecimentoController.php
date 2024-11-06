@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Estabelecimento;  // Importe o modelo Estabelecimento
 use App\Models\Servico;  // Importe o modelo Servico
+use App\Models\ResetSenha; 
+use App\Models\LogsToken; 
 use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
 use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
 use Illuminate\Support\Facades\Session; // Para armazenar sessão
@@ -56,7 +58,7 @@ class EstabelecimentoController extends Controller
         $email = $request->input('emailResetSenhaEstab'); 
     
         // Buscar o cliente pelo email no banco de dados
-        $estabelecimento = DB::table('estabelecimentos')->where('email', $email)->first();
+        $estabelecimento = Estabelecimento::where('email', $email)->first();
     
         // Verificar se o cliente foi encontrado
         if ($estabelecimento) {
@@ -64,10 +66,12 @@ class EstabelecimentoController extends Controller
             $token = Str::random(60);
             
             // Inserir o token no banco de dados para esse email
-            DB::table('resets_senha_estabelecimentos')->insert([
+            ResetSenha::create([
                 'email' => $estabelecimento->email,
                 'token' => $token,
                 'created_at' => now(),
+                'id_usuario' => $estabelecimento->id_estabelecimento,
+                'tipo_usuario' => 'estabelecimento',
             ]);
     
             // Enviar o email de redefinição de senha
@@ -88,22 +92,27 @@ class EstabelecimentoController extends Controller
             return redirect()->route('Index')->with('error', 'Acesso inválido.');
         }
     
-        $resetRecord = DB::table('resets_senha_estabelecimentos')->where('email', $email)->where('token', $token)->first();
+        $resetRecord = ResetSenha::where('email', $email)->where('token', $token)->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
         }
     
+        $estabelecimento = Estabelecimento::where('email', $email);
+
         $expireTime = config('auth.passwords.estabelecimentos.expire');
         if (now()->diffInMinutes($resetRecord->created_at) > $expireTime) {
-            DB::table('logs_tokens')->insert([
+            LogsToken::create([
                 'email' => $resetRecord->email,
                 'token' => $resetRecord->token,
                 'created_at' => $resetRecord->created_at,
                 'used_at' => now(),
+                'motivo' => 'redefinição de senha',
+                'id_usuario' => $estabelecimento->id_estabelecimento,
+                'tipo_usuario' => 'estabelecimento',
             ]);
     
-            DB::table('resets_senha_estabelecimentos')->where('email', $email)->delete();
+            ResetSenha::where('email', $email)->delete();
     
             return redirect()->route('Index')->with('error', 'O link de redefinição de senha expirou.');
         }
@@ -123,7 +132,7 @@ class EstabelecimentoController extends Controller
         $email = session('email');
 
         // Verifique se o token é válido e se o email existe na tabela resets_senha_clientes
-        $resetRecord = DB::table('resets_senha_estabelecimentos')->where('email', $email)->first();
+        $resetRecord = ResetSenha::where('email', $email)->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
@@ -132,14 +141,17 @@ class EstabelecimentoController extends Controller
             // Busca o cliente pelo ID
             $estabelecimento = Estabelecimento::where('email', $email)->first();
 
-            DB::table('logs_tokens')->insert([
+            LogsToken::create([
                 'email' => $resetRecord->email,
                 'token' => $resetRecord->token,
                 'created_at' => $resetRecord->created_at,
                 'used_at' => now(), // Para registrar quando o link foi usado
+                'motivo' => 'redefinição de senha',
+                'id_usuario' => $estabelecimento->id_estabelecimento,
+                'tipo_usuario' => 'estabelecimento',
             ]);
 
-            DB::table('resets_senha_estabelecimentos')->where('email', $email)->delete();
+            ResetSenha::where('email', $email)->delete();
             
             // Atualiza a senha
             $estabelecimento->senha = Hash::make($request->input('new_password'));
