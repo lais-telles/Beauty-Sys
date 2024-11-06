@@ -25,6 +25,7 @@ class Profissional extends Authenticatable
         'telefone',
         'email',
         'senha',
+        'email_verificado',
     ];
 
     // Desativa os timestamps automáticos
@@ -50,6 +51,7 @@ class Profissional extends Authenticatable
             'telefone' => $data['telefone'],
             'email' => $data['emailCadasProf'],
             'senha' => Hash::make($data['senhaCadasProf']),
+            'email_verificado' => 0,
         ]);
     }
 

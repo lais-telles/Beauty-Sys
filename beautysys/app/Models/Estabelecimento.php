@@ -34,6 +34,7 @@ class Estabelecimento extends Authenticatable
         'termino_expediente',
         'email',
         'senha',
+        'email_verificado',
     ];
 
 
@@ -68,6 +69,7 @@ class Estabelecimento extends Authenticatable
             'termino_expediente' => $data['termino_expediente'],
             'email' => $data['emailCadasProp'],
             'senha' => Hash::make($data['senhaCadasProp']),
+            'email_verificado' => 0,
         ]);
     }
     

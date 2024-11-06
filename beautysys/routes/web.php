@@ -5,6 +5,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProfissionalController;
 use App\Http\Controllers\EstabelecimentoController;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,7 @@ Route::get('/pessoa-física', [IndexController::class, 'PessoaFisica'])->name('P
 Route::get('/parceiros', [IndexController::class, 'Parceiro'])->name('Parceiro');
 //Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
 Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
-Route::get('/confirma-email', [IndexController::class, 'confirmaEmail'])->name('confirmaEmail');
+Route::get('/confirma-email', [Controller::class, 'confirmaEmail'])->name('confirmaEmail');
 
 // -------------------------------------- Rotas do cliente ----------------------------------------------------
 

@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cliente;  // Importe o modelo Cliente
-use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
-use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
-use Illuminate\Support\Facades\Session; // Para armazenar sessão
-use App\Models\Estabelecimento; // Certifique-se de importar o modelo
+use App\Models\Cliente;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use App\Models\Estabelecimento;
 use App\Models\Profissional;
 use App\Models\ResetSenha;
-use App\Models\LogsToken; 
+use App\Models\LogsToken;
+use App\Models\ConfirmacaoEmail;
 use App\Rules\validaCPF;
 use App\Rules\validaCelular;
 use Illuminate\Support\Facades\Auth;
@@ -37,10 +38,21 @@ class ClienteController extends Controller
         
         try {
             // Chama o método para criar o cliente no model
-            Cliente::cadastrarCliente($validatedData);
+            $cliente = Cliente::cadastrarCliente($validatedData);
+
+            $token = Str::random(60);
+
+            // Inserir o token no banco de dados para esse email
+            ConfirmacaoEmail::create([
+                'email' => $cliente->email,
+                'token' => $token,
+                'created_at' => now(),
+                'id_usuario' => $cliente->id_cliente,
+                'tipo_usuario' => 'cliente',
+            ]);
 
             // Envia o e-mail de confirmação
-            Mail::to($validatedData['email'])->send(new ConfirmaEmail($validatedData['email']));
+            Mail::to($validatedData['email'])->send(new ConfirmaEmail($token, $validatedData['email'], 'cliente'));
 
             // Redireciona para a página com uma mensagem de sucesso
             return redirect()->route('PessoaFisica')->with('success', 'Cliente cadastrado com sucesso. Por favor, verifique seu e-mail!');
@@ -90,7 +102,7 @@ class ClienteController extends Controller
             return redirect()->route('Index')->with('error', 'Acesso inválido.');
         }
     
-        $resetRecord = ResetSenha::where('email', $email)->where('token', $token)->first();
+        $resetRecord = ResetSenha::where('email', $email)->where('token', $token)->where('tipo_usuario','cliente')->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
@@ -108,10 +120,10 @@ class ClienteController extends Controller
                 'used_at' => now(),
                 'motivo' => 'redefinição de senha',
                 'id_usuario' => $cliente->id_cliente,
-                'tipo_usuario' => 'cliente'
+                'tipo_usuario' => 'cliente',
             ]);
     
-            ResetSenha::where('email', $email)->delete();
+            ResetSenha::where('email', $email)->where('tipo_usuario','cliente')->delete();
     
             return redirect()->route('Index')->with('error', 'O link de redefinição de senha expirou.');
         }
@@ -131,8 +143,8 @@ class ClienteController extends Controller
         /// Obtém o email da sessão
         $email = session('email');
 
-        // Verifica se o token é válido e se o email existe na tabela resets_senha_clientes
-        $resetRecord = ResetSenha::where('email', $email)->first();
+        // Verifica se o token é válido e se o email existe na tabela resets_senhas
+        $resetRecord = ResetSenha::where('email', $email)->where('tipo_usuario','cliente')->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
@@ -151,7 +163,7 @@ class ClienteController extends Controller
                 'tipo_usuario' => 'cliente',
             ]);
 
-            ResetSenha::where('email', $email)->delete();
+            ResetSenha::where('email', $email)->where('tipo_usuario','cliente')->delete();
             
             // Atualiza a senha
             $cliente->senha = Hash::make($request->input('new_password'));
@@ -258,8 +270,8 @@ class ClienteController extends Controller
     }
 
     public function dadosRealizarAgendamento(Request $request) {
-        $id_profissional = $request->input('profissional', null); // pode ser null se não for selecionado ainda
-        $id_estabelecimento = $request->input('estabelecimento', null); // pode ser null se não for selecionado ainda
+        $id_profissional = $request->input('profissional', null);
+        $id_estabelecimento = $request->input('estabelecimento', null);
     
         // Verifica se $id_estabelecimento está definido, se não estiver, busca todos os estabelecimentos
         if ($id_estabelecimento) {
@@ -269,7 +281,7 @@ class ClienteController extends Controller
         }
     
         // Verifica se $id_profissional está definido
-        if ($id_estabelecimento) { // Aqui deve ser $id_estabelecimento, não $idEstabelecimento
+        if ($id_estabelecimento) {
             $profissional = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
         } else {
             $profissional = Profissional::all();

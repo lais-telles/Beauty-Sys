@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Profissional;  // Importe o modelo Profissional
-use App\Models\Estabelecimento;  // Importe o modelo Estabelecimento
-use App\Models\Vinculo;  // Importe o modelo Vinculo
-use App\Models\Agendamento;  // Importe o modelo Agendamento
-use App\Models\Servico;  // Importe o modelo Servico
+use App\Models\Profissional;
+use App\Models\Estabelecimento;
+use App\Models\Vinculo;
+use App\Models\Agendamento;
+use App\Models\Servico;
 use App\Models\Formas_pagamento;
 use App\Models\ResetSenha; 
-use App\Models\LogsToken;   // Importe o modelo Formas_pagamento
-use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
-use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
-use Illuminate\Support\Facades\Session; // Para armazenar sessão
-use App\Models\Grade;  // Importe o modelo Grade
+use App\Models\LogsToken;
+use App\Models\ConfirmacaoEmail; 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use App\Models\Grade;
 use App\Rules\validaCPF;
 use App\Rules\validaData;
 use App\Rules\validaCelular;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetSenhaEmail;
+use App\Mail\ConfirmaEmail;
 
 class ProfissionalController extends Controller
 {
@@ -41,7 +43,21 @@ class ProfissionalController extends Controller
 
         try {
             // Chama o método para criar o profissional no model
-            Profissional::cadastrarProfissional($validatedData);
+            $profissional = Profissional::cadastrarProfissional($validatedData);
+
+            $token = Str::random(60);
+
+            // Inserir o token no banco de dados para esse email
+            ConfirmacaoEmail::create([
+                'email' => $profissional->email,
+                'token' => $token,
+                'created_at' => now(),
+                'id_usuario' => $profissional->id_profissional,
+                'tipo_usuario' => 'profissional',
+            ]);
+
+            // Envia o e-mail de confirmação
+            Mail::to($validatedData['emailCadasProf'])->send(new ConfirmaEmail($token, $validatedData['emailCadasProf'], 'profissional'));
 
             // Redireciona para a página index com uma mensagem de sucesso
             return redirect()->route('Parceiro')->with('success', 'Profissional cadastrado com sucesso!');
@@ -92,7 +108,7 @@ class ProfissionalController extends Controller
             return redirect()->route('Index')->with('error', 'Acesso inválido.');
         }
     
-        $resetRecord = ResetSenha::where('email', $email)->where('token', $token)->first();
+        $resetRecord = ResetSenha::where('email', $email)->where('token', $token)->where('tipo_usuario','profissional')->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
@@ -112,7 +128,7 @@ class ProfissionalController extends Controller
                 'tipo_usuario' => 'profissional',
             ]);
     
-            Profissional::where('email', $email)->delete();
+            ResetSenha::where('email', $email)->where('tipo_usuario','profissional')->delete();
     
             return redirect()->route('Index')->with('error', 'O link de redefinição de senha expirou.');
         }
@@ -134,7 +150,7 @@ class ProfissionalController extends Controller
         $email = session('email');
 
         // Verifique se o token é válido e se o email existe na tabela resets_senha_clientes
-        $resetRecord = ResetSenha::where('email', $email)->first();
+        $resetRecord = ResetSenha::where('email', $email)->where('tipo_usuario','profissional')->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
@@ -153,7 +169,7 @@ class ProfissionalController extends Controller
                 'tipo_usuario' => 'profissional',
             ]);
 
-            ResetSenha::where('email', $email)->delete();
+            ResetSenha::where('email', $email)->where('tipo_usuario','profissional')->delete();
             
             // Atualiza a senha
             $profissional->senha = Hash::make($request->input('new_password'));
@@ -172,13 +188,17 @@ class ProfissionalController extends Controller
             'senhaLoginProf' => 'required|string|min:8',
         ]);
 
-        // Tentar autenticar o profissional usando o guard 'profissional'
-        if (Auth::guard('profissional')->attempt(['email' => $request->input('emailLoginProf'), 'password' => $request->input('senhaLoginProf')])) {
-            // Login bem-sucedido, redirecionar para a página inicial do profissional
-            return redirect()->route('PaginaInicialProfissional')->with('success', 'Login realizado com sucesso!');
-        } else {
-            // Login falhou, redirecionar de volta com uma mensagem de erro
-            return redirect()->back()->with('error', 'Email ou senha inválidos');
+        $email_verificado = Estabelecimento::where('email', $validatedData['emailLoginProf'])->where('email_verificado', 1)->first();
+
+        if($email_verificado){
+            // Tentar autenticar o profissional usando o guard 'profissional'
+            if (Auth::guard('profissional')->attempt(['email' => $request->input('emailLoginProf'), 'password' => $request->input('senhaLoginProf')])) {
+                // Login bem-sucedido, redirecionar para a página inicial do profissional
+                return redirect()->route('PaginaInicialProfissional')->with('success', 'Login realizado com sucesso!');
+            } else {
+                // Login falhou, redirecionar de volta com uma mensagem de erro
+                return redirect()->back()->with('error', 'Email ou senha inválidos');
+            }
         }
     }
 

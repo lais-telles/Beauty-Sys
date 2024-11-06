@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Estabelecimento;  // Importe o modelo Estabelecimento
-use App\Models\Servico;  // Importe o modelo Servico
+use App\Models\Estabelecimento;
+use App\Models\Servico;
 use App\Models\ResetSenha; 
 use App\Models\LogsToken; 
-use Illuminate\Support\Facades\Hash;  // Importe a classe Hash para criptografar a senha
-use Illuminate\Support\Facades\DB; // Para consultas ao banco de dados
-use Illuminate\Support\Facades\Session; // Para armazenar sessão
+use App\Models\ConfirmacaoEmail; 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Rules\validaCNPJ;
@@ -17,6 +18,7 @@ use App\Rules\validaCelular;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ResetSenhaEmail;
+use App\Mail\ConfirmaEmail;
 
 class EstabelecimentoController extends Controller
 {
@@ -43,7 +45,21 @@ class EstabelecimentoController extends Controller
 
         try {
             // Chama o método para criar o estabelecimento no model
-            Estabelecimento::cadastrarEstabelecimento($validatedData);
+            $estabelecimento = Estabelecimento::cadastrarEstabelecimento($validatedData);
+
+            $token = Str::random(60);
+
+            // Inserir o token no banco de dados para esse email
+            ConfirmacaoEmail::create([
+                'email' => $estabelecimento->email,
+                'token' => $token,
+                'created_at' => now(),
+                'id_usuario' => $estabelecimento->id_estabelecimento,
+                'tipo_usuario' => 'estabelecimento',
+            ]);
+
+            // Envia o e-mail de confirmação
+            Mail::to($validatedData['emailCadasProp'])->send(new ConfirmaEmail($token, $validatedData['emailCadasProp'], 'estabelecimento'));
     
             // Redireciona para a página index com uma mensagem de sucesso
             return redirect()->route('Parceiro')->with('success', 'Estabelecimento cadastrado com sucesso!');
@@ -92,7 +108,7 @@ class EstabelecimentoController extends Controller
             return redirect()->route('Index')->with('error', 'Acesso inválido.');
         }
     
-        $resetRecord = ResetSenha::where('email', $email)->where('token', $token)->first();
+        $resetRecord = ResetSenha::where('email', $email)->where('token', $token)->where('tipo_usuario','estabelecimento')->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
@@ -112,7 +128,7 @@ class EstabelecimentoController extends Controller
                 'tipo_usuario' => 'estabelecimento',
             ]);
     
-            ResetSenha::where('email', $email)->delete();
+            ResetSenha::where('email', $email)->where('tipo_usuario','estabelecimento')->delete();
     
             return redirect()->route('Index')->with('error', 'O link de redefinição de senha expirou.');
         }
@@ -132,7 +148,7 @@ class EstabelecimentoController extends Controller
         $email = session('email');
 
         // Verifique se o token é válido e se o email existe na tabela resets_senha_clientes
-        $resetRecord = ResetSenha::where('email', $email)->first();
+        $resetRecord = ResetSenha::where('email', $email)->where('tipo_usuario','estabelecimento')->first();
     
         if (!$resetRecord) {
             return redirect()->route('Index')->with('error', 'Link de redefinição de senha inválido ou expirado.');
@@ -151,7 +167,7 @@ class EstabelecimentoController extends Controller
                 'tipo_usuario' => 'estabelecimento',
             ]);
 
-            ResetSenha::where('email', $email)->delete();
+            ResetSenha::where('email', $email)->where('tipo_usuario','estabelecimento')->delete();
             
             // Atualiza a senha
             $estabelecimento->senha = Hash::make($request->input('new_password'));
@@ -170,13 +186,17 @@ class EstabelecimentoController extends Controller
             'senhaLoginProp' => 'required|string|min:8',
         ]);
 
-        // Tentar autenticar o estabelecimento usando o guard 'estabelecimento'
-        if (Auth::guard('estabelecimento')->attempt(['email' => $request->input('emailLoginProp'), 'password' => $request->input('senhaLoginProp')])) {
-            // Login bem-sucedido, redirecionar para a página inicial do estabelecimento
-            return redirect()->route('PaginaInicialPj')->with('success', 'Login realizado com sucesso!');
-        } else {
-            // Login falhou, redirecionar de volta com uma mensagem de erro
-            return redirect()->back()->with('error', 'Email ou senha inválidos');
+        $email_verificado = Estabelecimento::where('email', $validatedData['emailLoginProp'])->where('email_verificado', 1)->first();
+
+        if($email_verificado){
+            // Tentar autenticar o estabelecimento usando o guard 'estabelecimento'
+            if (Auth::guard('estabelecimento')->attempt(['email' => $request->input('emailLoginProp'), 'password' => $request->input('senhaLoginProp')])) {
+                // Login bem-sucedido, redirecionar para a página inicial do estabelecimento
+                return redirect()->route('PaginaInicialPj')->with('success', 'Login realizado com sucesso!');
+            } else {
+                // Login falhou, redirecionar de volta com uma mensagem de erro
+                return redirect()->back()->with('error', 'Email ou senha inválidos');
+            }
         }
     }
 

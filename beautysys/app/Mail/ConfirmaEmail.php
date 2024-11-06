@@ -16,22 +16,21 @@ class ConfirmaEmail extends Mailable
 
     public $email;
     public $token;
+    public $tipo_usuario;
 
-    public function __construct($email)
-    {
-        $token = Str::random(60);
-        
+    public function __construct($token, $email, $tipo_usuario){
         $this->email = $email;
         $this->token = $token;
+        $this->tipo_usuario = $tipo_usuario;
     }
 
-    public function build()
-    {
+    public function build(){
         return $this->view('confirma-email')
                     ->with([
                         'link' => route('confirmaEmail', [
                             'token' => $this->token,
                             'email' => $this->email,
+                            'tipo_usuario' => $this->tipo_usuario,
                         ]),
                     ]);
     }
