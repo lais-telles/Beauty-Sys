@@ -46,9 +46,9 @@
             <div class="col-md-6 text-center">
                 <!-- Exibição da foto de perfil ou imagem padrão -->
                 @if (auth()->user()->imagem_perfil)
-                    <img src="{{ asset('storage/imagem_perfil/' . auth()->user()->imagem_perfil) }}" alt="Foto de perfil" class="img-perfil mb-3">
+                    <img src="{{ asset('imagem_perfil/' . auth()->user()->imagem_perfil) }}" alt="Foto de perfil" class="img-perfil mb-3">
                 @else
-                    <img src="{{ asset('storage/imagem_perfil/sem_foto.png') }}" alt="Foto de perfil padrão" class="img-perfil mb-3">
+                    <img src="{{ asset('imagem_perfil/sem_foto.png') }}" alt="Foto de perfil padrão" class="img-perfil mb-3">
                 @endif
 
                 <!-- Formulário de upload de foto de perfil -->
@@ -64,10 +64,11 @@
                     @enderror
 
                     <div class="text-end mt-3">
-                <button type="submit" class="btn btn-custom">Enviar Foto</button>
-            </div>
+                        <button type="submit" class="btn btn-custom">Enviar Foto</button>
+                    </div>
                 </form>
             </div>
+
 
         </div>
     </div>
