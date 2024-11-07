@@ -52,7 +52,7 @@
 
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('infoCadastroP') }}">Meu perfil</a></li>
+                                <li><a class="dropdown-item" href="{{ route('AdmProfissional') }}">Meu perfil</a></li>
                                 <li>
                                     <form action="{{ route('logoutProfissional') }}" method="POST">
                                         @csrf
