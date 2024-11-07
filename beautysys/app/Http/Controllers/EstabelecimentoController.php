@@ -393,5 +393,37 @@ class EstabelecimentoController extends Controller
             return redirect()->back()->with('error', 'Erro ao atualizar o status.');
         }
     }
+
+    public function uploadImagemPerfil(Request $request)
+    {
+        // Validação da imagem
+        $request->validate([
+            'imagem_perfil' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        // Verifica se o arquivo foi enviado
+        if ($request->hasFile('imagem_perfil')) {
+            // Recupera o usuário autenticado
+            $user = auth()->user();
+
+            // Se o usuário já possui uma imagem de perfil, exclui a imagem antiga
+            if ($user->imagem_perfil) {
+                $oldImagePath = storage_path('app/public/imagem_perfil/' . $user->imagem_perfil);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+
+            // Salva a nova imagem no diretório especificado e obtém o caminho
+            $path = $request->file('imagem_perfil')->store('public/imagem_perfil');
+
+            // Salva o nome do arquivo da nova imagem no banco de dados
+            $user->update(['imagem_perfil' => basename($path)]);
+
+            return back()->with('success', 'Foto de perfil atualizada!');
+        }
+
+        return back()->with('error', 'Erro ao fazer upload da foto de perfil.');
+    }
 }    
 ?>

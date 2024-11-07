@@ -54,7 +54,6 @@ Route::get('nova-senha/cliente', function () {
     return redirect()->route('Index')->with('error', 'Acesso inválido!');
 });
 
-
 // Rotas privadas (requer autenticação do cliente)
 Route::middleware('auth:cliente')->group(function () {
     // Página inicial do cliente
@@ -118,7 +117,6 @@ Route::get('nova-senha/profissional', function () {
     return redirect()->route('Index')->with('error', 'Acesso inválido!');
 });
 
-
 // Rotas privadas (requer autenticação do profissional)
 Route::middleware('auth:profissional')->group(function () {
     // Página inicial do profissional
@@ -162,6 +160,12 @@ Route::middleware('auth:profissional')->group(function () {
     
     //Rota para associar um novo serviço
     Route::post('associar/servico', [ProfissionalController::class, 'associarServ'])->name('associarServ');
+
+    // Rota para a página de adm do estabelecimento
+    Route::get('/admProf', [IndexController::class, 'AdmProfissional'])->name('AdmProfissional');
+
+    // Rota para upload de imagem
+    Route::post('/perfil/upload', [ProfissionalController::class, 'uploadImagemPerfil'])->name('imagem_upload');
 });
 
 // ---------------------------------------------- Rotas do Estabelecimento ---------------------------------------
@@ -222,4 +226,7 @@ Route::middleware('auth:estabelecimento')->group(function () {
 
     // Rota para a página de adm do estabelecimento
     Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
+    
+    // Rota para upload de imagem
+    Route::post('/perfilEstab/upload', [EstabelecimentoController::class, 'uploadImagemPerfil'])->name('imagem_uploadE');
 });

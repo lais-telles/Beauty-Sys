@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06/11/2024 às 21:05
+-- Tempo de geração: 07/11/2024 às 13:50
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,28 +25,22 @@ DELIMITER $$
 --
 -- Procedimentos
 --
-
--- Atualiza os dados cadastrais dos clientes
 CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_cliente` (IN `p_id_cliente` INT, IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30))   BEGIN
 UPDATE clientes SET telefone = p_telefone, email = p_email WHERE id_cliente = p_id_cliente; 
 END$$
 
--- Atualiza os dados cadastrais dos estabelecimentos
 CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_estabelecimento` (IN `p_id_estabelecimento` INT, IN `p_nome_fantasia` VARCHAR(40), IN `p_telefone` VARCHAR(15), IN `p_logradouro` VARCHAR(40), IN `p_numero` INT, IN `p_bairro` VARCHAR(40), IN `p_cidade` VARCHAR(40), IN `p_estado` VARCHAR(2), IN `p_cep` VARCHAR(9), IN `p_inicio_expediente` TIME, IN `p_termino_expediente` TIME, IN `p_email` VARCHAR(30), IN `p_senha` VARCHAR(255))   BEGIN  
 UPDATE estabelecimentos SET nome_fantasia = p_nome_fantasia, telefone = p_telefone, logradouro = p_logradouro, numero = p_numero, bairro = p_bairro, cidade = p_cidade, estado = p_estado, cep = p_cep, inicio_expediente = p_inicio_expediente, termino_expediente = p_termino_expediente, email = p_email, senha = p_senha WHERE id_estabelecimento = p_id_estabelecimento;   
 END$$
 
--- Atualiza os dados cadastrais dos profissionais
 CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_profissional` (IN `p_id_profissional` INT, IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30))   BEGIN 
 UPDATE profissionais SET telefone = p_telefone, email = p_email WHERE id_profissional = p_id_profissional; 
 END$$
 
--- Realiza o cadastro de clientes
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cadastrar_cliente` (IN `p_nome` VARCHAR(30), IN `p_data_nasc` DATE, IN `p_CPF` VARCHAR(14), IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30), IN `p_senha` VARCHAR(50))   BEGIN
 INSERT INTO clientes (nome, data_nasc, CPF, telefone, email, senha) VALUES (p_nome, p_data_nasc, p_CPF, p_telefone, p_email, p_senha); 
 END$$
 
--- Realiza o cadastro de endereços do cliente (será utilizado quando o módulo de marketplace for implementado)
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cadastrar_endereco` (IN `p_id_cliente` INT, IN `p_logradouro` VARCHAR(40), IN `p_numero` INT, IN `p_bairro` VARCHAR(40), IN `p_cidade` VARCHAR(40), IN `p_estado` VARCHAR(40), IN `p_CEP` VARCHAR(9))   BEGIN
     DECLARE p_id_endereco INT;
 
@@ -62,30 +56,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `cadastrar_endereco` (IN `p_id_clien
     VALUES (p_id_cliente, p_id_endereco);
 END$$
 
-
--- Realiza o cadastro de estabelecimentos
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cadastrar_estabelecimento` (IN `p_razao_social` VARCHAR(40), IN `p_nome_fantasia` VARCHAR(40), IN `p_telefone` VARCHAR(15), IN `p_CNPJ` VARCHAR(18), IN `p_logradouro` VARCHAR(40), IN `p_numero` INT, IN `p_bairro` VARCHAR(40), IN `p_cidade` VARCHAR(40), IN `p_estado` VARCHAR(2), IN `p_cep` VARCHAR(9), IN `p_inicio_expediente` TIME, IN `p_termino_expediente` TIME, IN `p_email` VARCHAR(30), IN `p_senha` VARCHAR(60))   BEGIN 
 
 INSERT INTO estabelecimentos (razao_social, nome_fantasia, telefone, CNPJ, logradouro, numero, bairro, cidade, estado, cep, inicio_expediente, termino_expediente, email, senha) VALUES (p_razao_social, p_nome_fantasia, p_telefone, p_CNPJ, p_logradouro, p_numero, p_bairro, p_cidade, p_estado, p_cep, p_inicio_expediente, p_termino_expediente, p_email, p_senha); 
 
 END$$
 
--- Realiza o cadastro de produtos (será utilizado quando o módulo de marketplace for implementado)
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cadastrar_produto` (IN `p_nome` VARCHAR(30), IN `p_valor` FLOAT, IN `p_id_categoria` INT, IN `p_id_estabelecimento` INT)   BEGIN 
 INSERT INTO produtos (nome, valor, id_categoria, id_estabelecimento) VALUES (p_nome, p_valor, p_id_categoria, p_id_estabelecimento);  
 END$$
 
--- Realiza o cadastro de profissionais
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cadastrar_profissional` (IN `p_nome` VARCHAR(30), IN `p_data_nasc` DATE, IN `p_CPF` VARCHAR(14), IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30), IN `p_senha` VARCHAR(50), IN `p_id_estab_vinculado` INT)   BEGIN
 INSERT INTO profissionais (nome, data_nasc, CPF, telefone, email, senha, estabel_vinculado) VALUES (p_nome, p_data_nasc, p_CPF, p_telefone, p_email, p_senha, p_id_estab_vinculado); 
 END$$
 
--- Realiza o cadastro de serviços
 CREATE DEFINER=`root`@`localhost` PROCEDURE `cadastrar_servico` (IN `p_nome` VARCHAR(30), IN `p_valor` FLOAT, IN `p_duracao` TIME, IN `p_id_categoria` INT, IN `p_id_estabelecimento` INT)   BEGIN 
 INSERT INTO servicos (nome, valor, duracao, id_categoria, id_estabelecimento) VALUES (p_nome, p_valor, p_duracao, p_id_categoria, p_id_estabelecimento); 
 END$$
 
--- Exibe a quantidade de clientes de um estabelecimento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `clientes_por_estabelecimento` (IN `p_id_estabelecimento` INT)   BEGIN
     SELECT COUNT(DISTINCT a.id_cliente) AS total_clientes
     FROM agendamentos AS a
@@ -94,7 +82,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `clientes_por_estabelecimento` (IN `
     WHERE e.id_estabelecimento = p_id_estabelecimento;
 END$$
 
--- Exibe grade horária dos profissionais
 CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_grade_horaria` (IN `id_profissional_param` INT)   BEGIN
     SELECT 
     	id_grade,
@@ -108,7 +95,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_grade_horaria` (IN `id_pro
     ORDER BY dia_semana ASC;  
 END$$
 
--- Exibe os vínculos de um profissional
 CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_vinculo` (IN `id_profissional_param` INT)   BEGIN
     SELECT 
         v.id_vinculo,
@@ -124,7 +110,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `consulta_vinculo` (IN `id_profissio
         v.id_profissional = id_profissional_param;
 END$$
 
--- Exibe a contagem de agendamentos em um estabelecimento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `contagem_agendamentos` (IN `p_id_estabelecimento` INT)   BEGIN
     -- Exibe a contagem de agendamentos por mês
     SELECT 
@@ -140,7 +125,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `contagem_agendamentos` (IN `p_id_es
     ORDER BY mes;
 END$$
 
--- Exibe os agendamentos realizados por um cliente
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_cliente` (IN `p_id_cliente` INT)   BEGIN
 SELECT a.id_agendamento, a.id_profissional, p.nome AS 'profissional', fp.descricao AS 'forma_pagamento', a.data_realizacao, a.horario_inicio, a.horario_termino, a.valor_total, s.nome AS 'servico',
 sa.descricao AS status
@@ -153,7 +137,6 @@ WHERE id_cliente = p_id_cliente
 ORDER BY a.id_agendamento DESC;
 END$$
 
--- Exibe os agendamentos recebidos por um estabelecimento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_estabelecimento` (IN `p_id_estabelecimento` INT)   BEGIN 
 
     SELECT a.id_agendamento, 
@@ -181,9 +164,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_estabelecimento
     WHERE p.estabel_vinculado = p_id_estabelecimento;  
 END$$
 
--- Exibe os agendamentos recebidos por um profissional
-CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_profissional`(IN `p_id_profissional` INT)
-BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_agendamentos_profissional` (IN `p_id_profissional` INT)   BEGIN
 SELECT a.id_agendamento, 
        c.nome AS nome_cliente, 
        s.nome AS servico, 
@@ -205,21 +186,18 @@ JOIN status_agendamentos AS sa ON a.id_status = sa.id_status
 WHERE a.id_profissional = p_id_profissional;
 END$$
 
--- Exibe os pedidos realizados por um cliente (será utilizado quando o módulo de marketplace for implementado)
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_pedidos_cliente` (IN `p_id_cliente` INT)   BEGIN
 SELECT id_pedido, data_compra, id_status, valor_total  
 FROM pedidos  
 WHERE id_cliente = p_id_cliente; 
 END$$
 
--- Exibe os produtos por categoria (será utilizado quando o módulo de marketplace for implementado)
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_produtos_cat` (IN `p_id_categoria` INT)   BEGIN
 SELECT nome, valor, id_estabelecimento
 FROM produtos
 WHERE id_categoria = p_id_categoria;
 END$$
 
--- Exibe os produtos mais populares de um estabelecimento (será utilizado quando o módulo de marketplace for implementado)
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_produtos_mais_populares_por_estabelecimento` (IN `p_id_estabelecimento` INT)   BEGIN
   SELECT 
     p.nome AS produto,
@@ -233,9 +211,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_produtos_mais_populares_por_
   ORDER BY total_vendas DESC;
 END$$
 
--- Exibe os profissionais vinculados em um estabelecimento
-CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_profissionais_vinculados`(IN `p_id_estabelecimento` INT)
-BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_profissionais_vinculados` (IN `p_id_estabelecimento` INT)   BEGIN
     SELECT 
         v.id_vinculo, 
         v.id_profissional, 
@@ -253,14 +229,12 @@ BEGIN
     WHERE v.id_estabelecimento = p_id_estabelecimento;
 END$$
 
--- Exibe os servicos por categoria
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_servicos_cat` (IN `p_id_categoria` INT)   BEGIN 
 SELECT nome, valor, duracao, id_estabelecimento 
 FROM servicos
 WHERE id_categoria = p_id_categoria;
 END$$
 
--- Exibe os serviços de um estabelecimento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_servicos_estabelecimento` (IN `p_id_estabelecimento` INT)   BEGIN
     SELECT 
         s.id_servico,
@@ -279,7 +253,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_servicos_estabelecimento` (I
         s.id_estabelecimento = p_id_estabelecimento;
 END$$
 
--- Exibe os serviços mais populares de um estabelecimento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_servicos_mais_populares_por_estabelecimento` (IN `p_id_estabelecimento` INT)   BEGIN 
   SELECT  
     s.nome AS serviço, 
@@ -292,7 +265,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_servicos_mais_populares_por_
   ORDER BY total_agendamentos DESC; 
 END$$
 
--- Exibe os serviços prestados por cada profissional
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_servicos_profissional` (IN `p_id_profissional` INT)   BEGIN
     SELECT 
         s.id_servico,
@@ -313,7 +285,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_servicos_profissional` (IN `
         AND s.id_estabelecimento = p.estabel_vinculado;
 END$$
 
--- Exibe o faturamento do estabelecimento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `faturamento_estabelecimento` (IN `p_id_estabelecimento` INT)   BEGIN
     -- Faturamento por Agendamentos
     SELECT 
@@ -352,7 +323,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `faturamento_estabelecimento` (IN `p
 
 END$$
 
--- Exibe os horários disponíveis para agendamento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `gerar_horarios` (IN `p_id_profissional` INT, IN `p_data_realizacao` DATE)   BEGIN
     DECLARE v_dia_semana INT;
     
@@ -406,7 +376,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `gerar_horarios` (IN `p_id_profissio
 
 END$$
 
--- Exibe a quantidade de agendamentos por horários
 CREATE DEFINER=`root`@`localhost` PROCEDURE `horarios_pico` (IN `p_id_estabelecimento` INT)   BEGIN
     SELECT a.horario_inicio, COUNT(a.horario_inicio) AS quantidade
     FROM agendamentos AS a
@@ -416,7 +385,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `horarios_pico` (IN `p_id_estabeleci
     GROUP BY a.horario_inicio;
 END$$
 
--- Registra a solicitação de vínculo entre profissional e estabelecimento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_vinculo` (IN `p_estabelecimento_id` INT, IN `p_profissional_id` INT)   BEGIN
     -- Verificar se já existe um vínculo ativo entre o profissional e o estabelecimento
     DECLARE v_count INT;
@@ -436,13 +404,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `inserir_vinculo` (IN `p_estabelecim
     END IF;
 END$$
 
--- Lista todos os estabelecimentos cadastrados
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listar_estab` ()   SELECT e.id_estabelecimento, e.nome_fantasia, e.telefone, e.logradouro, e.email,
 e.numero, e.bairro, e.cidade, e.estado, e.inicio_expediente, e.termino_expediente
 FROM estabelecimentos as e 
 ORDER BY e.nome_fantasia$$
 
--- Exibe os agendamentos de cada profissional de determinado estabelecimento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `profissionais_agendamentos` (IN `p_id_estabelecimento` INT)   BEGIN
     SELECT 
         p.nome AS nome_profissional,
@@ -464,7 +430,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `profissionais_agendamentos` (IN `p_
         p.nome, a.data_realizacao;
 END$$
 
--- Exibe os profissionais mais populares de um determinado estabelecimento
 CREATE DEFINER=`root`@`localhost` PROCEDURE `profissionais_populares` (IN `p_id_estabelecimento` INT)   BEGIN
     SELECT 
         p.nome AS nome_profissional, 
@@ -519,7 +484,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `realizar_agendamento` (IN `p_id_cli
     WHERE id_agendamento = p_id_agendamento;
 END$$
 
--- Registra um pedido (será utilizado quando o módulo de marketplace for implementado)
 CREATE DEFINER=`root`@`localhost` PROCEDURE `realizar_pedido` (IN `p_id_cliente` INT, IN `p_id_produto` INT, IN `p_id_endereco` INT, IN `p_id_opcaopag` INT, IN `p_qtd_item` INT)   BEGIN
     -- Declara a variável para armazenar o id_pedido gerado automaticamente
     DECLARE p_id_pedido INT;
@@ -613,7 +577,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `realizar_pesquisa` (IN `termo_pesqu
         nome LIKE CONCAT('%', termo_pesquisa, '%');
 END$$
 
--- Registro o vínculo entre serviço e profissional
 CREATE DEFINER=`root`@`localhost` PROCEDURE `vincular_servico_profissional` (IN `p_id_profissional` INT, IN `p_id_servico` INT)   BEGIN 
 INSERT INTO profissionais_servicos (id_profissional, id_servico) VALUES (p_id_profissional, p_id_servico);
 END$$
@@ -859,21 +822,22 @@ CREATE TABLE `estabelecimentos` (
   `termino_expediente` time DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `senha` varchar(255) DEFAULT NULL,
-  `email_verificado` tinyint(1) NOT NULL
+  `email_verificado` tinyint(1) NOT NULL,
+  `imagem_perfil` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `estabelecimentos`
 --
 
-INSERT INTO `estabelecimentos` (`id_estabelecimento`, `razao_social`, `nome_fantasia`, `telefone`, `CNPJ`, `logradouro`, `numero`, `bairro`, `cidade`, `estado`, `CEP`, `inicio_expediente`, `termino_expediente`, `email`, `senha`, `email_verificado`) VALUES
-(1, 'Barbearia Auxiliadora ltda.', 'Barbearia ML', '(11) 97836-0100', '12.345.678/0001-00', 'Rua Odete Santos', 1780, 'Centro', 'Paulínia', 'SP', '09700-000', '08:00:00', '18:00:00', 'ml@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1),
-(2, 'Salão de beleza Gilberto e Cia.', 'Espaço do Gigi', '(11) 97836-0101', '12.345.678/0001-01', 'Rua Alberto de Nóbrega', 100, 'Centro', 'Hortolândia', 'SP', '02000-000', '08:00:00', '17:00:00', 'gigi@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1),
-(3, 'Espaço da beleza ltda.', 'Beleza e Cia.', '(11) 97836-0109', '12.345.678/0001-0', 'Avenida Drummond', 1850, 'Centro', 'Campinas', 'SP', '03700-000', '08:00:00', '17:30:00', 'beleza@exemplo.com', 'senha789', 1),
-(4, 'Teste01 ltda.', 'Teste Fantasia', '(19) 96325-7896', '12.345.678/0001-08', 'Rua teste 01', 1, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '08:00:00', '18:00:00', 'teste_email@gmail.com', '$2y$12$cxoOV/XKGAn3FjEurMJKh.N3sjcCBAX5rwkTnHS0krmyQ4ovuJKY.', 1),
-(5, 'Teste02 ltda.', 'Teste Fantasia2', '19989085358', '12.345.678/0001-08', 'Rua teste 01', 120, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '07:00:00', '17:00:00', 'teste_email02@gmail.com', '', 1),
-(6, 'Teste03 ltda.', 'Teste Fantasia3', '19333333333', '12.345.678/0001-10', 'Rua teste 03', 123, 'Bairro 03', 'Cidade 03', 'EP', '12589-427', '07:30:00', '17:00:00', 'teste_email03@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1),
-(11, 'Teste', 'rgdsgfre', '(19) 98908-5358', '25.284.836/0001-96', 'ksgjfd', 564, 'dfgd', 'dfsg', 'gd', '63214', '07:30:00', '13:30:00', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$Vfw1LkpE3a8jymf47wUpoO2GOjxKPvUpcVOSDLilpxnMPmg8BwP8a', 1);
+INSERT INTO `estabelecimentos` (`id_estabelecimento`, `razao_social`, `nome_fantasia`, `telefone`, `CNPJ`, `logradouro`, `numero`, `bairro`, `cidade`, `estado`, `CEP`, `inicio_expediente`, `termino_expediente`, `email`, `senha`, `email_verificado`, `imagem_perfil`) VALUES
+(1, 'Barbearia Auxiliadora ltda.', 'Barbearia ML', '(11) 97836-0100', '12.345.678/0001-00', 'Rua Odete Santos', 1780, 'Centro', 'Paulínia', 'SP', '09700-000', '08:00:00', '18:00:00', 'ml@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1, 'bbEw97SQTBio7VijCdF0FsBWoy2X3PQr0DGncmqP.jpg'),
+(2, 'Salão de beleza Gilberto e Cia.', 'Espaço do Gigi', '(11) 97836-0101', '12.345.678/0001-01', 'Rua Alberto de Nóbrega', 100, 'Centro', 'Hortolândia', 'SP', '02000-000', '08:00:00', '17:00:00', 'gigi@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1, NULL),
+(3, 'Espaço da beleza ltda.', 'Beleza e Cia.', '(11) 97836-0109', '12.345.678/0001-0', 'Avenida Drummond', 1850, 'Centro', 'Campinas', 'SP', '03700-000', '08:00:00', '17:30:00', 'beleza@exemplo.com', 'senha789', 1, NULL),
+(4, 'Teste01 ltda.', 'Teste Fantasia', '(19) 96325-7896', '12.345.678/0001-08', 'Rua teste 01', 1, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '08:00:00', '18:00:00', 'teste_email@gmail.com', '$2y$12$cxoOV/XKGAn3FjEurMJKh.N3sjcCBAX5rwkTnHS0krmyQ4ovuJKY.', 1, NULL),
+(5, 'Teste02 ltda.', 'Teste Fantasia2', '19989085358', '12.345.678/0001-08', 'Rua teste 01', 120, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '07:00:00', '17:00:00', 'teste_email02@gmail.com', '', 1, NULL),
+(6, 'Teste03 ltda.', 'Teste Fantasia3', '19333333333', '12.345.678/0001-10', 'Rua teste 03', 123, 'Bairro 03', 'Cidade 03', 'EP', '12589-427', '07:30:00', '17:00:00', 'teste_email03@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1, NULL),
+(11, 'Teste', 'rgdsgfre', '(19) 98908-5358', '25.284.836/0001-96', 'ksgjfd', 564, 'dfgd', 'dfsg', 'gd', '63214', '07:30:00', '13:30:00', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$Vfw1LkpE3a8jymf47wUpoO2GOjxKPvUpcVOSDLilpxnMPmg8BwP8a', 1, NULL);
 
 --
 -- Acionadores `estabelecimentos`
@@ -1254,23 +1218,24 @@ CREATE TABLE `profissionais` (
   `email` varchar(100) DEFAULT NULL,
   `senha` varchar(255) DEFAULT NULL,
   `estabel_vinculado` int(11) DEFAULT NULL,
-  `email_verificado` tinyint(1) NOT NULL
+  `email_verificado` tinyint(1) NOT NULL,
+  `imagem_perfil` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `profissionais`
 --
 
-INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`, `estabel_vinculado`, `email_verificado`) VALUES
-(1, 'Jeremias de Arruda Silva', '1990-01-01', '987.654.321-00', '(19) 98987-0540', 'jeremias@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1, 1),
-(2, 'Juliana da Silva Costa', '1991-01-01', '987.654.321-01', '(19) 90981-0541', 'juliana@teste.com', 'senha@melhorainda', 3, 1),
-(3, 'Aline Costa Albuquerque', '1992-01-01', '987.654.321-02', '(11) 90981-0542', 'aline@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', NULL, 1),
-(4, 'Sheila Almeida', '1998-11-23', '987.654.321-02', '(11) 90981-054', 'sheila@teste.com', 'senha123', 2, 1),
-(5, 'Juriscleison da Costa', '1993-04-01', '132.256.456-02', '1908007070', 'jusriscleison@gmail.com', 'senha123', 1, 1),
-(6, 'Otávio Ferreira', '1975-12-31', '256.145.486-01', '199995452', 'tavinho@outlook.com', 'senha123', 2, 1),
-(7, 'Bruce Lee', '1968-05-06', '456.256.324-15', '1965165655', 'kungfu@yahoo.com', 'senha123', 1, 1),
-(8, 'Ronaldo Silveira', '1999-03-12', '65561561', '195226512', 'ronaldo@teste.com', '$2y$12$o/SwkMeE3/Kp4HSOL2gnIucs35o1TvFQFkgi.aMLCfwrEW7sjuVsu', 1, 1),
-(20, 'Rodrigo', '2001-03-02', '49333379851', '(19) 98908-5358', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$0aYXCsl6nSz6wH8Iy.b35eYtPRHyBPmu1Srm1gZ0opW52aObaLxwi', NULL, 1);
+INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`, `estabel_vinculado`, `email_verificado`, `imagem_perfil`) VALUES
+(1, 'Jeremias de Arruda Silva', '1990-01-01', '987.654.321-00', '(19) 98987-0540', 'jeremias@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1, 1, NULL),
+(2, 'Juliana da Silva Costa', '1991-01-01', '987.654.321-01', '(19) 90981-0541', 'juliana@teste.com', 'senha@melhorainda', 3, 1, NULL),
+(3, 'Aline Costa Albuquerque', '1992-01-01', '987.654.321-02', '(11) 90981-0542', 'aline@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', NULL, 1, NULL),
+(4, 'Sheila Almeida', '1998-11-23', '987.654.321-02', '(11) 90981-054', 'sheila@teste.com', 'senha123', 2, 1, NULL),
+(5, 'Juriscleison da Costa', '1993-04-01', '132.256.456-02', '1908007070', 'jusriscleison@gmail.com', 'senha123', 1, 1, NULL),
+(6, 'Otávio Ferreira', '1975-12-31', '256.145.486-01', '199995452', 'tavinho@outlook.com', 'senha123', 2, 1, NULL),
+(7, 'Bruce Lee', '1968-05-06', '456.256.324-15', '1965165655', 'kungfu@yahoo.com', 'senha123', 1, 1, NULL),
+(8, 'Ronaldo Silveira', '1999-03-12', '65561561', '195226512', 'ronaldo@teste.com', '$2y$12$o/SwkMeE3/Kp4HSOL2gnIucs35o1TvFQFkgi.aMLCfwrEW7sjuVsu', 1, 1, 'FqjzVqckOnK5LzfsLIa3Y3nHQDr2YDI9AiwpMk0a.jpg'),
+(20, 'Rodrigo', '2001-03-02', '49333379851', '(19) 98908-5358', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$0aYXCsl6nSz6wH8Iy.b35eYtPRHyBPmu1Srm1gZ0opW52aObaLxwi', NULL, 1, NULL);
 
 --
 -- Acionadores `profissionais`

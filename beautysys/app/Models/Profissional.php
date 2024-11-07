@@ -26,6 +26,7 @@ class Profissional extends Authenticatable
         'email',
         'senha',
         'email_verificado',
+        'imagem_perfil',
     ];
 
     // Desativa os timestamps automáticos

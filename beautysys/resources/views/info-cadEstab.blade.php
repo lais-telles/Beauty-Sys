@@ -6,11 +6,11 @@
 <section class="d-flex ms-5 me-5 mb-5 rounded" style="margin-top: 10rem;">
     <div class="container my-5">
         <div class="row align-items-center">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <form action="{{ route ('AlteraCadastro') }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="Razao_social">Razão Social</label>
                                 <input type="text" class="form-control" id="razao_social" name="razao_social" value="{{ $registro->razao_social }}" readonly required>
@@ -40,7 +40,7 @@
                                 <input type="text" class="form-control" id="numero" name="numero" value="{{ $registro->numero }}" readonly required>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="bairro">Bairro:</label>
                                 <input type="text" class="form-control" id="bairro" name="bairro" value="{{ $registro->bairro }}" readonly required>
@@ -85,6 +85,33 @@
                         {{ session('error') }}
                     </div>
                 @endif
+            </div>
+
+            <!-- Coluna para o formulário de upload da foto -->
+            <div class="col-md-6 text-center" style="margin-top: -500px;">
+                <!-- Exibição da foto de perfil ou imagem padrão -->
+                @if (auth()->user()->imagem_perfil)
+                    <img src="{{ asset('storage/imagem_perfil/' . auth()->user()->imagem_perfil) }}" alt="Foto de perfil" class="img-perfil mb-3">
+                @else
+                    <img src="{{ asset('storage/imagem_perfil/sem_foto.png') }}" alt="Foto de perfil padrão" class="img-perfil mb-3">
+                @endif
+
+                <!-- Formulário de upload de foto de perfil -->
+                <form action="{{ route('imagem_uploadE') }}" method="POST" enctype="multipart/form-data" class="text-start">
+                    @csrf
+                    <div class="form-group">
+                        <label for="imagem_perfil" class="form-label">Escolha sua foto de perfil</label>
+                        <input type="file" id="imagem_perfil" name="imagem_perfil" accept="image/*" class="form-control mt-1" required>
+                    </div>
+
+                    @error('imagem_perfil')
+                        <div class="error text-danger">{{ $message }}</div>
+                    @enderror
+
+                    <div class="text-end mt-3">
+                        <button type="submit" class="btn btn-custom">Enviar Foto</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

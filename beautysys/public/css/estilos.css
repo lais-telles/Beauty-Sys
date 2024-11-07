@@ -161,3 +161,12 @@ h1, h2, h3 {
     position: relative;
     margin-bottom: 1rem;
 }
+
+.img-perfil {
+    width: 250px; /* Define a largura da imagem */
+    height: 250px; /* Define a altura da imagem */
+    border-radius: 10%;
+    object-fit: cover; /* Ajusta a imagem para preencher o espaço sem distorção */
+    border: 3px solid #ddd; /* Adiciona uma borda suave */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra leve */
+}
