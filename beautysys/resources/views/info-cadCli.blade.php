@@ -44,6 +44,8 @@
     </div>
 </section>
 
+<script src="https://unpkg.com/imask"></script>
+
 <script>
     document.getElementById('edita_cadastro').addEventListener('click', function() {
         // Seleciona todos os campos do formulário
@@ -57,5 +59,19 @@
         // Esconde o botão de editar
         this.style.display = 'none';
     });
+
+    IMask(
+        document.getElementById('telefone'),
+        {
+            mask: [
+                {
+                    mask: '(00) 0000-0000',
+                },
+                {
+                    mask: '(00) 00000-0000',
+                }
+            ],
+        }
+    );
 </script>
 @endsection

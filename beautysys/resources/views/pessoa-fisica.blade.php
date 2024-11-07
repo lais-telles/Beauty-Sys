@@ -233,6 +233,8 @@
     </div>
 </div>
 
+<script src="https://unpkg.com/imask"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Mostrar modal de cadastro se houver erros de cadastro
@@ -259,6 +261,27 @@
             yearRange: 100 // Intervalo de anos visível no seletor
         });
     });
+
+    IMask(
+        document.getElementById('floatingTelefone'),
+        {
+            mask: [
+                {
+                    mask: '(00) 0000-0000',
+                },
+                {
+                    mask: '(00) 00000-0000',
+                }
+            ],
+        }
+    );
+
+    IMask(
+        document.getElementById('floatingCpf'),
+        {
+            mask: '000.000.000-00',
+        },
+    );
 </script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">

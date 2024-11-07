@@ -133,7 +133,7 @@
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control rounded-3 @error('telefone') is-invalid @enderror" id="floatingTelefone" name="telefoneEstab" placeholder="(XX) XXXXX-XXXX" value="{{ old('telefoneEstab') }}" required>
+                        <input type="text" class="form-control rounded-3 @error('telefone') is-invalid @enderror" id="floatingTelefoneEstab" name="telefoneEstab" placeholder="(XX) XXXXX-XXXX" value="{{ old('telefoneEstab') }}" required>
                         <label for="floatingTelefone">Telefone</label>
                         @error('telefoneEstab')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -329,7 +329,7 @@
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control rounded-3 @error('telefone') is-invalid @enderror" id="floatingTelefone" name="telefone" placeholder="(XX) XXXXX-XXXX" value="{{ old('telefone') }}" required>
+                        <input type="text" class="form-control rounded-3 @error('telefone') is-invalid @enderror" id="floatingTelefoneProf" name="telefone" placeholder="(XX) XXXXX-XXXX" value="{{ old('telefone') }}" required>
                         <label for="floatingTelefone">Telefone</label>
                         @error('telefone')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -443,6 +443,7 @@
     </div>
 </div>
 
+<script src="https://unpkg.com/imask"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -495,6 +496,55 @@
             minuteIncrement: 1 // Incrementos de minutos
         });
     });
+
+    IMask(
+        document.getElementById('floatingTelefoneProf'),
+        {
+            mask: [
+                {
+                    mask: '(00) 0000-0000',
+                },
+                {
+                    mask: '(00) 00000-0000',
+                }
+            ],
+        }
+    );
+
+    IMask(
+        document.getElementById('floatingTelefoneEstab'),
+        {
+            mask: [
+                {
+                    mask: '(00) 0000-0000',
+                },
+                {
+                    mask: '(00) 00000-0000',
+                }
+            ],
+        }
+    );
+
+    IMask(
+        document.getElementById('floatingCpf'),
+        {
+            mask: '000.000.000-00',
+        },
+    );
+
+    IMask(
+        document.getElementById('floatingCNPJ'),
+        {
+            mask: '00.000.000/0000-00',
+        },
+    );
+
+    IMask(
+        document.getElementById('floatingCEP'),
+        {
+            mask: '00000-000',
+        },
+    );
 </script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
