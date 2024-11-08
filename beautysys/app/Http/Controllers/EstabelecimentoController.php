@@ -414,11 +414,12 @@ class EstabelecimentoController extends Controller
                 }
             }
 
-            // Salva a nova imagem no diretório especificado e obtém o caminho
-            $path = $request->file('imagem_perfil')->store('public/imagem_perfil');
+            // Salva a nova imagem diretamente em public/imagem_perfil e obtém o nome do arquivo
+            $imageName = time() . '_' . $request->file('imagem_perfil')->getClientOriginalName();
+            $request->file('imagem_perfil')->move(public_path('imagem_perfil'), $imageName);
 
             // Salva o nome do arquivo da nova imagem no banco de dados
-            $user->update(['imagem_perfil' => basename($path)]);
+            $user->update(['imagem_perfil' => $imageName]);
 
             return back()->with('success', 'Foto de perfil atualizada!');
         }
