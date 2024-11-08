@@ -4,7 +4,6 @@ body {
     font-family: 'Afacad';
 }
 
-
 html, body {
     overflow-x: hidden;
 	height: 100%;
@@ -68,11 +67,12 @@ footer ul li a {
 .b-example-divider {
     height: 0.1rem;
     background-color: #DA70D6;
-  }
+}
 
 .bg-card-restaurante {
     background: url(../imagens/restaurante.png), #f05454;
 }
+
 .bg-card-mercado {
     background: url(../imagens/frutasmercado.png);
 }
@@ -94,6 +94,7 @@ footer ul li a {
 .custom-input {
     width: 50px;
 }
+
 #video-apresentacao {
     width: 100%;
     height: 100vh;

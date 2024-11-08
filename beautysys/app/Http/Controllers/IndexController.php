@@ -6,43 +6,43 @@ use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
-    public function Index() {
+    public function Index() 
+    {
         return view('index');
     }
 
-    public function PessoaFisica() {
+    public function PessoaFisica() 
+    {
         return view('pessoa-fisica');
     }
 
-    public function Parceiro() {
+    public function Parceiro() 
+    {
         return view('parceiros');
     }
 
-    public function HomePf() {
+    public function homePf() 
+    {
         return view('home-pf');
     }
 
-    public function HomePj() {
+    public function homePj() 
+    {
         return view('home-pj');
     }
 
-    public function HomeProfissional() {
+    public function homeProfissional() 
+    {
         return view('home-profissional');
     }
 
-    public function DashboardProprietario() {
-        return view('dashboard-pj');
-    }
-
-    public function AdmProprietario() {
+    public function admProprietario() 
+    {
         return view('adm-proprietario');
     }
 
-    public function AdmProfissional() {
+    public function admProfissional() 
+    {
         return view('adm-profissional');
-    }
-
-    public function Agendamento() {
-        return view('finaliza-agendamento');
     }
 }

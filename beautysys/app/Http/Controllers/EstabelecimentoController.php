@@ -69,7 +69,8 @@ class EstabelecimentoController extends Controller
         }
     }
 
-    public function esqueceuSenhaEstabelecimento(Request $request){
+    public function esqueceuSenhaEstabelecimento(Request $request)
+    {
         // Corrigido para corresponder ao campo correto
         $email = $request->input('emailResetSenhaEstab'); 
     
@@ -98,9 +99,9 @@ class EstabelecimentoController extends Controller
             return redirect()->back()->with('error', 'Email não encontrado');
         }
     }
-    
 
-    public function resetSenhaEstabelecimento(Request $request){
+    public function resetSenhaEstabelecimento(Request $request)
+    {
         $email = $request->query('email');
         $token = $request->query('token');
 
@@ -138,7 +139,8 @@ class EstabelecimentoController extends Controller
         return view('nova-senhaEstab', compact('token', 'email'));
     }
 
-    public function definirNovaSenhaEstabelecimento(Request $request){
+    public function definirNovaSenhaEstabelecimento(Request $request)
+    {
         // Valida a entrada
         $request->validate([
             'new_password' => 'required|min:8', // Adicione outras regras de validação conforme necessário
@@ -192,7 +194,7 @@ class EstabelecimentoController extends Controller
             // Tentar autenticar o estabelecimento usando o guard 'estabelecimento'
             if (Auth::guard('estabelecimento')->attempt(['email' => $request->input('emailLoginProp'), 'password' => $request->input('senhaLoginProp')])) {
                 // Login bem-sucedido, redirecionar para a página inicial do estabelecimento
-                return redirect()->route('PaginaInicialPj')->with('success', 'Login realizado com sucesso!');
+                return redirect()->route('paginaInicialPj')->with('success', 'Login realizado com sucesso!');
             } else {
                 // Login falhou, redirecionar de volta com uma mensagem de erro
                 return redirect()->back()->with('error', 'Email ou senha inválidos');
@@ -220,7 +222,8 @@ class EstabelecimentoController extends Controller
         return redirect()->route('Index')->with('success', 'Logout realizado com sucesso!');
     }
 
-    public function buscarEstabelecimento(Request $request){
+    public function buscarEstabelecimento(Request $request)
+    {
         // Captura o id do estabelecimento autenticado usando Auth
         $id_estabelecimento = Auth::guard('estabelecimento')->id();
    
@@ -236,7 +239,8 @@ class EstabelecimentoController extends Controller
         return view('info-cadEstab', compact('registro'));
     }
 
-    public function alterarCadastro(Request $request) {
+    public function alterarCadastro(Request $request)
+    {
         // Captura o id do estabelecimento da sessão
         $id_estabelecimento = Auth::guard('estabelecimento')->id();
         $nome_fantasia = $request->input('nome_fantasia');
@@ -257,8 +261,8 @@ class EstabelecimentoController extends Controller
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }
 
-
-    public function listaServicos() {
+    public function listaServicos() 
+    {
         // Captura o id do estabelecimento autenticado usando Auth
         $id_estabelecimento = Auth::guard('estabelecimento')->id();
    
@@ -269,7 +273,8 @@ class EstabelecimentoController extends Controller
         return view('servicos-cad', compact('servicos'));
     }   
 
-    public function cadastrarServico(Request $request){
+    public function cadastrarServico(Request $request)
+    {
         // Validação dos dados de entrada
         $request->validate([
             'nome' => 'required|string|max:30',
@@ -299,31 +304,31 @@ class EstabelecimentoController extends Controller
 
     // Método para deletar serviço
     public function deletarServico($id)
-{
-    // Lógica para encontrar o serviço pelo ID
-    $servico = DB::table('servicos')->where('id_servico', $id)->first();
+    {
+        // Lógica para encontrar o serviço pelo ID
+        $servico = DB::table('servicos')->where('id_servico', $id)->first();
 
-    if ($servico) {
-        // Verifica se há agendamentos associados ao serviço
-        $hasAgendamentos = DB::table('agendamentos')->where('id_servico', $id)->exists();
+        if ($servico) {
+            // Verifica se há agendamentos associados ao serviço
+            $hasAgendamentos = DB::table('agendamentos')->where('id_servico', $id)->exists();
 
-        if ($hasAgendamentos) {
-            return back()->with('error', 'Não é possível deletar o serviço, pois ele está associado a agendamentos.');
+            if ($hasAgendamentos) {
+                return back()->with('error', 'Não é possível deletar o serviço, pois ele está associado a agendamentos.');
+            }
+
+            try {
+                DB::table('servicos')->where('id_servico', $id)->delete();
+                return redirect()->route('listaServicos')->with('success', 'Serviço deletado com sucesso.');
+            } catch (\QueryException $e) {
+                return back()->with('error', 'Não é possível deletar o serviço, pois ele está associado a um profissional.');
+            }
         }
 
-        try {
-            DB::table('servicos')->where('id_servico', $id)->delete();
-            return redirect()->route('listaServicos')->with('success', 'Serviço deletado com sucesso.');
-        } catch (\QueryException $e) {
-            return back()->with('error', 'Não é possível deletar o serviço, pois ele está associado a um profissional.');
-        }
+        return redirect()->route('listaServicos')->with('error', 'Serviço não encontrado.');
     }
 
-    return redirect()->route('listaServicos')->with('error', 'Serviço não encontrado.');
-}
-
-
-    public function exibirAgendamentosEstab(){
+    public function exibirAgendamentosEstab()
+    {
         // Captura o id do estabelecimento autenticado usando Auth
         $id_estabelecimento = Auth::guard('estabelecimento')->id();
 
@@ -334,7 +339,8 @@ class EstabelecimentoController extends Controller
         return view('agendamentos-estab', compact('agendamentos'));
     }
 
-    public function dashboardEstab(){
+    public function dashboardEstab()
+    {
         // Captura o id do estabelecimento autenticado usando Auth
         $id_estabelecimento = Auth::guard('estabelecimento')->id();
     
@@ -364,7 +370,8 @@ class EstabelecimentoController extends Controller
         return view('dashboard-pj', compact('data'));
     }
     
-    public function exibirVinculosEstab() {
+    public function exibirVinculosEstab() 
+    {
         // Captura o id do estabelecimento autenticado usando Auth
         $id_estabelecimento = Auth::guard('estabelecimento')->id();
     
@@ -378,7 +385,8 @@ class EstabelecimentoController extends Controller
         return view('vinculo-estab', compact('vinculos', 'statusOptions'));
     }
 
-    public function atualizarStatusVinculo(Request $request) {
+    public function atualizarStatusVinculo(Request $request) 
+    {
         $status = $request->input('status_vinculo'); // Recebe o novo status diretamente do ENUM
         $id_vinculo = $request->input('id_vinculo');
     

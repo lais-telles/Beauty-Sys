@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('PaginaInicialPj') }}">
+                <a class="navbar-brand" href="{{ route('paginaInicialPj') }}">
                     <img src="{{ asset('images/beautysys-logo2.png') }}" style="width: 150px;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -33,7 +33,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-nowrap" href="{{ route('exibirVinculosEstab') }}">Profissionais vinculados</a>
                         </li>
-                        <li><a class="nav-link text-nowrap" href="{{ route('DashboardPj') }}">Dashboard</a></li>
+                        <li><a class="nav-link text-nowrap" href="{{ route('dashboardPj') }}">Dashboard</a></li>
                     </ul>
 
                     <!-- Barra de Pesquisa -->
@@ -52,7 +52,7 @@
                                 <i id="minhaConta" class='fas fa-user-alt' style="color: white;"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('AdmProprietario') }}">Meu perfil</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admProprietario') }}">Meu perfil</a></li>
                                 <li>
                                     <form action="{{ route('logoutEstab') }}" method="POST">
                                         @csrf
@@ -82,7 +82,7 @@
                             </button>
                         </form>
                     </li>
-                    <li class="nav-item"><a class="nav-link text-dark" href="{{ route('AdmProprietario') }}">Meu perfil</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="{{ route('admProprietario') }}">Meu perfil</a></li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="{{ route('exibirAgendamentosEstab') }}">Meus agendamentos</a>
                     </li>
@@ -93,7 +93,7 @@
                         <a class="nav-link text-dark" href="{{ route('exibirVinculosEstab') }}">Profissionais vinculados</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="{{ route('DashboardPj') }}">Dashboard</a>
+                        <a class="nav-link text-dark" href="{{ route('dashboardPj') }}">Dashboard</a>
                     </li>
                     <li class="nav-item">
                         <form action="{{ route('logoutEstab') }}" method="POST">

@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('PaginaInicialPf') }}">
+                <a class="navbar-brand" href="{{ route('paginaInicialPf') }}">
                     <img src="{{ asset('images/beautysys-logo2.png') }}" style="width: 150px;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">

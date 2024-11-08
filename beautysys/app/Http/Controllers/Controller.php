@@ -18,7 +18,8 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests;
 
     // Função para confirmar o e-mail
-    public function confirmaEmail(Request $request){
+    public function confirmaEmail(Request $request)
+    {
         $token = $request->query('token');
         $email = $request->query('email');
         $tipo_usuario = $request->query('tipo_usuario');

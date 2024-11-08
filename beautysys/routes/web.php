@@ -25,8 +25,6 @@ Route::get('/', function () {
 Route::get('/beautysys', [IndexController::class, 'Index'])->name('Index');
 Route::get('/pessoa-física', [IndexController::class, 'PessoaFisica'])->name('PessoaFisica');
 Route::get('/parceiros', [IndexController::class, 'Parceiro'])->name('Parceiro');
-//Route::get('/dashboard-pj', [IndexController::class, 'DashboardProprietario'])->name('DashboardPj');
-Route::get('/agendamento', [IndexController::class, 'Agendamento'])->name('agendamento');
 Route::get('/confirma-email', [Controller::class, 'confirmaEmail'])->name('confirmaEmail');
 
 // -------------------------------------- Rotas do cliente ----------------------------------------------------
@@ -57,7 +55,7 @@ Route::get('nova-senha/cliente', function () {
 // Rotas privadas (requer autenticação do cliente)
 Route::middleware('auth:cliente')->group(function () {
     // Página inicial do cliente
-    Route::get('/home-pf', [IndexController::class, 'HomePf'])->name('PaginaInicialPf');
+    Route::get('/home-pf', [IndexController::class, 'homePf'])->name('paginaInicialPf');
 
     // Rota para realizar logout do cliente usando o método 'logoutCliente'
     Route::post('cliente/logout', [ClienteController::class, 'logoutCliente'])->name('logoutCliente');
@@ -120,7 +118,7 @@ Route::get('nova-senha/profissional', function () {
 // Rotas privadas (requer autenticação do profissional)
 Route::middleware('auth:profissional')->group(function () {
     // Página inicial do profissional
-    Route::get('/home-profissional', [IndexController::class, 'HomeProfissional'])->name('PaginaInicialProfissional');
+    Route::get('/home-profissional', [IndexController::class, 'homeProfissional'])->name('paginaInicialProfissional');
     
     // Rota para realizar logout do profissional usando o método 'logoutProfissional'
     Route::post('profissional/logout', [ProfissionalController::class, 'logoutProfissional'])->name('logoutProfissional');
@@ -139,9 +137,6 @@ Route::middleware('auth:profissional')->group(function () {
     
     //Rota para exibição dos agendamentos realizados com o profissional logado
     Route::get('/agendamentos', [ProfissionalController::class, 'exibirAgendamentosProf'])->name('exibirAgendamentosProf');
-    
-    // Rota para administração de conta do Profissional com o método 'admProf'
-    Route::get('/admProfissional', [ProfissionalController::class, 'admProf'])->name('admProf');
     
     //Rota para a tela de perfil do profissional com as respectivas informações do profissional logado
     Route::get('profissional/perfil', [ProfissionalController::class, 'buscarProfissional'])->name('infoCadastroP');
@@ -162,7 +157,7 @@ Route::middleware('auth:profissional')->group(function () {
     Route::post('associar/servico', [ProfissionalController::class, 'associarServ'])->name('associarServ');
 
     // Rota para a página de adm do estabelecimento
-    Route::get('/admProf', [IndexController::class, 'AdmProfissional'])->name('AdmProfissional');
+    Route::get('/admProf', [IndexController::class, 'admProfissional'])->name('admProfissional');
 
     // Rota para upload de imagem
     Route::post('/perfil/upload', [ProfissionalController::class, 'uploadImagemPerfil'])->name('imagem_upload');
@@ -192,7 +187,7 @@ Route::get('nova-senha/estabelecimento', function () {
 
 Route::middleware('auth:estabelecimento')->group(function () {
     // Página inicial do estabelecimento
-    Route::get('/home-pj', [IndexController::class, 'HomePj'])->name('PaginaInicialPj');
+    Route::get('/home-pj', [IndexController::class, 'homePj'])->name('paginaInicialPj');
 
     // Rota para realizar logout do estabelecimento usando o método 'logoutEstab'
     Route::post('estabelecimento/logout', [EstabelecimentoController::class, 'logoutEstab'])->name('logoutEstab');
@@ -216,7 +211,7 @@ Route::middleware('auth:estabelecimento')->group(function () {
     Route::get('/agendamentos/estab', [EstabelecimentoController::class, 'exibirAgendamentosEstab'])->name('exibirAgendamentosEstab');
     
     // Rota para exibição da view dashboard-pj
-    Route::get('estabelecimento/dashboard', [EstabelecimentoController::class, 'dashboardEstab'])->name('DashboardPj');
+    Route::get('estabelecimento/dashboard', [EstabelecimentoController::class, 'dashboardEstab'])->name('dashboardPj');
     
     //Rota para exibição dos profissionais vinculados com o estabelecimento
     Route::get('/estabelecimento/vinculo', [EstabelecimentoController::class, 'exibirVinculosEstab'])->name('exibirVinculosEstab');
@@ -225,7 +220,7 @@ Route::middleware('auth:estabelecimento')->group(function () {
     Route::post('/vinculos/status', [EstabelecimentoController::class, 'atualizarStatusVinculo'])->name('atualizarStatusVinculo');
 
     // Rota para a página de adm do estabelecimento
-    Route::get('/admPj', [IndexController::class, 'AdmProprietario'])->name('AdmProprietario');
+    Route::get('/admPj', [IndexController::class, 'admProprietario'])->name('admProprietario');
     
     // Rota para upload de imagem
     Route::post('/perfilEstab/upload', [EstabelecimentoController::class, 'uploadImagemPerfil'])->name('imagem_uploadE');

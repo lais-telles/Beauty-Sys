@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('PaginaInicialProfissional') }}">
+                <a class="navbar-brand" href="{{ route('paginaInicialProfissional') }}">
                     <img src="{{ asset('images/beautysys-logo2.png') }}" style="width: 150px;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -52,7 +52,7 @@
 
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('AdmProfissional') }}">Meu perfil</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admProfissional') }}">Meu perfil</a></li>
                                 <li>
                                     <form action="{{ route('logoutProfissional') }}" method="POST">
                                         @csrf
@@ -82,7 +82,7 @@
                             </button>
                         </form>
                     </li>
-                    <li class="nav-item"><a class="nav-link text-dark" href="{{ route('infoCadastroP') }}">Meu perfil</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="{{ route('admProfissional') }}">Meu perfil</a></li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="{{ route('exibirAgendamentosProf') }}">Meus agendamentos</a>
                     </li>

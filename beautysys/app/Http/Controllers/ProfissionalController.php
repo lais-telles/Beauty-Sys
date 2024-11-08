@@ -98,9 +98,9 @@ class ProfissionalController extends Controller
             return redirect()->back()->with('error', 'Email não encontrado');
         }
     }
-    
 
-    public function resetSenhaProfissional(Request $request) {
+    public function resetSenhaProfissional(Request $request) 
+    {
         $email = $request->query('email');
         $token = $request->query('token');
 
@@ -137,10 +137,9 @@ class ProfissionalController extends Controller
     
         return view('nova-senhaProf', compact('token', 'email'));
     }
-        
-    
 
-    public function definirNovaSenhaProfissional(Request $request){
+    public function definirNovaSenhaProfissional(Request $request)
+    {
         // Valida a entrada
         $request->validate([
             'new_password' => 'required|min:8', // Adicione outras regras de validação conforme necessário
@@ -194,7 +193,7 @@ class ProfissionalController extends Controller
             // Tentar autenticar o profissional usando o guard 'profissional'
             if (Auth::guard('profissional')->attempt(['email' => $request->input('emailLoginProf'), 'password' => $request->input('senhaLoginProf')])) {
                 // Login bem-sucedido, redirecionar para a página inicial do profissional
-                return redirect()->route('PaginaInicialProfissional')->with('success', 'Login realizado com sucesso!');
+                return redirect()->route('paginaInicialProfissional')->with('success', 'Login realizado com sucesso!');
             } else {
                 // Login falhou, redirecionar de volta com uma mensagem de erro
                 return redirect()->back()->with('error', 'Email ou senha inválidos');
@@ -223,7 +222,8 @@ class ProfissionalController extends Controller
     }
 
     // Método de exibição da grade horária
-    public function gradeProf() {
+    public function gradeProf() 
+    {
         // Captura o id do profissional autenticado usando Auth
         $idProfissional = Auth::guard('profissional')->id();
 
@@ -288,7 +288,8 @@ class ProfissionalController extends Controller
         return redirect()->route('gradeProf')->with('error', 'Horário não encontrado.');
     }
 
-    public function salvarGrade(Request $request) {
+    public function salvarGrade(Request $request) 
+    {
         // Valida os dados enviados pelo modal
         $validatedData = $request->validate([
             'dia_semana' => 'required|string|max:10',
@@ -318,16 +319,9 @@ class ProfissionalController extends Controller
         return redirect()->route('gradeProf')->with('success', 'Grade cadastrada com sucesso!');
     }
 
-    // Método para ir para a página de adm
-    public function admProf(Request $request) {
-        // Recupera o nome do profissional
-        $nome = Session::get('nome');
-        
-        return view('adm-profissional', ['nome' => $nome]);
-    }
-
     // Método para buscar profissional
-    public function buscarProfissional(Request $request){
+    public function buscarProfissional(Request $request)
+    {
         // Captura o id do profissional autenticado usando Auth
         $id_profissional = Auth::guard('profissional')->id();
    
@@ -344,7 +338,8 @@ class ProfissionalController extends Controller
     }
 
     // Método para salvar alterações
-    public function alterarCadastro(Request $request) {
+    public function alterarCadastro(Request $request) 
+    {
         // Captura o id do profissional autenticado usando Auth
         $id_profissional = Auth::guard('profissional')->id();
         $telefone = $request->input('telefone');
@@ -355,7 +350,8 @@ class ProfissionalController extends Controller
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }
 
-    public function exibirAgendamentosProf() {
+    public function exibirAgendamentosProf() 
+    {
         // Captura o id do profissional autenticado usando Auth
         $id_profissional = Auth::guard('profissional')->id();
 
@@ -374,12 +370,14 @@ class ProfissionalController extends Controller
     }
 
     // Função separada para obter serviços disponíveis
-    private function servicosDisponiveis($id_profissional) {
+    private function servicosDisponiveis($id_profissional) 
+    {
         // Obtém os serviços disponíveis
         return DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
     }
 
-    public function atualizarStatusAgendamentos(Request $request) {
+    public function atualizarStatusAgendamentos(Request $request) 
+    {
         $statusDescricao = $request->input('status'); // 'Ausência' ou outro status descritivo
         $id_agendamento = $request->input('id_agendamento');
 
@@ -423,7 +421,8 @@ class ProfissionalController extends Controller
         }
     }
 
-    public function servicosProf(){
+    public function servicosProf()
+    {
         // Captura o id do profissional autenticado usando Auth
         $idProfissional = Auth::guard('profissional')->id();
 
@@ -455,7 +454,8 @@ class ProfissionalController extends Controller
         }
     }
     
-    public function uploadImagemPerfil(Request $request){
+    public function uploadImagemPerfil(Request $request)
+    {
         // Validação da imagem
         $request->validate([
             'imagem_perfil' => 'required|image|mimes:jpeg,png,jpg|max:2048',

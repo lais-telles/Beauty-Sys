@@ -19,6 +19,6 @@ class ConfirmacaoEmail extends Model
         'tipo_usuario'
     ];
 
-     // Desativa os timestamps automáticos
-     public $timestamps = false;
+    // Desativa os timestamps automáticos
+    public $timestamps = false;
 }

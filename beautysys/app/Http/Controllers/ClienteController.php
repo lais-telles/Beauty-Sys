@@ -24,7 +24,8 @@ use App\Mail\ConfirmaEmail;
 class ClienteController extends Controller
 {
     // Função para salvar o cliente no banco de dados
-    public function cadastrarCliente(Request $request){
+    public function cadastrarCliente(Request $request)
+    {
         // Valida os dados enviados pelo modal
         $validatedData = $request->validate([
             'nome' => 'required|string|max:50',
@@ -94,7 +95,8 @@ class ClienteController extends Controller
     }
     
     // Função para retornar a tela para definição de uma nova senha
-    public function resetSenhaCliente(Request $request) {
+    public function resetSenhaCliente(Request $request) 
+    {
         $email = $request->query('email');
         $token = $request->query('token');
 
@@ -134,7 +136,8 @@ class ClienteController extends Controller
     }
 
     // Função para o processamento e inserção da nova senha na tabela clientes
-    public function definirNovaSenhaCliente(Request $request){
+    public function definirNovaSenhaCliente(Request $request)
+    {
         // Valida a entrada
         $request->validate([
             'new_password' => 'required|min:8', 
@@ -173,9 +176,9 @@ class ClienteController extends Controller
         }
     }
 
-
     // Método de login
-    public function loginCliente(Request $request){
+    public function loginCliente(Request $request)
+    {
         // Validação dos campos de entrada
         $validatedData = $request->validate([
             'emailLogin' => 'required|string|email|max:255',
@@ -188,7 +191,7 @@ class ClienteController extends Controller
             // Tentar autenticar o cliente usando o guard 'cliente'
             if (Auth::guard('cliente')->attempt(['email' => $request->input('emailLogin'), 'password' => $request->input('senhaLogin')])) {
                 // Login bem-sucedido, redirecionar para a página inicial do cliente
-                return redirect()->route('PaginaInicialPf')->with('success', 'Login realizado com sucesso!');
+                return redirect()->route('paginaInicialPf')->with('success', 'Login realizado com sucesso!');
             } else {
                 // Login falhou, redirecionar de volta com uma mensagem de erro
                 return redirect()->back()->with('error', 'Email ou senha inválidos');
@@ -198,9 +201,9 @@ class ClienteController extends Controller
         }
     }
 
-
     // Método de logout
-    public function logoutCliente() {
+    public function logoutCliente() 
+    {
         // Realiza o logout
         Auth::guard('cliente')->logout();
 
@@ -218,9 +221,9 @@ class ClienteController extends Controller
         return redirect()->route('Index')->with('success', 'Logout realizado com sucesso!');
     }
 
-
     // Método para exibir os agendamentos
-    public function exibirAgendamentos(){
+    public function exibirAgendamentos()
+    {
         // Captura o id do cliente autenticado usando Auth
         $id_cliente = Auth::guard('cliente')->id();
 
@@ -231,9 +234,9 @@ class ClienteController extends Controller
         return view('agendamentos-cliente', compact('agendamentos'));
     }
 
-
     // Método para ir para a página de adm
-    public function admCliente() {
+    public function admCliente() 
+    {
         // Recupera o nome do cliente
         $nome = Session::get('nome');
 
@@ -241,7 +244,8 @@ class ClienteController extends Controller
     }
 
     // Método para buscar cliente
-    public function buscarCliente(Request $request){
+    public function buscarCliente(Request $request)
+    {
         // Captura o id do estabelecimento da sessão
         $id_cliente = Auth::guard('cliente')->id();
    
@@ -258,7 +262,8 @@ class ClienteController extends Controller
     }
 
     // Método para salvar alterações
-    public function alterarCadastro(Request $request) {
+    public function alterarCadastro(Request $request) 
+    {
         // Captura o id do cliente da sessão
         $id_cliente = Auth::guard('cliente')->id();
         $telefone = $request->input('telefone');
@@ -269,7 +274,8 @@ class ClienteController extends Controller
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }
 
-    public function dadosRealizarAgendamento(Request $request) {
+    public function dadosRealizarAgendamento(Request $request) 
+    {
         $id_profissional = $request->input('profissional', null);
         $id_estabelecimento = $request->input('estabelecimento', null);
     
@@ -293,8 +299,8 @@ class ClienteController extends Controller
         return view('finaliza-agendamento', compact('estabelecimentos', 'profissional', 'id_estabelecimento', 'id_profissional', 'servicos'));
     }
     
-    
-    public function getProfissionais(Request $request) {
+    public function getProfissionais(Request $request) 
+    {
         $id_estabelecimento = $request->input('id');
     
         // Verifica se o id_estabelecimento foi passado
@@ -311,7 +317,8 @@ class ClienteController extends Controller
         }
     }
     
-    public function getServicos(Request $request) {
+    public function getServicos(Request $request) 
+    {
         $id_profissional = $request->input('id_profissional');
         $id_estabelecimento = $request->input('id_estabelecimento');
     
@@ -329,7 +336,8 @@ class ClienteController extends Controller
         }
     }
     
-    public function getHorarios(Request $request) {
+    public function getHorarios(Request $request) 
+    {
         $id_profissional = $request->input('id_profissional');
         $data_realizacao = $request->input('data_realizacao');
     
@@ -347,7 +355,8 @@ class ClienteController extends Controller
         }
     }    
     
-    public function realizarAgendamento(Request $request){
+    public function realizarAgendamento(Request $request)
+    {
         $id_cliente = auth()->guard('cliente')->id();
         $id_profissional = $request->input('profissional');
         $id_pag = $request->input('opcao_pag');
@@ -360,7 +369,8 @@ class ClienteController extends Controller
         return redirect()->back()->with('success', 'Agendamento realizado com sucesso!');
     }
 
-    public function listaProfissionais() {
+    public function listaProfissionais() 
+    {
         $profissionais = DB::select('
             SELECT p.id_profissional,
                     p.nome,
@@ -376,19 +386,22 @@ class ClienteController extends Controller
         return view('lista-profissionais', compact('profissionais'));
     }
 
-    public function listaEstab() {
+    public function listaEstab() 
+    {
         $estabelecimentos = DB::select('CALL listar_estab');
         
         return view('lista-estab', compact('estabelecimentos'));
     }
 
-    public function listaEstabLogin(){
+    public function listaEstabLogin()
+    {
         $estabelecimentos = DB::select('CALL listar_estab');
         
         return view('lista-estab-login', compact('estabelecimentos'));
     }
 
-    public function realizarPesquisa(Request $request) {
+    public function realizarPesquisa(Request $request) 
+    {
         // Valida o input para garantir que termo_pesquisa não seja vazio
         $request->validate([
             'termo_pesquisa' => 'required|string|max:30',
@@ -408,6 +421,5 @@ class ClienteController extends Controller
             return back()->withErrors(['error' => 'Ocorreu um erro ao realizar a pesquisa.']);
         }
     }
-    
 }
 ?>
