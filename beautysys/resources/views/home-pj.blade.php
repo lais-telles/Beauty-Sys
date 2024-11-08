@@ -6,14 +6,26 @@
 <section class="d-flex ms-5 me-5 mb-5 rounded align-items-center" style="margin-top: 15rem;">
     <div class="container my-5">
         <div class="position-relative p-5 text-center text-muted border border-dashed rounded-5" style="background-color: #FAECE3;">
-            <img class="img-fluid" src="{{ asset('/images/salao-logo-1.jpg') }}">
-            <h1 class="text-body-emphasis">Espaço Bellas</h1>
+            <!-- Exibição da foto de perfil ou imagem padrão -->
+            @if (auth()->user()->imagem_perfil)
+                <img src="{{ asset('imagem_perfil/' . auth()->user()->imagem_perfil) }}" alt="Foto de perfil" class="img-perfil mb-3">    
+                @if(!empty(auth()->user()->nome_fantasia))
+                    <h1 class="text-body-emphasis">{{ auth()->user()->nome_fantasia }}</h1>
+                @else
+                    <h1 class="text-body-emphasis">Olá</h1>
+                @endif
+            @else
+                <img src="{{ asset('imagem_perfil/sem_foto.png') }}" alt="Foto de perfil padrão" class="img-perfil mb-3">              
+                @if(!empty(auth()->user()->nome_fantasia))
+                    <h1 class="text-body-emphasis">{{ auth()->user()->nome_fantasia }}</h1>
+                @else
+                    <h1 class="text-body-emphasis">Olá</h1>
+                @endif  
+            @endif
             <p class="col-lg-6 mx-auto mb-4">
                 Um ambiente acolhedor e profissional para cuidar da sua auto-estima!
             </p>
-            <button class="btn btn-custom px-5 mb-5" type="button">
-                Gestão comercial
-            </button>
+            <p><a class="btn btn-custom" href="{{ route('dashboardPj') }}">Gestão Comercial</a></p>
         </div>
     </div>
 </section>
