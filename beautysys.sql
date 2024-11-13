@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07/11/2024 às 13:50
+-- Tempo de geração: 13/11/2024 às 14:28
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -227,6 +227,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_profissionais_vinculados` (I
     FROM vinculos AS v
     JOIN profissionais AS p ON p.id_profissional = v.id_profissional
     WHERE v.id_estabelecimento = p_id_estabelecimento;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_prof_vinculados_ativ` (IN `p_id_estabelecimento` INT)   BEGIN
+    SELECT 
+        v.id_vinculo, 
+        v.id_profissional, 
+        p.nome, 
+        p.CPF, 
+        p.telefone, 
+        p.email, 
+        v.status_vinculo, 
+        v.data_vinculo
+    FROM vinculos AS v
+    JOIN profissionais AS p ON p.id_profissional = v.id_profissional
+    WHERE v.id_estabelecimento = p_id_estabelecimento
+      AND v.status_vinculo = 'aprovado';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `exibir_servicos_cat` (IN `p_id_categoria` INT)   BEGIN 
@@ -926,8 +942,10 @@ DELIMITER ;
 -- (Veja abaixo para a visão atual)
 --
 CREATE TABLE `estabelecimentos_populares` (
-`nome_fantasia` varchar(40)
+`id` int(11)
+,`nome_fantasia` varchar(40)
 ,`total_agendamentos` bigint(21)
+,`imagem` varchar(255)
 );
 
 -- --------------------------------------------------------
@@ -1090,7 +1108,8 @@ INSERT INTO `historico_profissionais` (`id_alteracao`, `id_profissional`, `campo
 (4, 2, 'senha', 'senha654', 'senha@melhorainda', '2024-09-13 17:03:02'),
 (5, 1, 'senha', 'senha@melhor', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-11 19:33:16'),
 (6, 3, 'senha', 'senha321', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-16 19:59:09'),
-(10, 20, 'senha', '$2y$12$YjSrnVtaX4gcDD8oB/3xneb', '$2y$12$0aYXCsl6nSz6wH8Iy.b35eY', '2024-11-06 16:44:01');
+(10, 20, 'senha', '$2y$12$YjSrnVtaX4gcDD8oB/3xneb', '$2y$12$0aYXCsl6nSz6wH8Iy.b35eY', '2024-11-06 16:44:01'),
+(11, 5, 'estabel_vinculado', '1', '4', '2024-11-13 10:20:57');
 
 -- --------------------------------------------------------
 
@@ -1231,7 +1250,7 @@ INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `tel
 (2, 'Juliana da Silva Costa', '1991-01-01', '987.654.321-01', '(19) 90981-0541', 'juliana@teste.com', 'senha@melhorainda', 3, 1, NULL),
 (3, 'Aline Costa Albuquerque', '1992-01-01', '987.654.321-02', '(11) 90981-0542', 'aline@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', NULL, 1, NULL),
 (4, 'Sheila Almeida', '1998-11-23', '987.654.321-02', '(11) 90981-054', 'sheila@teste.com', 'senha123', 2, 1, NULL),
-(5, 'Juriscleison da Costa', '1993-04-01', '132.256.456-02', '1908007070', 'jusriscleison@gmail.com', 'senha123', 1, 1, NULL),
+(5, 'Juriscleison da Costa', '1993-04-01', '132.256.456-02', '1908007070', 'jusriscleison@gmail.com', 'senha123', 4, 1, NULL),
 (6, 'Otávio Ferreira', '1975-12-31', '256.145.486-01', '199995452', 'tavinho@outlook.com', 'senha123', 2, 1, NULL),
 (7, 'Bruce Lee', '1968-05-06', '456.256.324-15', '1965165655', 'kungfu@yahoo.com', 'senha123', 1, 1, NULL),
 (8, 'Ronaldo Silveira', '1999-03-12', '65561561', '195226512', 'ronaldo@teste.com', '$2y$12$o/SwkMeE3/Kp4HSOL2gnIucs35o1TvFQFkgi.aMLCfwrEW7sjuVsu', 1, 1, 'FqjzVqckOnK5LzfsLIa3Y3nHQDr2YDI9AiwpMk0a.jpg'),
@@ -1288,8 +1307,11 @@ CREATE TABLE `profissionais_agendamentos` (
 -- (Veja abaixo para a visão atual)
 --
 CREATE TABLE `profissionais_populares` (
-`nome` varchar(50)
-,`COUNT(a.id_agendamento)` bigint(21)
+`id` int(11)
+,`nome` varchar(50)
+,`total_agendamentos` bigint(21)
+,`imagem` varchar(255)
+,`estabel_vinculado` int(11)
 );
 
 -- --------------------------------------------------------
@@ -1428,9 +1450,9 @@ CREATE TABLE `vinculos` (
 
 INSERT INTO `vinculos` (`id_vinculo`, `id_profissional`, `id_estabelecimento`, `status_vinculo`, `data_vinculo`) VALUES
 (2, 7, 1, 'pendente', NULL),
-(3, 4, 2, 'pendente', '2024-10-14 10:28:07'),
-(4, 5, 4, 'pendente', '2024-10-14 10:56:53'),
-(5, 8, 1, 'pendente', '2024-10-14 10:58:14'),
+(3, 4, 2, 'aprovado', '2024-10-14 10:28:07'),
+(4, 5, 4, 'aprovado', '2024-10-14 10:56:53'),
+(5, 8, 1, 'aprovado', '2024-10-14 10:58:14'),
 (6, 3, 2, 'rejeitado', '2024-10-16 19:59:39');
 
 --
@@ -1464,7 +1486,7 @@ DELIMITER ;
 --
 DROP TABLE IF EXISTS `estabelecimentos_populares`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `estabelecimentos_populares`  AS SELECT `e`.`nome_fantasia` AS `nome_fantasia`, count(`a`.`id_agendamento`) AS `total_agendamentos` FROM ((`estabelecimentos` `e` join `profissionais` `p` on(`p`.`estabel_vinculado` = `e`.`id_estabelecimento`)) join `agendamentos` `a` on(`a`.`id_profissional` = `p`.`id_profissional`)) GROUP BY `e`.`nome_fantasia` ORDER BY count(`a`.`id_agendamento`) DESC LIMIT 0, 3 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `estabelecimentos_populares`  AS SELECT `e`.`id_estabelecimento` AS `id`, `e`.`nome_fantasia` AS `nome_fantasia`, count(`a`.`id_agendamento`) AS `total_agendamentos`, `e`.`imagem_perfil` AS `imagem` FROM ((`estabelecimentos` `e` join `profissionais` `p` on(`p`.`estabel_vinculado` = `e`.`id_estabelecimento`)) join `agendamentos` `a` on(`a`.`id_profissional` = `p`.`id_profissional`)) GROUP BY `e`.`id_estabelecimento`, `e`.`nome_fantasia`, `e`.`imagem_perfil` ORDER BY count(`a`.`id_agendamento`) DESC LIMIT 0, 3 ;
 
 -- --------------------------------------------------------
 
@@ -1482,7 +1504,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `profissionais_populares`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `profissionais_populares`  AS SELECT `p`.`nome` AS `nome`, count(`a`.`id_agendamento`) AS `COUNT(a.id_agendamento)` FROM (`profissionais` `p` join `agendamentos` `a` on(`a`.`id_profissional` = `p`.`id_profissional`)) GROUP BY `p`.`nome` ORDER BY count(`a`.`id_agendamento`) DESC LIMIT 0, 3 ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `profissionais_populares`  AS SELECT `p`.`id_profissional` AS `id`, `p`.`nome` AS `nome`, count(`a`.`id_agendamento`) AS `total_agendamentos`, `p`.`imagem_perfil` AS `imagem`, `p`.`estabel_vinculado` AS `estabel_vinculado` FROM (`profissionais` `p` join `agendamentos` `a` on(`a`.`id_profissional` = `p`.`id_profissional`)) GROUP BY `p`.`id_profissional`, `p`.`nome`, `p`.`imagem_perfil`, `p`.`estabel_vinculado` ORDER BY count(`a`.`id_agendamento`) DESC LIMIT 0, 3 ;
 
 --
 -- Índices para tabelas despejadas
@@ -1725,7 +1747,7 @@ ALTER TABLE `historico_estabelecimentos`
 -- AUTO_INCREMENT de tabela `historico_profissionais`
 --
 ALTER TABLE `historico_profissionais`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `logs_tokens`
