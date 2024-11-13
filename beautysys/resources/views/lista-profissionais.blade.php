@@ -14,9 +14,8 @@
                 <div class="col-md-4 mb-4">
                     <form action="{{ route('dadosRealizarAgendamento') }}" method="GET">
                         @csrf
-                        <!-- Corrigi o nome do campo para "profissional" -->
                         <input type="hidden" name="profissional" value="{{ $profissional->id_profissional }}">
-                        <input type="hidden" name="estabelecimento" value="{{ $profissional->estabel_vinculado }}">
+                        <input type="hidden" name="estabelecimento" value="{{ $profissional->id_estabelecimento }}">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $profissional->nome }}</h5>

@@ -278,26 +278,27 @@ class ClienteController extends Controller
     {
         $id_profissional = $request->input('profissional', null);
         $id_estabelecimento = $request->input('estabelecimento', null);
-    
+
         // Verifica se $id_estabelecimento está definido, se não estiver, busca todos os estabelecimentos
         if ($id_estabelecimento) {
             $estabelecimentos = Estabelecimento::where('id_estabelecimento', $id_estabelecimento)->get();
         } else {
             $estabelecimentos = Estabelecimento::all();
         }
-    
+
         // Verifica se $id_profissional está definido
         if ($id_estabelecimento) {
-            $profissional = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
+            $profissional = collect(DB::select('CALL exibir_prof_vinculados_ativ(?)', [$id_estabelecimento]));
         } else {
             $profissional = Profissional::all();
         }
-    
+
         $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
-    
+
         // Retorna a view com os dados carregados
         return view('finaliza-agendamento', compact('estabelecimentos', 'profissional', 'id_estabelecimento', 'id_profissional', 'servicos'));
     }
+
     
     public function getProfissionais(Request $request) 
     {
@@ -310,7 +311,7 @@ class ClienteController extends Controller
     
         // Executa a procedure para obter os profissionais vinculados ao estabelecimento
         try {
-            $profissionais = DB::select('CALL exibir_profissionais_vinculados(?)', [$id_estabelecimento]);
+            $profissionais = DB::select('CALL exibir_prof_vinculados_ativ(?)', [$id_estabelecimento]);
             return response()->json(['profissionais' => $profissionais], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Erro ao obter profissionais'], 500);
@@ -376,10 +377,14 @@ class ClienteController extends Controller
                     p.nome,
                     p.telefone,
                     p.email,
-                    p.estabel_vinculado,
+                    v.id_profissional,
+                    v.id_estabelecimento,
+                    v.status_vinculo,
                     e.nome_fantasia
             FROM profissionais AS p
-            JOIN estabelecimentos AS e ON p.estabel_vinculado = e.id_estabelecimento
+            JOIN vinculos AS v ON v.id_profissional = p.id_profissional
+            JOIN estabelecimentos AS e ON v.id_estabelecimento = e.id_estabelecimento
+            WHERE v.status_vinculo = "aprovado"
             ORDER BY p.nome ASC
         ');
 
