@@ -190,8 +190,9 @@ class ClienteController extends Controller
         if($email_verificado){
             // Tentar autenticar o cliente usando o guard 'cliente'
             if (Auth::guard('cliente')->attempt(['email' => $request->input('emailLogin'), 'password' => $request->input('senhaLogin')])) {
-                // Login bem-sucedido, redirecionar para a página inicial do cliente
-                return redirect()->route('paginaInicialPf')->with('success', 'Login realizado com sucesso!');
+                
+                // Chama o método para obter dados e retornar a view com os estabelecimentos populares
+                return $this->paginaInicialPf()->with('success', 'Login realizado com sucesso!');
             } else {
                 // Login falhou, redirecionar de volta com uma mensagem de erro
                 return redirect()->back()->with('error', 'Email ou senha inválidos');
@@ -199,6 +200,15 @@ class ClienteController extends Controller
         } else {
             return redirect()->back()->with('error', 'Email não verificado!');
         }
+    }
+
+    public function paginaInicialPf()
+    {
+        $estabPopulares = DB::select("SELECT * FROM estabelecimentos_populares");
+        $profPopulares = DB::select("SELECT * FROM profissionais_populares");
+
+        // Retorna a view 'home-pf' com os dados dos estabelecimentos populares
+        return view('home-pf', compact('estabPopulares', 'profPopulares'));
     }
 
     // Método de logout

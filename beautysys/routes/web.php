@@ -55,7 +55,7 @@ Route::get('nova-senha/cliente', function () {
 // Rotas privadas (requer autenticação do cliente)
 Route::middleware('auth:cliente')->group(function () {
     // Página inicial do cliente
-    Route::get('/home-pf', [IndexController::class, 'homePf'])->name('paginaInicialPf');
+    Route::get('/home-pf', [ClienteController::class, 'PaginaInicialPf'])->name('paginaInicialPf');
 
     // Rota para realizar logout do cliente usando o método 'logoutCliente'
     Route::post('cliente/logout', [ClienteController::class, 'logoutCliente'])->name('logoutCliente');
