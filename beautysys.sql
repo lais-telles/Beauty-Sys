@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2024 at 08:47 PM
+-- Generation Time: Nov 13, 2024 at 09:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -797,11 +797,11 @@ CREATE TABLE `estabelecimentos` (
 --
 
 INSERT INTO `estabelecimentos` (`id_estabelecimento`, `razao_social`, `nome_fantasia`, `telefone`, `CNPJ`, `logradouro`, `numero`, `bairro`, `cidade`, `estado`, `CEP`, `inicio_expediente`, `termino_expediente`, `email`, `senha`, `email_verificado`, `imagem_perfil`) VALUES
-(1, 'Estética & Beleza Fernandes Ltda.', 'Espaço Glamour', '(82) 2167-1103', '83.311.776/0001-50', 'Rua das Flores', 234, 'Jardim das Rosas', 'São Paulo', 'SP', '01234-567', '08:00:00', '17:00:00', 'glamour@gmail.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', 0, NULL),
-(2, 'Barbearia Silva & Costa ME', 'Barber Kings', '(44) 3304-7794', '50.569.114/0001-25', 'Av. dos Pioneiros', 379, 'Centro', 'Belo Horizonte', 'MG', '30123-456', '09:30:00', '19:30:00', 'kings@exemplo.com', '$2y$12$/WCzSRQf04g0eNGuv/MhjeUk6Af8GNy4rsWJClVsWpRfPNS4b6zO2', 0, NULL),
-(3, 'Beleza Urbana Estética ltda.', 'Studio Urbana', '(44) 2312-7234', '09.598.280/0001-56', 'Rua da Harmonia', 785, 'Vila Nova', 'Curitiba', 'PR', '80567-890', '08:00:00', '16:00:00', 'urb@exemplo.com', '$2y$12$1qrU6m1NFNtlz.YE3DpvWOz.mvUbVajWSHF/8x1DAfdfXs5Fdi3km', 0, NULL),
-(4, 'Salão Cabelo & Arte S.A.', 'Arte dos Fios', '(38) 2851-7307', '27.444.476/0001-78', 'Alameda das Palmeiras', 569, 'Bosque Verde', 'Rio de Janeiro', 'RJ', '22345-678', '09:30:00', '14:30:00', 'arte@exemplo.com', '$2y$12$qAhpeyqIMCLwLiMM1q3I4O6XkoZ7mmDVh8MiQzXmoVCMTH7UyLzHe', 0, NULL),
-(5, 'Barbearia RF ltda.', 'BarberShop', '(19) 98908-5358', '52.601.774/0001-71', '(63) 3257-6896', 698, 'Nossa Sra. Auxiliadora', 'Hortolândia', 'SP', '13183-287', '10:30:00', '22:30:00', 'barberf@exemplo.com', '$2y$12$f4/1NHE56t/Kr54SsQDSv.ny2GGWr5cKJ/JcyHQJYSIy0E7V0hO3G', 0, NULL),
+(1, 'Estética & Beleza Fernandes Ltda.', 'Espaço Glamour', '(19) 3909-7016', '83.311.776/0001-50', 'Rua das Flores', 234, 'Jardim das Rosas', 'São Paulo', 'SP', '01234-567', '08:00:00', '17:00:00', 'glamour@exemplo.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', 1, '1731529275_images.png'),
+(2, 'Barbearia Silva & Costa ME', 'Barber Kings', '(44) 3304-7794', '50.569.114/0001-25', 'Av. dos Pioneiros', 379, 'Centro', 'Belo Horizonte', 'MG', '30123-456', '09:30:00', '19:30:00', 'kings@exemplo.com', '$2y$12$/WCzSRQf04g0eNGuv/MhjeUk6Af8GNy4rsWJClVsWpRfPNS4b6zO2', 1, 'fgdgete.jpeg'),
+(3, 'Beleza Urbana Estética ltda.', 'Studio Urbana', '(44) 2312-7234', '09.598.280/0001-56', 'Rua da Harmonia', 785, 'Vila Nova', 'Curitiba', 'PR', '80567-890', '08:00:00', '16:00:00', 'urb@exemplo.com', '$2y$12$1qrU6m1NFNtlz.YE3DpvWOz.mvUbVajWSHF/8x1DAfdfXs5Fdi3km', 1, '1731529381_images (1).png'),
+(4, 'Salão Cabelo & Arte S.A.', 'Arte dos Fios', '(38) 2851-7307', '27.444.476/0001-78', 'Alameda das Palmeiras', 569, 'Bosque Verde', 'Rio de Janeiro', 'RJ', '22345-678', '09:30:00', '14:30:00', 'arte@exemplo.com', '$2y$12$qAhpeyqIMCLwLiMM1q3I4O6XkoZ7mmDVh8MiQzXmoVCMTH7UyLzHe', 1, 'gtyertgdg.jpg'),
+(5, 'Barbearia RF ltda.', 'BarberShop', '(19) 98908-5358', '52.601.774/0001-71', '(63) 3257-6896', 698, 'Nossa Sra. Auxiliadora', 'Hortolândia', 'SP', '13183-287', '10:30:00', '22:30:00', 'barberf@exemplo.com', '$2y$12$f4/1NHE56t/Kr54SsQDSv.ny2GGWr5cKJ/JcyHQJYSIy0E7V0hO3G', 1, '1731529642_images (2).png'),
 (6, 'Barber Oficial ltda.', 'A Barbearia', '(19) 98908-5358', '28.283.482/0001-53', 'Alameda de Assis', 752, 'Remanso Campineiro', 'Hortolândia', 'SP', '85236-954', '07:30:00', '22:00:00', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$Ilfwg57bS4NWFU4DskzDw.mGm3BYjKunPQ.2c1oMWBZzXf2P7pSPq', 1, NULL);
 
 --
@@ -969,7 +969,8 @@ CREATE TABLE `historico_estabelecimentos` (
 
 INSERT INTO `historico_estabelecimentos` (`id_alteracao`, `id_estabelecimento`, `campo_alterado`, `valor_antigo`, `valor_novo`, `data_alteracao`) VALUES
 (1, 6, 'senha', '$2y$12$eoWpPEX5ZBwd7pTlAoM/E.i', '$2y$12$Ilfwg57bS4NWFU4DskzDw.m', '2024-11-13 16:21:15'),
-(2, 5, 'nome_fantasia', 'Barber Feitosa', 'BarberShop', '2024-11-13 16:22:03');
+(2, 5, 'nome_fantasia', 'Barber Feitosa', 'BarberShop', '2024-11-13 16:22:03'),
+(3, 1, 'email', 'glamour@gmail.com', 'glamour@exemplo.com', '2024-11-13 17:12:44');
 
 -- --------------------------------------------------------
 
@@ -991,7 +992,20 @@ CREATE TABLE `historico_profissionais` (
 --
 
 INSERT INTO `historico_profissionais` (`id_alteracao`, `id_profissional`, `campo_alterado`, `valor_antigo`, `valor_novo`, `data_alteracao`) VALUES
-(1, 5, 'senha', '$2y$12$VQZxMRJ6K56vFqIg8c/NZeB', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '2024-11-13 15:58:48');
+(1, 5, 'senha', '$2y$12$VQZxMRJ6K56vFqIg8c/NZeB', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '2024-11-13 15:58:48'),
+(2, 4, 'senha', '$2y$12$L1EruuYAT9v2t5VGxsoooej', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '2024-11-13 17:00:43'),
+(3, 3, 'senha', '$2y$12$WxPD14RALFwZVCWt2sWqEuw', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '2024-11-13 17:00:47'),
+(4, 2, 'senha', '$2y$12$c91Kykq.2RS.r.IjQMuHVeJ', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '2024-11-13 17:00:49'),
+(5, 1, 'senha', '$2y$12$BxJxGslsbuO91Nyl1ApCJe0', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '2024-11-13 17:00:53'),
+(6, 1, 'email', 'fefe@gmail.com', 'fefe@exemplo.com', '2024-11-13 17:03:36'),
+(7, 2, 'email', 'amandinha@gmail.com', 'amandinha@exemplo.com', '2024-11-13 17:04:03'),
+(8, 3, 'email', 'carol@gmail.com', 'carol@exemplo.com', '2024-11-13 17:06:18'),
+(9, 4, 'email', 'lari@gmail.com', 'lari@exemplo.com', '2024-11-13 17:07:50'),
+(10, 1, 'senha', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2', '2024-11-13 17:12:06'),
+(11, 2, 'senha', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2', '2024-11-13 17:12:10'),
+(12, 3, 'senha', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2', '2024-11-13 17:12:14'),
+(13, 4, 'senha', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2', '2024-11-13 17:12:17'),
+(14, 5, 'senha', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2', '2024-11-13 17:12:20');
 
 -- --------------------------------------------------------
 
@@ -1088,11 +1102,11 @@ CREATE TABLE `profissionais` (
 --
 
 INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`, `estabel_vinculado`, `email_verificado`, `imagem_perfil`) VALUES
-(1, 'Felipe Gonçalves Cardoso', '1977-07-06', '957.256.305-01', '(99) 97556-1878', 'fefe@gmail.com', '$2y$12$BxJxGslsbuO91Nyl1ApCJe0/RKqKXtw4LosQ1maQh4.sLZzeoRy2u', NULL, 0, NULL),
-(2, 'Amanda Pereira Torres', '2005-12-25', '025.948.848-80', '(97) 99175-9060', 'amandinha@gmail.com', '$2y$12$c91Kykq.2RS.r.IjQMuHVeJ4OhOs1q6arK3P6VXTUTv8RaYxmEQlW', NULL, 0, NULL),
-(3, 'Carolina Nogueira Lopes', '1998-09-30', '631.432.950-74', '(33) 98366-1972', 'carol@gmail.com', '$2y$12$WxPD14RALFwZVCWt2sWqEuwu8rezKZ4F6vwN7xL3v2wRWDUVuEqaO', NULL, 0, NULL),
-(4, 'Larissa Mendes Araújo', '1995-11-23', '846.397.918-10', '(69) 99864-3244', 'lari@gmail.com', '$2y$12$L1EruuYAT9v2t5VGxsoooej1FD0VkwbmSwfaNJ5.uJO/mGvSakTGe', NULL, 0, NULL),
-(5, 'rodrigooliveirafeitosa@gmail.com', '2001-03-02', '431.424.890-45', '(68) 97323-6557', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$7XIGkGN8S76gL2ojnFofZuyaOqDc7UnIYSyLwa0gwubyRIa1hDdhu', NULL, 1, NULL);
+(1, 'Felipe Gonçalves Cardoso', '1977-07-06', '957.256.305-01', '(99) 97556-1878', 'fefe@exemplo.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', NULL, 1, '1731528200_3.jpg'),
+(2, 'Amanda Pereira Torres', '2005-12-25', '025.948.848-80', '(97) 99175-9060', 'amandinha@exemplo.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', NULL, 1, 'ytderty.jpg'),
+(3, 'Carolina Nogueira Lopes', '1998-09-30', '631.432.950-74', '(33) 98366-1972', 'carol@exemplo.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', NULL, 1, 'hgfhrt.jpg'),
+(4, 'Larissa Mendes Araújo', '1995-11-23', '846.397.918-10', '(69) 99864-3244', 'lari@exemplo.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', NULL, 1, 'hgfhrt.jpg'),
+(5, 'rodrigooliveirafeitosa@gmail.com', '2001-03-02', '431.424.890-45', '(68) 97323-6557', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', NULL, 1, NULL);
 
 --
 -- Triggers `profissionais`
@@ -1514,13 +1528,13 @@ ALTER TABLE `historico_clientes`
 -- AUTO_INCREMENT for table `historico_estabelecimentos`
 --
 ALTER TABLE `historico_estabelecimentos`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `historico_profissionais`
 --
 ALTER TABLE `historico_profissionais`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `logs_tokens`
