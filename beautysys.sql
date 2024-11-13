@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13/11/2024 às 14:28
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Generation Time: Nov 13, 2024 at 08:47 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,12 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `beautysys`
+-- Database: `beautysys`
 --
 
 DELIMITER $$
 --
--- Procedimentos
+-- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_cliente` (IN `p_id_cliente` INT, IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30))   BEGIN
 UPDATE clientes SET telefone = p_telefone, email = p_email WHERE id_cliente = p_id_cliente; 
@@ -602,7 +602,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `agendamentos`
+-- Table structure for table `agendamentos`
 --
 
 CREATE TABLE `agendamentos` (
@@ -619,29 +619,10 @@ CREATE TABLE `agendamentos` (
   `valor_total` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `agendamentos`
---
-
-INSERT INTO `agendamentos` (`id_agendamento`, `id_cliente`, `id_profissional`, `id_opcaopag`, `id_status`, `id_servico`, `data_realizacao`, `data_agendamento`, `horario_inicio`, `horario_termino`, `valor_total`) VALUES
-(1, 1, 1, 2, 2, 1, '2024-09-16', '2024-09-13', '09:00:00', '09:30:00', 40),
-(2, 2, 4, 1, 1, 2, '2024-09-18', '2024-09-13', '14:30:00', '15:00:00', 50),
-(3, 3, 2, 3, 1, 3, '2024-09-18', '2024-09-13', '10:00:00', '11:00:00', 35),
-(4, 3, 2, 3, 1, 3, '2024-10-24', '2024-09-13', '10:00:00', '11:00:00', 35),
-(5, 1, 5, 1, 1, 5, '2024-10-28', '2024-09-26', '08:00:00', '08:40:00', 30),
-(6, 2, 6, 1, 1, 4, '2024-09-30', '2024-09-26', '08:00:00', '11:00:00', 120),
-(7, 3, 5, 1, 1, 7, '2024-09-30', '2024-09-26', '08:00:00', '09:00:00', 65),
-(9, 1, 1, 1, 2, 1, '2024-11-02', '2024-10-13', '10:00:00', '10:30:00', 40),
-(10, 1, 4, 1, 1, 2, '2024-11-03', '2024-10-13', '16:00:00', '16:30:00', 50),
-(11, 1, 5, 1, 1, 7, '2024-11-04', '2024-10-13', '15:00:00', '16:00:00', 65),
-(12, 1, 2, 1, 1, 3, '2024-11-05', '2024-10-13', '13:00:00', '14:00:00', 35),
-(13, 1, 5, 1, 1, 5, '2024-11-04', '2024-10-14', '16:00:00', '16:40:00', 30),
-(14, 4, 8, 1, 2, 1, '2024-11-13', '2024-10-18', '10:00:00', '10:30:00', 40);
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `avaliacoes`
+-- Table structure for table `avaliacoes`
 --
 
 CREATE TABLE `avaliacoes` (
@@ -651,19 +632,10 @@ CREATE TABLE `avaliacoes` (
   `nota` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `avaliacoes`
---
-
-INSERT INTO `avaliacoes` (`id_avaliacao`, `id_pedido`, `id_cliente`, `nota`) VALUES
-(1, 1, 1, 4),
-(2, 2, 2, 5),
-(3, 3, 3, 3);
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `categorias_produto`
+-- Table structure for table `categorias_produto`
 --
 
 CREATE TABLE `categorias_produto` (
@@ -671,19 +643,10 @@ CREATE TABLE `categorias_produto` (
   `descricao` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `categorias_produto`
---
-
-INSERT INTO `categorias_produto` (`id_categoria`, `descricao`) VALUES
-(1, 'Cabelo'),
-(2, 'Limpeza Facial'),
-(3, 'Unhas');
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `categorias_servico`
+-- Table structure for table `categorias_servico`
 --
 
 CREATE TABLE `categorias_servico` (
@@ -691,20 +654,10 @@ CREATE TABLE `categorias_servico` (
   `descricao` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `categorias_servico`
---
-
-INSERT INTO `categorias_servico` (`id_categoria`, `descricao`) VALUES
-(1, 'Cabelo'),
-(2, 'Estética Facial'),
-(3, 'Unhas'),
-(4, 'Combo');
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `clientes`
+-- Table structure for table `clientes`
 --
 
 CREATE TABLE `clientes` (
@@ -719,22 +672,18 @@ CREATE TABLE `clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `clientes`
+-- Dumping data for table `clientes`
 --
 
 INSERT INTO `clientes` (`id_cliente`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`, `email_verificado`) VALUES
-(1, 'João Almeida da Silva', '1990-01-01', '123.456.789-00', '(19) 98908-3696', 'Luis@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1),
-(2, 'Amanda Cruz da Silva', '1991-01-01', '123.456.789-01', '(11) 98908-3691', 'amanda_silva@gmail.com', 'senha456', 1),
-(3, 'Luis Carlos da Silva', '1992-01-01', '123.456.789-02', '(11) 98908-3692', 'Luis@teste.com', 'senha789', 1),
-(4, 'Teste01', '2001-01-01', '49333379851', '19989085358', 'teste01@gmail.com', '$2y$12$v/7IJoM3Zlf1OMu6YXl6yuN98Sh61gA9TB4T4cR/ZAwarZvc4S13y', 1),
-(5, 'Ellie', '2003-03-13', '21516161', '15155151', 'Ellies@gmail.com', '$2y$12$5xk67e3b6DzmL1ifDgQoA.0pqzITNjnyi0/NYbTWSldVMKEp5u30q', 1),
-(6, 'Larissa', '2001-03-12', '5651526525', '41541515', 'larissa@gmail.com', '$2y$12$OKQ3GbIZyNlyo/RZlHIfxeLSZ9dTSRTq7alZj6OB9X7oruTbrgBne', 1),
-(7, 'Larissa', '1999-03-12', '5651526525', '41541515', 'larissa1@gmail.com', '$2y$12$/wD8lWwiXKSZR8cjEji2KOfBr8n.2oZpMpPOsOiPhJ7t4NMbLSn8i', 1),
-(8, 'Larissa', '1999-03-12', '5651526525', '41541515', 'larissa2@gmail.com', '$2y$12$ws2ybBZcUntYfgXPfdOUfepHrkWzGhD8pTPPD7uie3NuEcYNpOHFe', 1),
-(37, 'Rodrigo', '2001-03-02', '49333379851', '(19) 98908-5358', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$I3ax0q36kJjDOqBP5PypBuNXvrEGxbjhhWb.eiKzANIp/qP3X3exy', 1);
+(1, 'Rodrigo Oliveira Feitosa', '2001-03-02', '886.378.820-05', '(19) 98908-5358', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$sxZZPwskwqdJ0aE2L2KZ7uuaGYPBSKn6eaOju9mdIDpaQvkkXM6Oy', 1),
+(2, 'Luísa Ferreira Martins', '1993-01-01', '353.615.474-33', '(99) 98041-7101', 'luisa@exemplo.com', '$2y$12$/NSzvSiPrV4yb0che/aolOerGZhIvYnfgJqslMj94eYnnEZYKZy9O', 1),
+(3, 'Rafael Costa Almeida', '2000-05-06', '720.974.120-84', '(16) 97458-2913', 'rafael@exemplo.com', '$2y$12$.bgUxMcJ3eBg9xCt51aUpOEPlrGxyh4Jy.DlEftFwiORoQtUaoQe.', 1),
+(4, 'Trophozilda Alves de Assis', '1966-06-06', '675.092.432-89', '(87) 98406-0022', 'tropho.zilda@exemplo.com', '$2y$12$9SpZbJG7kLv5eZIAljmBqOvDtyn7uz9lJcVI6JIt6L30BNavWv70y', 1),
+(5, 'Mariana Carvalho Ribeiro', '2003-03-03', '447.426.135-62', '(48) 98990-5957', 'mari@exemplo.com', '$2y$12$8ucJRIc8e1fM9eQmWiWp/e0IN21DiVAKBtvtGgEbftIm3wiuDCWlW', 1);
 
 --
--- Acionadores `clientes`
+-- Triggers `clientes`
 --
 DELIMITER $$
 CREATE TRIGGER `atualizacao_cliente` AFTER UPDATE ON `clientes` FOR EACH ROW BEGIN 
@@ -760,7 +709,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `confirmacoes_emails`
+-- Table structure for table `confirmacoes_emails`
 --
 
 CREATE TABLE `confirmacoes_emails` (
@@ -771,10 +720,29 @@ CREATE TABLE `confirmacoes_emails` (
   `tipo_usuario` enum('cliente','profissional','estabelecimento','') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `confirmacoes_emails`
+--
+
+INSERT INTO `confirmacoes_emails` (`token`, `email`, `created_at`, `id_usuario`, `tipo_usuario`) VALUES
+('Nshw5waCprAtRBRmEew2wt5hviYTt9zBBqHdDxEGrOROZd441k3TCEbMav43', 'Luisa@gmail.com', '2024-11-13 16:26:15', 2, 'cliente'),
+('HEstXepmWK8R0f2jwPCA6tkjLWTqGNgXBWJ99TATuWzNvbVdjOdAQYxkho0E', 'rafael@gmail.com', '2024-11-13 16:27:04', 3, 'cliente'),
+('5VJO3JgY6cJ8EbXu4OkGZz48Spj5HvnFHIJRPv7NsI4k7QHKm7NsanngUO8d', 'tropho.zilda@gmail.com', '2024-11-13 18:47:29', 4, 'cliente'),
+('ZGw9BJdoKdrUKTqsWwqz7wfzoz3SUomNQBpoRwFGhEIOHIqYrtut6WBjFraY', 'mari@gmail.com', '2024-11-13 18:48:35', 5, 'cliente'),
+('lhCk9l2pDfKaHRl6SHiL9FpgMGECSpXLBT4OguvXLKGLIk9HDq8sZxbbTseS', 'fefe@gmail.com', '2024-11-13 18:50:45', 1, 'profissional'),
+('gYf0s1LLRgLBbKsMW2jhghnZOszlZP3mZnnmy4shv55Q61JOkodQdvgHxkUs', 'amandinha@gmail.com', '2024-11-13 18:52:00', 2, 'profissional'),
+('ncVtLQNePbyCf4YvOoq76AF8wlzI31gRgvKkGLnTPZYglio5eQS4zQB123k1', 'carol@gmail.com', '2024-11-13 18:53:12', 3, 'profissional'),
+('h1WLkUr6IuQ7vgomf8z0CZkjpnKZCpc3iBWrdEHWtZ4AOP13gRTF0M6bKh0C', 'lari@gmail.com', '2024-11-13 18:54:52', 4, 'profissional'),
+('io8zL2n004UcphQtb3awxYpXfHYmRM2echwc7bs71SnHTg12P4TWiqSEHdRb', 'glamour@gmail.com', '2024-11-13 19:06:04', 1, 'estabelecimento'),
+('WgkXVHEYbpkS4jFCr6MyZzsXoVExnIuULEEiiSGlkOEqTwos1Lx0tCt3XvWO', 'kings@exemplo.com', '2024-11-13 19:08:35', 2, 'estabelecimento'),
+('PwOzovs67pEsh1NEEgmF970nCYMc0wAXUUzEMtq3oJfyfIUIDW8vYuGIbm22', 'urb@exemplo.com', '2024-11-13 19:11:20', 3, 'estabelecimento'),
+('jtQeYso2rDdjNv9MgQar98jj2w4qI5XdjQySsuk5Cu8jTvrhLaNDLMqzhca9', 'arte@exemplo.com', '2024-11-13 19:13:18', 4, 'estabelecimento'),
+('J1GAYzc3smk7DKyjxdTB5HeOB3h4iBtt4uhVC3rYYzkNHzHylX9eNepVFXKH', 'barberf@exemplo.com', '2024-11-13 19:17:25', 5, 'estabelecimento');
+
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `enderecos`
+-- Table structure for table `enderecos`
 --
 
 CREATE TABLE `enderecos` (
@@ -787,19 +755,10 @@ CREATE TABLE `enderecos` (
   `CEP` varchar(9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `enderecos`
---
-
-INSERT INTO `enderecos` (`id_endereco`, `estado`, `cidade`, `bairro`, `logradouro`, `numero`, `CEP`) VALUES
-(1, 'SP', 'Hortolândia', 'Vila Real', 'Rua Irmãos Freire', 156, '18796-856'),
-(2, 'SP', 'Paulínia', 'Vila Justina', 'Rua Irmãos Vieira', 157, '18736-858'),
-(3, 'SP', 'Campinas', 'Campo Belo', 'Rua Irmãos Santos', 156, '18716-855');
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `enderecos_clientes`
+-- Table structure for table `enderecos_clientes`
 --
 
 CREATE TABLE `enderecos_clientes` (
@@ -807,19 +766,10 @@ CREATE TABLE `enderecos_clientes` (
   `id_endereco` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `enderecos_clientes`
---
-
-INSERT INTO `enderecos_clientes` (`id_cliente`, `id_endereco`) VALUES
-(1, 1),
-(2, 2),
-(3, 3);
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `estabelecimentos`
+-- Table structure for table `estabelecimentos`
 --
 
 CREATE TABLE `estabelecimentos` (
@@ -843,20 +793,19 @@ CREATE TABLE `estabelecimentos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `estabelecimentos`
+-- Dumping data for table `estabelecimentos`
 --
 
 INSERT INTO `estabelecimentos` (`id_estabelecimento`, `razao_social`, `nome_fantasia`, `telefone`, `CNPJ`, `logradouro`, `numero`, `bairro`, `cidade`, `estado`, `CEP`, `inicio_expediente`, `termino_expediente`, `email`, `senha`, `email_verificado`, `imagem_perfil`) VALUES
-(1, 'Barbearia Auxiliadora ltda.', 'Barbearia ML', '(11) 97836-0100', '12.345.678/0001-00', 'Rua Odete Santos', 1780, 'Centro', 'Paulínia', 'SP', '09700-000', '08:00:00', '18:00:00', 'ml@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1, 'bbEw97SQTBio7VijCdF0FsBWoy2X3PQr0DGncmqP.jpg'),
-(2, 'Salão de beleza Gilberto e Cia.', 'Espaço do Gigi', '(11) 97836-0101', '12.345.678/0001-01', 'Rua Alberto de Nóbrega', 100, 'Centro', 'Hortolândia', 'SP', '02000-000', '08:00:00', '17:00:00', 'gigi@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1, NULL),
-(3, 'Espaço da beleza ltda.', 'Beleza e Cia.', '(11) 97836-0109', '12.345.678/0001-0', 'Avenida Drummond', 1850, 'Centro', 'Campinas', 'SP', '03700-000', '08:00:00', '17:30:00', 'beleza@exemplo.com', 'senha789', 1, NULL),
-(4, 'Teste01 ltda.', 'Teste Fantasia', '(19) 96325-7896', '12.345.678/0001-08', 'Rua teste 01', 1, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '08:00:00', '18:00:00', 'teste_email@gmail.com', '$2y$12$cxoOV/XKGAn3FjEurMJKh.N3sjcCBAX5rwkTnHS0krmyQ4ovuJKY.', 1, NULL),
-(5, 'Teste02 ltda.', 'Teste Fantasia2', '19989085358', '12.345.678/0001-08', 'Rua teste 01', 120, 'Bairro 01', 'Cidade 01', 'ET', '12589-426', '07:00:00', '17:00:00', 'teste_email02@gmail.com', '', 1, NULL),
-(6, 'Teste03 ltda.', 'Teste Fantasia3', '19333333333', '12.345.678/0001-10', 'Rua teste 03', 123, 'Bairro 03', 'Cidade 03', 'EP', '12589-427', '07:30:00', '17:00:00', 'teste_email03@gmail.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1, NULL),
-(11, 'Teste', 'rgdsgfre', '(19) 98908-5358', '25.284.836/0001-96', 'ksgjfd', 564, 'dfgd', 'dfsg', 'gd', '63214', '07:30:00', '13:30:00', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$Vfw1LkpE3a8jymf47wUpoO2GOjxKPvUpcVOSDLilpxnMPmg8BwP8a', 1, NULL);
+(1, 'Estética & Beleza Fernandes Ltda.', 'Espaço Glamour', '(82) 2167-1103', '83.311.776/0001-50', 'Rua das Flores', 234, 'Jardim das Rosas', 'São Paulo', 'SP', '01234-567', '08:00:00', '17:00:00', 'glamour@gmail.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', 0, NULL),
+(2, 'Barbearia Silva & Costa ME', 'Barber Kings', '(44) 3304-7794', '50.569.114/0001-25', 'Av. dos Pioneiros', 379, 'Centro', 'Belo Horizonte', 'MG', '30123-456', '09:30:00', '19:30:00', 'kings@exemplo.com', '$2y$12$/WCzSRQf04g0eNGuv/MhjeUk6Af8GNy4rsWJClVsWpRfPNS4b6zO2', 0, NULL),
+(3, 'Beleza Urbana Estética ltda.', 'Studio Urbana', '(44) 2312-7234', '09.598.280/0001-56', 'Rua da Harmonia', 785, 'Vila Nova', 'Curitiba', 'PR', '80567-890', '08:00:00', '16:00:00', 'urb@exemplo.com', '$2y$12$1qrU6m1NFNtlz.YE3DpvWOz.mvUbVajWSHF/8x1DAfdfXs5Fdi3km', 0, NULL),
+(4, 'Salão Cabelo & Arte S.A.', 'Arte dos Fios', '(38) 2851-7307', '27.444.476/0001-78', 'Alameda das Palmeiras', 569, 'Bosque Verde', 'Rio de Janeiro', 'RJ', '22345-678', '09:30:00', '14:30:00', 'arte@exemplo.com', '$2y$12$qAhpeyqIMCLwLiMM1q3I4O6XkoZ7mmDVh8MiQzXmoVCMTH7UyLzHe', 0, NULL),
+(5, 'Barbearia RF ltda.', 'BarberShop', '(19) 98908-5358', '52.601.774/0001-71', '(63) 3257-6896', 698, 'Nossa Sra. Auxiliadora', 'Hortolândia', 'SP', '13183-287', '10:30:00', '22:30:00', 'barberf@exemplo.com', '$2y$12$f4/1NHE56t/Kr54SsQDSv.ny2GGWr5cKJ/JcyHQJYSIy0E7V0hO3G', 0, NULL),
+(6, 'Barber Oficial ltda.', 'A Barbearia', '(19) 98908-5358', '28.283.482/0001-53', 'Alameda de Assis', 752, 'Remanso Campineiro', 'Hortolândia', 'SP', '85236-954', '07:30:00', '22:00:00', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$Ilfwg57bS4NWFU4DskzDw.mGm3BYjKunPQ.2c1oMWBZzXf2P7pSPq', 1, NULL);
 
 --
--- Acionadores `estabelecimentos`
+-- Triggers `estabelecimentos`
 --
 DELIMITER $$
 CREATE TRIGGER `atualizacao_estabelecimento` AFTER UPDATE ON `estabelecimentos` FOR EACH ROW BEGIN 
@@ -938,8 +887,8 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura stand-in para view `estabelecimentos_populares`
--- (Veja abaixo para a visão atual)
+-- Stand-in structure for view `estabelecimentos_populares`
+-- (See below for the actual view)
 --
 CREATE TABLE `estabelecimentos_populares` (
 `id` int(11)
@@ -951,7 +900,7 @@ CREATE TABLE `estabelecimentos_populares` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `formas_pagamentos`
+-- Table structure for table `formas_pagamentos`
 --
 
 CREATE TABLE `formas_pagamentos` (
@@ -959,19 +908,10 @@ CREATE TABLE `formas_pagamentos` (
   `descricao` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `formas_pagamentos`
---
-
-INSERT INTO `formas_pagamentos` (`id_opcaopag`, `descricao`) VALUES
-(1, 'Pix'),
-(2, 'Cartão de Crédito'),
-(3, 'Cartão de Débito');
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `grades_horario`
+-- Table structure for table `grades_horario`
 --
 
 CREATE TABLE `grades_horario` (
@@ -982,38 +922,10 @@ CREATE TABLE `grades_horario` (
   `hora_termino` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `grades_horario`
---
-
-INSERT INTO `grades_horario` (`id_grade`, `id_profissional`, `dia_semana`, `hora_inicio`, `hora_termino`) VALUES
-(1, 1, '1', '08:00:00', '18:00:00'),
-(2, 1, '2', '08:00:00', '18:00:00'),
-(3, 1, '3', '08:00:00', '18:00:00'),
-(4, 1, '4', '08:00:00', '18:00:00'),
-(5, 1, '5', '08:00:00', '18:00:00'),
-(6, 2, '2', '08:00:00', '17:30:00'),
-(7, 2, '3', '08:00:00', '17:30:00'),
-(8, 2, '4', '08:00:00', '17:30:00'),
-(9, 2, '5', '08:00:00', '17:30:00'),
-(10, 4, '1', '08:00:00', '18:00:00'),
-(11, 4, '2', '08:00:00', '18:00:00'),
-(12, 4, '3', '08:00:00', '18:00:00'),
-(13, 4, '4', '08:00:00', '18:00:00'),
-(14, 4, '5', '08:00:00', '18:00:00'),
-(15, 5, '1', '08:00:00', '17:00:00'),
-(16, 5, '2', '08:00:00', '17:00:00'),
-(17, 6, '2', '08:00:00', '16:30:00'),
-(18, 6, '4', '08:00:00', '16:30:00'),
-(19, 7, '5', '08:00:00', '16:00:00'),
-(20, 8, '1', '08:00:00', '17:00:00'),
-(21, 8, '4', '13:00:00', '17:00:00'),
-(22, 8, '3', '10:00:00', '18:00:00');
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `historico_clientes`
+-- Table structure for table `historico_clientes`
 --
 
 CREATE TABLE `historico_clientes` (
@@ -1026,23 +938,20 @@ CREATE TABLE `historico_clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `historico_clientes`
+-- Dumping data for table `historico_clientes`
 --
 
 INSERT INTO `historico_clientes` (`id_alteracao`, `id_cliente`, `campo_alterado`, `valor_antigo`, `valor_novo`, `data_alteracao`) VALUES
-(1, 1, 'email', 'João@teste.com', 'joao_al@gmail.com', '2024-09-13 16:51:42'),
-(2, 2, 'email', 'Jorge@teste.com', 'jorge_silva@gmail.com', '2024-09-13 16:51:43'),
-(3, 1, 'telefone', '(11) 98908-3690', '(19) 98908-3696', '2024-09-13 16:51:43'),
-(4, 1, 'email', 'joao_al@gmail.com', 'Luis@gmail.com', '2024-09-13 16:51:43'),
-(5, 1, 'senha', 'senha123', 'senha@123', '2024-09-13 16:51:43'),
-(6, 2, 'email', 'jorge_silva@gmail.com', 'amanda_silva@gmail.com', '2024-09-13 15:15:10'),
-(7, 1, 'senha', 'senha@123', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-11 19:57:36'),
-(15, 37, 'senha', '$2y$12$fwT33lpG.YIg6OE82XZ88up', '$2y$12$I3ax0q36kJjDOqBP5PypBuN', '2024-11-06 16:43:25');
+(1, 1, 'senha', '$2y$12$uSbuuDWjDAoaXk8HQ9EY1u5', '$2y$12$sxZZPwskwqdJ0aE2L2KZ7uu', '2024-11-13 13:17:50'),
+(2, 2, 'email', 'Luisa@gmail.com', 'luisa@exemplo.com', '2024-11-13 16:44:08'),
+(3, 3, 'email', 'rafael@gmail.com', 'rafael@exemplo.com', '2024-11-13 16:44:53'),
+(4, 4, 'email', 'tropho.zilda@gmail.com', 'tropho.zilda@exemplo.com', '2024-11-13 16:45:27'),
+(5, 5, 'email', 'mari@gmail.com', 'mari@exemplo.com', '2024-11-13 16:45:58');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `historico_estabelecimentos`
+-- Table structure for table `historico_estabelecimentos`
 --
 
 CREATE TABLE `historico_estabelecimentos` (
@@ -1055,37 +964,17 @@ CREATE TABLE `historico_estabelecimentos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `historico_estabelecimentos`
+-- Dumping data for table `historico_estabelecimentos`
 --
 
 INSERT INTO `historico_estabelecimentos` (`id_alteracao`, `id_estabelecimento`, `campo_alterado`, `valor_antigo`, `valor_novo`, `data_alteracao`) VALUES
-(1, 1, 'logradouro', 'Rua Simplicio Almeida', 'Rua Odete Santos', '2024-09-13 16:59:00'),
-(2, 1, 'numero', '100', '1780', '2024-09-13 16:59:00'),
-(3, 1, 'bairro', 'Jardim Auxiliadora', 'Centro', '2024-09-13 16:59:00'),
-(4, 1, 'cidade', 'Hortolândia', 'Paulínia', '2024-09-13 16:59:00'),
-(5, 1, 'cep', '01000-000', '09700-000', '2024-09-13 16:59:00'),
-(6, 1, 'email', 'ml@teste.com', 'ml@exemplo.com', '2024-09-13 16:59:00'),
-(7, 3, 'telefone', '(11) 97836-010', '(11) 97836-0109', '2024-09-13 16:59:00'),
-(8, 3, 'logradouro', 'Rua Luis Camilo', 'Avenida Drummond', '2024-09-13 16:59:00'),
-(9, 3, 'numero', '100', '1850', '2024-09-13 16:59:00'),
-(10, 3, 'cidade', 'Hortolândia', 'Campinas', '2024-09-13 16:59:00'),
-(11, 3, 'cep', '03000-000', '03700-000', '2024-09-13 16:59:00'),
-(12, 3, 'email', 'beleza@teste.com', 'beleza@exemplo.com', '2024-09-13 16:59:00'),
-(13, 5, 'numero', '111', '120', '2024-10-09 14:51:40'),
-(14, 5, 'senha', '$2y$12$FZBt4P3Vs7bidOaWbYSwVO8', '', '2024-10-09 14:51:40'),
-(15, 6, 'numero', '120', '123', '2024-10-09 15:02:17'),
-(16, 6, 'telefone', '19985085358', '19933333333', '2024-10-09 15:26:11'),
-(17, 6, 'inicio_expediente', '07:00:00', '07:30:00', '2024-10-09 15:26:11'),
-(18, 6, 'telefone', '19933333333', '19333333333', '2024-10-09 15:55:38'),
-(19, 1, 'senha', 'senha123', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-11 19:45:29'),
-(20, 1, 'email', 'ml@exemplo.com', 'ml@gmail.com', '2024-10-11 19:46:02'),
-(21, 2, 'senha', 'senha456', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-16 20:00:27'),
-(24, 11, 'senha', '$2y$12$9YiUGf.t4CRqRrWRfEols.B', '$2y$12$Vfw1LkpE3a8jymf47wUpoO2', '2024-11-06 16:42:55');
+(1, 6, 'senha', '$2y$12$eoWpPEX5ZBwd7pTlAoM/E.i', '$2y$12$Ilfwg57bS4NWFU4DskzDw.m', '2024-11-13 16:21:15'),
+(2, 5, 'nome_fantasia', 'Barber Feitosa', 'BarberShop', '2024-11-13 16:22:03');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `historico_profissionais`
+-- Table structure for table `historico_profissionais`
 --
 
 CREATE TABLE `historico_profissionais` (
@@ -1098,23 +987,16 @@ CREATE TABLE `historico_profissionais` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `historico_profissionais`
+-- Dumping data for table `historico_profissionais`
 --
 
 INSERT INTO `historico_profissionais` (`id_alteracao`, `id_profissional`, `campo_alterado`, `valor_antigo`, `valor_novo`, `data_alteracao`) VALUES
-(1, 1, 'telefone', '(11) 90981-0540', '(19) 98987-0540', '2024-09-13 17:03:02'),
-(2, 1, 'senha', 'senha987', 'senha@melhor', '2024-09-13 17:03:02'),
-(3, 2, 'telefone', '(11) 90981-0541', '(19) 90981-0541', '2024-09-13 17:03:02'),
-(4, 2, 'senha', 'senha654', 'senha@melhorainda', '2024-09-13 17:03:02'),
-(5, 1, 'senha', 'senha@melhor', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-11 19:33:16'),
-(6, 3, 'senha', 'senha321', '$2y$12$VgKck1ety.bfzhajJ0XwNuM', '2024-10-16 19:59:09'),
-(10, 20, 'senha', '$2y$12$YjSrnVtaX4gcDD8oB/3xneb', '$2y$12$0aYXCsl6nSz6wH8Iy.b35eY', '2024-11-06 16:44:01'),
-(11, 5, 'estabel_vinculado', '1', '4', '2024-11-13 10:20:57');
+(1, 5, 'senha', '$2y$12$VQZxMRJ6K56vFqIg8c/NZeB', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '2024-11-13 15:58:48');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `itens_pedido`
+-- Table structure for table `itens_pedido`
 --
 
 CREATE TABLE `itens_pedido` (
@@ -1123,19 +1005,10 @@ CREATE TABLE `itens_pedido` (
   `qtd_item` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `itens_pedido`
---
-
-INSERT INTO `itens_pedido` (`id_pedido`, `id_produto`, `qtd_item`) VALUES
-(1, 1, 2),
-(2, 3, 1),
-(3, 5, 1);
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `logs_tokens`
+-- Table structure for table `logs_tokens`
 --
 
 CREATE TABLE `logs_tokens` (
@@ -1150,32 +1023,21 @@ CREATE TABLE `logs_tokens` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `logs_tokens`
+-- Dumping data for table `logs_tokens`
 --
 
 INSERT INTO `logs_tokens` (`id_token`, `token`, `email`, `created_at`, `used_at`, `motivo`, `id_usuario`, `tipo_usuario`) VALUES
-(1, 'mrMkjtkuIyxeonBb9V6AS2uVRzDRPfHEfxgaNH4O1Pwua8J0QQZQyhxI0sbe', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 16:06:38', '2024-11-06 16:09:21', 'redefinição de senha', 27, 'cliente'),
-(2, 'tRDveEjS7TbYs8xLvp32YPuGvQhUstoUxbdBQxsTCCjROyGVdK4fTDV4zI7j', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 16:14:14', '2024-11-06 16:14:52', 'redefinição de senha', 27, 'cliente'),
-(3, 'pGxS5FQvMXAIS8TegmA1QABa4wFWg4NESapcCpnr83rXc9KB35QZ03Bo2PsS', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 16:18:32', '2024-11-06 16:19:22', 'redefinição de senha', 14, 'profissional'),
-(4, 'sQ7ZhMp7e94brsHWG2Yc4F6uhUlqV4K9RKBkKCxhICMu1nHXJlTGSEvrhvuc', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 16:23:08', '2024-11-06 16:23:39', 'redefinição de senha', 8, 'estabelecimento'),
-(5, 'yDG4NAkCqTPthij2dOdaIGIKZjvbAPesGgtFGgzqhn5dLwBQ1SlBWK7pJT8F', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 17:56:10', '2024-11-06 17:56:55', 'confirmação de email', 33, 'cliente'),
-(6, 'Zmpb0bldjbvsGhbn0aAUjJZVIFxtQgpUoNoBmineERxkynezmpJki9wokIgx', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 17:58:52', '2024-11-06 17:59:16', 'confirmação de email', 34, 'cliente'),
-(7, '6Zi5bwupAh56vPyZkD1D86fpkgJPVT4xZiKFMWtLT53jdsUtxkWQ1dsc2Jqk', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 18:56:50', '2024-11-06 18:57:08', 'confirmação de email', 35, 'cliente'),
-(8, 'Qux9KxRMHBNOcZDTl5t9oRNKqRfvme9AJxqiBzQD5nXTYNjjZU9lt9DKepkL', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:08:52', '2024-11-06 19:09:25', 'confirmação de email', 17, 'profissional'),
-(9, 'nHTk5Tvr2iGs8ln1Rf5K5LC8unJuEqGu4MJXosdE0YdJgCLm5YB8uFsqX9Xz', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:19:26', '2024-11-06 19:23:57', 'confirmação de email', 36, 'cliente'),
-(10, 'lqRb4SY2M8cxFKnprmfc7V4ESKnt5zBIQzKdPQrqClyeqeWOTeQEKA80N11F', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:20:13', '2024-11-06 19:25:13', 'confirmação de email', 19, 'profissional'),
-(11, 'SZTNPszaFXgOfBWBYD09ConFh4kUZp6CLZV3pK6wIIFNAQsUAiISGBZNagoO', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:32:11', '2024-11-06 19:32:35', 'confirmação de email', 37, 'cliente'),
-(12, 'mQupbA3hZ9VKAj9SqzQeNsTtZ2z3Cie2xjVAmnvU9Ukb0NZ5nznV6QcPbbG8', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:30:50', '2024-11-06 19:32:53', 'confirmação de email', 20, 'profissional'),
-(13, '0kjMq1L1McItrRhfLbIl151cqgZUC3KVreQB7aW7GVdtfwEbngkuH9LB17SU', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:29:53', '2024-11-06 19:33:03', 'confirmação de email', 10, 'estabelecimento'),
-(14, 'GtoYRuBUdXhRoYeel4qsMviXx3DvgkgmQHxKwQwClu8Nms8a6OPU6GgdvVs4', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:41:23', '2024-11-06 19:41:53', 'confirmação de email', 11, 'estabelecimento'),
-(15, 'T1UFzbNyv4LKBwiSh5bNLpCnRMxb1JO43KTU6dxa5nL8VShq4SDDOvUdcypX', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:42:03', '2024-11-06 19:42:54', 'redefinição de senha', 11, 'estabelecimento'),
-(16, '4zLew1IwZiRcRJgE48MZSogcKQpoxo1Tps5uphHjvLADTcCOENDLdduUh5Kl', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:33:35', '2024-11-06 19:43:25', 'redefinição de senha', 37, 'cliente'),
-(17, 'G0qJWDSHOZheLcYRRCXfEO6RBWyMFuNyRiXghhqpSFhNzOIB8AtXGBPfV60q', 'rodrigooliveirafeitosa@gmail.com', '2024-11-06 19:33:57', '2024-11-06 19:44:01', 'redefinição de senha', 20, 'profissional');
+(1, 'JCObTFytbAhEwBicRO7tPbocRoq31LYse1zdoIXfBxq3K7p9bKZ4mG21rIF6', 'rodrigooliveirafeitosa@gmail.com', '2024-11-13 16:13:57', '2024-11-13 16:15:00', 'confirmação de email', 1, 'cliente'),
+(2, 'PsdZupDGQu6Xi4K299flvOyvOI3JSbdQLTlRHI6w5z2QckhisztxWpq5P7KG', 'rodrigooliveirafeitosa@gmail.com', '2024-11-13 16:17:32', '2024-11-13 16:17:50', 'redefinição de senha', 1, 'cliente'),
+(3, 'AK263giGjiXVLqafA2wUIbpBoMsNT9kZD26DBBBXWnc9V05Vv9ZxNzMKMS9e', 'rodrigooliveirafeitosa@gmail.com', '2024-11-13 18:56:00', '2024-11-13 18:56:39', 'confirmação de email', 5, 'profissional'),
+(4, 'AfOrtVbJLMEHeFRSBq2Y0BbQcJyJho4uUfJWJ4ItC1Lgzm5Ckyg8KF983jqv', 'rodrigooliveirafeitosa@gmail.com', '2024-11-13 18:58:26', '2024-11-13 18:58:47', 'redefinição de senha', 5, 'profissional'),
+(5, '8Lrtxsf94x5itngwl44fPO477hYRrZK7uxYZKiwgxPmOgAzyGPvu8MNw5NLd', 'rodrigooliveirafeitosa@gmail.com', '2024-11-13 19:19:51', '2024-11-13 19:20:18', 'confirmação de email', 6, 'estabelecimento'),
+(6, 'mRyDrqtom3ZNcUvLzlB6S2z8QLrmp0onDnIbNYee8ZsMmyVIFdJ2DqC9zB1O', 'rodrigooliveirafeitosa@gmail.com', '2024-11-13 19:20:57', '2024-11-13 19:21:14', 'redefinição de senha', 6, 'estabelecimento');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pedidos`
+-- Table structure for table `pedidos`
 --
 
 CREATE TABLE `pedidos` (
@@ -1188,19 +1050,10 @@ CREATE TABLE `pedidos` (
   `valor_total` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `pedidos`
---
-
-INSERT INTO `pedidos` (`id_pedido`, `id_cliente`, `id_endereco`, `id_opcaopag`, `id_status`, `data_compra`, `valor_total`) VALUES
-(1, 1, 1, 2, 1, '2024-09-13 15:22:39', 157.96),
-(2, 2, 2, 1, 1, '2024-09-13 15:23:04', 49.9),
-(3, 3, 3, 2, 1, '2024-09-13 15:23:23', 67.99);
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos`
+-- Table structure for table `produtos`
 --
 
 CREATE TABLE `produtos` (
@@ -1211,21 +1064,10 @@ CREATE TABLE `produtos` (
   `id_estabelecimento` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `produtos`
---
-
-INSERT INTO `produtos` (`id_produto`, `nome`, `valor`, `id_categoria`, `id_estabelecimento`) VALUES
-(1, 'Shampoo', 78.98, 1, 1),
-(2, 'Condicionador', 78.98, 1, 1),
-(3, 'Sabonete facial', 49.9, 2, 3),
-(4, 'Esmalte secante', 12.4, 3, 2),
-(5, 'Mascara Hidratação', 67.99, 1, 2);
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `profissionais`
+-- Table structure for table `profissionais`
 --
 
 CREATE TABLE `profissionais` (
@@ -1242,22 +1084,18 @@ CREATE TABLE `profissionais` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `profissionais`
+-- Dumping data for table `profissionais`
 --
 
 INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`, `estabel_vinculado`, `email_verificado`, `imagem_perfil`) VALUES
-(1, 'Jeremias de Arruda Silva', '1990-01-01', '987.654.321-00', '(19) 98987-0540', 'jeremias@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', 1, 1, NULL),
-(2, 'Juliana da Silva Costa', '1991-01-01', '987.654.321-01', '(19) 90981-0541', 'juliana@teste.com', 'senha@melhorainda', 3, 1, NULL),
-(3, 'Aline Costa Albuquerque', '1992-01-01', '987.654.321-02', '(11) 90981-0542', 'aline@teste.com', '$2y$12$VgKck1ety.bfzhajJ0XwNuMCCPfRHVWc5Nx0S0DFlssqcLPo9qZOC', NULL, 1, NULL),
-(4, 'Sheila Almeida', '1998-11-23', '987.654.321-02', '(11) 90981-054', 'sheila@teste.com', 'senha123', 2, 1, NULL),
-(5, 'Juriscleison da Costa', '1993-04-01', '132.256.456-02', '1908007070', 'jusriscleison@gmail.com', 'senha123', 4, 1, NULL),
-(6, 'Otávio Ferreira', '1975-12-31', '256.145.486-01', '199995452', 'tavinho@outlook.com', 'senha123', 2, 1, NULL),
-(7, 'Bruce Lee', '1968-05-06', '456.256.324-15', '1965165655', 'kungfu@yahoo.com', 'senha123', 1, 1, NULL),
-(8, 'Ronaldo Silveira', '1999-03-12', '65561561', '195226512', 'ronaldo@teste.com', '$2y$12$o/SwkMeE3/Kp4HSOL2gnIucs35o1TvFQFkgi.aMLCfwrEW7sjuVsu', 1, 1, 'FqjzVqckOnK5LzfsLIa3Y3nHQDr2YDI9AiwpMk0a.jpg'),
-(20, 'Rodrigo', '2001-03-02', '49333379851', '(19) 98908-5358', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$0aYXCsl6nSz6wH8Iy.b35eYtPRHyBPmu1Srm1gZ0opW52aObaLxwi', NULL, 1, NULL);
+(1, 'Felipe Gonçalves Cardoso', '1977-07-06', '957.256.305-01', '(99) 97556-1878', 'fefe@gmail.com', '$2y$12$BxJxGslsbuO91Nyl1ApCJe0/RKqKXtw4LosQ1maQh4.sLZzeoRy2u', NULL, 0, NULL),
+(2, 'Amanda Pereira Torres', '2005-12-25', '025.948.848-80', '(97) 99175-9060', 'amandinha@gmail.com', '$2y$12$c91Kykq.2RS.r.IjQMuHVeJ4OhOs1q6arK3P6VXTUTv8RaYxmEQlW', NULL, 0, NULL),
+(3, 'Carolina Nogueira Lopes', '1998-09-30', '631.432.950-74', '(33) 98366-1972', 'carol@gmail.com', '$2y$12$WxPD14RALFwZVCWt2sWqEuwu8rezKZ4F6vwN7xL3v2wRWDUVuEqaO', NULL, 0, NULL),
+(4, 'Larissa Mendes Araújo', '1995-11-23', '846.397.918-10', '(69) 99864-3244', 'lari@gmail.com', '$2y$12$L1EruuYAT9v2t5VGxsoooej1FD0VkwbmSwfaNJ5.uJO/mGvSakTGe', NULL, 0, NULL),
+(5, 'rodrigooliveirafeitosa@gmail.com', '2001-03-02', '431.424.890-45', '(68) 97323-6557', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$7XIGkGN8S76gL2ojnFofZuyaOqDc7UnIYSyLwa0gwubyRIa1hDdhu', NULL, 1, NULL);
 
 --
--- Acionadores `profissionais`
+-- Triggers `profissionais`
 --
 DELIMITER $$
 CREATE TRIGGER `atualizacao_profissional` AFTER UPDATE ON `profissionais` FOR EACH ROW BEGIN 
@@ -1291,8 +1129,8 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura stand-in para view `profissionais_agendamentos`
--- (Veja abaixo para a visão atual)
+-- Stand-in structure for view `profissionais_agendamentos`
+-- (See below for the actual view)
 --
 CREATE TABLE `profissionais_agendamentos` (
 `nome` varchar(50)
@@ -1303,8 +1141,8 @@ CREATE TABLE `profissionais_agendamentos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura stand-in para view `profissionais_populares`
--- (Veja abaixo para a visão atual)
+-- Stand-in structure for view `profissionais_populares`
+-- (See below for the actual view)
 --
 CREATE TABLE `profissionais_populares` (
 `id` int(11)
@@ -1317,7 +1155,7 @@ CREATE TABLE `profissionais_populares` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `profissionais_servicos`
+-- Table structure for table `profissionais_servicos`
 --
 
 CREATE TABLE `profissionais_servicos` (
@@ -1325,27 +1163,10 @@ CREATE TABLE `profissionais_servicos` (
   `id_servico` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `profissionais_servicos`
---
-
-INSERT INTO `profissionais_servicos` (`id_profissional`, `id_servico`) VALUES
-(1, 1),
-(1, 5),
-(1, 7),
-(2, 3),
-(4, 2),
-(4, 4),
-(5, 5),
-(5, 7),
-(6, 4),
-(7, 1),
-(8, 1);
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `resets_senhas`
+-- Table structure for table `resets_senhas`
 --
 
 CREATE TABLE `resets_senhas` (
@@ -1359,7 +1180,7 @@ CREATE TABLE `resets_senhas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `servicos`
+-- Table structure for table `servicos`
 --
 
 CREATE TABLE `servicos` (
@@ -1371,23 +1192,10 @@ CREATE TABLE `servicos` (
   `id_estabelecimento` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `servicos`
---
-
-INSERT INTO `servicos` (`id_servico`, `nome`, `valor`, `duracao`, `id_categoria`, `id_estabelecimento`) VALUES
-(1, 'Corte masculino', 40, '00:30:00', 1, 1),
-(2, 'Corte feminino', 50, '00:30:00', 1, 2),
-(3, 'Esmaltação', 35, '01:00:00', 3, 3),
-(4, 'Coloração', 120, '03:00:00', 1, 2),
-(5, 'Corte de sobrancelha', 30, '00:40:00', 2, 1),
-(6, 'Progressiva', 110, '04:00:00', 1, 3),
-(7, 'Combo (corte + barba)', 65, '01:00:00', 4, 1);
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `status_agendamentos`
+-- Table structure for table `status_agendamentos`
 --
 
 CREATE TABLE `status_agendamentos` (
@@ -1395,20 +1203,10 @@ CREATE TABLE `status_agendamentos` (
   `descricao` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `status_agendamentos`
---
-
-INSERT INTO `status_agendamentos` (`id_status`, `descricao`) VALUES
-(1, 'Aguardando aprovação'),
-(2, 'Agendado'),
-(3, 'Concluído'),
-(4, 'Ausência');
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `status_pedidos`
+-- Table structure for table `status_pedidos`
 --
 
 CREATE TABLE `status_pedidos` (
@@ -1416,24 +1214,10 @@ CREATE TABLE `status_pedidos` (
   `descricao` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `status_pedidos`
---
-
-INSERT INTO `status_pedidos` (`id_status`, `descricao`) VALUES
-(1, 'Aguardando pagamento'),
-(2, 'Pagamento confirmado'),
-(3, 'Em preparação'),
-(4, 'Em Trânsito'),
-(5, 'Entregue'),
-(6, 'Concluído'),
-(7, 'Cancelado'),
-(8, 'Reembolsado');
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `vinculos`
+-- Table structure for table `vinculos`
 --
 
 CREATE TABLE `vinculos` (
@@ -1445,18 +1229,7 @@ CREATE TABLE `vinculos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `vinculos`
---
-
-INSERT INTO `vinculos` (`id_vinculo`, `id_profissional`, `id_estabelecimento`, `status_vinculo`, `data_vinculo`) VALUES
-(2, 7, 1, 'pendente', NULL),
-(3, 4, 2, 'aprovado', '2024-10-14 10:28:07'),
-(4, 5, 4, 'aprovado', '2024-10-14 10:56:53'),
-(5, 8, 1, 'aprovado', '2024-10-14 10:58:14'),
-(6, 3, 2, 'rejeitado', '2024-10-16 19:59:39');
-
---
--- Acionadores `vinculos`
+-- Triggers `vinculos`
 --
 DELIMITER $$
 CREATE TRIGGER `remove_estabel_vinculado` AFTER UPDATE ON `vinculos` FOR EACH ROW BEGIN
@@ -1482,7 +1255,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura para view `estabelecimentos_populares`
+-- Structure for view `estabelecimentos_populares`
 --
 DROP TABLE IF EXISTS `estabelecimentos_populares`;
 
@@ -1491,7 +1264,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Estrutura para view `profissionais_agendamentos`
+-- Structure for view `profissionais_agendamentos`
 --
 DROP TABLE IF EXISTS `profissionais_agendamentos`;
 
@@ -1500,18 +1273,18 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Estrutura para view `profissionais_populares`
+-- Structure for view `profissionais_populares`
 --
 DROP TABLE IF EXISTS `profissionais_populares`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `profissionais_populares`  AS SELECT `p`.`id_profissional` AS `id`, `p`.`nome` AS `nome`, count(`a`.`id_agendamento`) AS `total_agendamentos`, `p`.`imagem_perfil` AS `imagem`, `p`.`estabel_vinculado` AS `estabel_vinculado` FROM (`profissionais` `p` join `agendamentos` `a` on(`a`.`id_profissional` = `p`.`id_profissional`)) GROUP BY `p`.`id_profissional`, `p`.`nome`, `p`.`imagem_perfil`, `p`.`estabel_vinculado` ORDER BY count(`a`.`id_agendamento`) DESC LIMIT 0, 3 ;
 
 --
--- Índices para tabelas despejadas
+-- Indexes for dumped tables
 --
 
 --
--- Índices de tabela `agendamentos`
+-- Indexes for table `agendamentos`
 --
 ALTER TABLE `agendamentos`
   ADD PRIMARY KEY (`id_agendamento`),
@@ -1522,7 +1295,7 @@ ALTER TABLE `agendamentos`
   ADD KEY `fk_agendamentos05` (`id_servico`);
 
 --
--- Índices de tabela `avaliacoes`
+-- Indexes for table `avaliacoes`
 --
 ALTER TABLE `avaliacoes`
   ADD PRIMARY KEY (`id_avaliacao`),
@@ -1530,91 +1303,91 @@ ALTER TABLE `avaliacoes`
   ADD KEY `fk_avaliacoes02` (`id_cliente`);
 
 --
--- Índices de tabela `categorias_produto`
+-- Indexes for table `categorias_produto`
 --
 ALTER TABLE `categorias_produto`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
--- Índices de tabela `categorias_servico`
+-- Indexes for table `categorias_servico`
 --
 ALTER TABLE `categorias_servico`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
--- Índices de tabela `clientes`
+-- Indexes for table `clientes`
 --
 ALTER TABLE `clientes`
   ADD PRIMARY KEY (`id_cliente`);
 
 --
--- Índices de tabela `enderecos`
+-- Indexes for table `enderecos`
 --
 ALTER TABLE `enderecos`
   ADD PRIMARY KEY (`id_endereco`);
 
 --
--- Índices de tabela `enderecos_clientes`
+-- Indexes for table `enderecos_clientes`
 --
 ALTER TABLE `enderecos_clientes`
   ADD PRIMARY KEY (`id_cliente`,`id_endereco`),
   ADD KEY `fk_endereco_cliente01` (`id_endereco`);
 
 --
--- Índices de tabela `estabelecimentos`
+-- Indexes for table `estabelecimentos`
 --
 ALTER TABLE `estabelecimentos`
   ADD PRIMARY KEY (`id_estabelecimento`);
 
 --
--- Índices de tabela `formas_pagamentos`
+-- Indexes for table `formas_pagamentos`
 --
 ALTER TABLE `formas_pagamentos`
   ADD PRIMARY KEY (`id_opcaopag`);
 
 --
--- Índices de tabela `grades_horario`
+-- Indexes for table `grades_horario`
 --
 ALTER TABLE `grades_horario`
   ADD PRIMARY KEY (`id_grade`),
   ADD KEY `fk_grades_horario` (`id_profissional`);
 
 --
--- Índices de tabela `historico_clientes`
+-- Indexes for table `historico_clientes`
 --
 ALTER TABLE `historico_clientes`
   ADD PRIMARY KEY (`id_alteracao`),
   ADD KEY `fk_historico_clientes01` (`id_cliente`);
 
 --
--- Índices de tabela `historico_estabelecimentos`
+-- Indexes for table `historico_estabelecimentos`
 --
 ALTER TABLE `historico_estabelecimentos`
   ADD PRIMARY KEY (`id_alteracao`),
   ADD KEY `fk_historico_estabelecimentos01` (`id_estabelecimento`);
 
 --
--- Índices de tabela `historico_profissionais`
+-- Indexes for table `historico_profissionais`
 --
 ALTER TABLE `historico_profissionais`
   ADD PRIMARY KEY (`id_alteracao`),
   ADD KEY `fk_historico_profissionais01` (`id_profissional`);
 
 --
--- Índices de tabela `itens_pedido`
+-- Indexes for table `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
   ADD PRIMARY KEY (`id_pedido`,`id_produto`),
   ADD KEY `fk_itens_pedido02` (`id_produto`);
 
 --
--- Índices de tabela `logs_tokens`
+-- Indexes for table `logs_tokens`
 --
 ALTER TABLE `logs_tokens`
   ADD PRIMARY KEY (`id_token`);
 
 --
--- Índices de tabela `pedidos`
+-- Indexes for table `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`id_pedido`),
@@ -1624,7 +1397,7 @@ ALTER TABLE `pedidos`
   ADD KEY `fk_pedidos04` (`id_status`);
 
 --
--- Índices de tabela `produtos`
+-- Indexes for table `produtos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id_produto`),
@@ -1632,21 +1405,21 @@ ALTER TABLE `produtos`
   ADD KEY `fk_produtos02` (`id_estabelecimento`);
 
 --
--- Índices de tabela `profissionais`
+-- Indexes for table `profissionais`
 --
 ALTER TABLE `profissionais`
   ADD PRIMARY KEY (`id_profissional`),
   ADD KEY `fk_profissionais01` (`estabel_vinculado`);
 
 --
--- Índices de tabela `profissionais_servicos`
+-- Indexes for table `profissionais_servicos`
 --
 ALTER TABLE `profissionais_servicos`
   ADD PRIMARY KEY (`id_profissional`,`id_servico`),
   ADD KEY `id_servico` (`id_servico`);
 
 --
--- Índices de tabela `servicos`
+-- Indexes for table `servicos`
 --
 ALTER TABLE `servicos`
   ADD PRIMARY KEY (`id_servico`),
@@ -1654,19 +1427,19 @@ ALTER TABLE `servicos`
   ADD KEY `fk_servicos02` (`id_estabelecimento`);
 
 --
--- Índices de tabela `status_agendamentos`
+-- Indexes for table `status_agendamentos`
 --
 ALTER TABLE `status_agendamentos`
   ADD PRIMARY KEY (`id_status`);
 
 --
--- Índices de tabela `status_pedidos`
+-- Indexes for table `status_pedidos`
 --
 ALTER TABLE `status_pedidos`
   ADD PRIMARY KEY (`id_status`);
 
 --
--- Índices de tabela `vinculos`
+-- Indexes for table `vinculos`
 --
 ALTER TABLE `vinculos`
   ADD PRIMARY KEY (`id_vinculo`),
@@ -1674,135 +1447,135 @@ ALTER TABLE `vinculos`
   ADD KEY `vinculo_fk02` (`id_profissional`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de tabela `agendamentos`
+-- AUTO_INCREMENT for table `agendamentos`
 --
 ALTER TABLE `agendamentos`
-  MODIFY `id_agendamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_agendamento` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `avaliacoes`
+-- AUTO_INCREMENT for table `avaliacoes`
 --
 ALTER TABLE `avaliacoes`
-  MODIFY `id_avaliacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_avaliacao` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `categorias_produto`
+-- AUTO_INCREMENT for table `categorias_produto`
 --
 ALTER TABLE `categorias_produto`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `categorias_servico`
+-- AUTO_INCREMENT for table `categorias_servico`
 --
 ALTER TABLE `categorias_servico`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `clientes`
+-- AUTO_INCREMENT for table `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de tabela `enderecos`
+-- AUTO_INCREMENT for table `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `id_endereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_endereco` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `estabelecimentos`
+-- AUTO_INCREMENT for table `estabelecimentos`
 --
 ALTER TABLE `estabelecimentos`
-  MODIFY `id_estabelecimento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_estabelecimento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de tabela `formas_pagamentos`
+-- AUTO_INCREMENT for table `formas_pagamentos`
 --
 ALTER TABLE `formas_pagamentos`
-  MODIFY `id_opcaopag` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_opcaopag` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `grades_horario`
+-- AUTO_INCREMENT for table `grades_horario`
 --
 ALTER TABLE `grades_horario`
-  MODIFY `id_grade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_grade` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `historico_clientes`
+-- AUTO_INCREMENT for table `historico_clientes`
 --
 ALTER TABLE `historico_clientes`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de tabela `historico_estabelecimentos`
+-- AUTO_INCREMENT for table `historico_estabelecimentos`
 --
 ALTER TABLE `historico_estabelecimentos`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de tabela `historico_profissionais`
+-- AUTO_INCREMENT for table `historico_profissionais`
 --
 ALTER TABLE `historico_profissionais`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de tabela `logs_tokens`
+-- AUTO_INCREMENT for table `logs_tokens`
 --
 ALTER TABLE `logs_tokens`
-  MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT de tabela `pedidos`
+-- AUTO_INCREMENT for table `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `produtos`
+-- AUTO_INCREMENT for table `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `profissionais`
+-- AUTO_INCREMENT for table `profissionais`
 --
 ALTER TABLE `profissionais`
-  MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_profissional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de tabela `servicos`
+-- AUTO_INCREMENT for table `servicos`
 --
 ALTER TABLE `servicos`
-  MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `status_agendamentos`
+-- AUTO_INCREMENT for table `status_agendamentos`
 --
 ALTER TABLE `status_agendamentos`
-  MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `status_pedidos`
+-- AUTO_INCREMENT for table `status_pedidos`
 --
 ALTER TABLE `status_pedidos`
-  MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_status` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `vinculos`
+-- AUTO_INCREMENT for table `vinculos`
 --
 ALTER TABLE `vinculos`
-  MODIFY `id_vinculo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_vinculo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Restrições para tabelas despejadas
+-- Constraints for dumped tables
 --
 
 --
--- Restrições para tabelas `agendamentos`
+-- Constraints for table `agendamentos`
 --
 ALTER TABLE `agendamentos`
   ADD CONSTRAINT `fk_agendamentos01` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
@@ -1812,52 +1585,52 @@ ALTER TABLE `agendamentos`
   ADD CONSTRAINT `fk_agendamentos05` FOREIGN KEY (`id_servico`) REFERENCES `servicos` (`id_servico`);
 
 --
--- Restrições para tabelas `avaliacoes`
+-- Constraints for table `avaliacoes`
 --
 ALTER TABLE `avaliacoes`
   ADD CONSTRAINT `fk_avaliacoes01` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   ADD CONSTRAINT `fk_avaliacoes02` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`);
 
 --
--- Restrições para tabelas `enderecos_clientes`
+-- Constraints for table `enderecos_clientes`
 --
 ALTER TABLE `enderecos_clientes`
   ADD CONSTRAINT `fk_endereco_cliente01` FOREIGN KEY (`id_endereco`) REFERENCES `enderecos` (`id_endereco`),
   ADD CONSTRAINT `fk_endereco_cliente02` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`);
 
 --
--- Restrições para tabelas `grades_horario`
+-- Constraints for table `grades_horario`
 --
 ALTER TABLE `grades_horario`
   ADD CONSTRAINT `fk_grades_horario` FOREIGN KEY (`id_profissional`) REFERENCES `profissionais` (`id_profissional`);
 
 --
--- Restrições para tabelas `historico_clientes`
+-- Constraints for table `historico_clientes`
 --
 ALTER TABLE `historico_clientes`
   ADD CONSTRAINT `fk_historico_clientes01` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`);
 
 --
--- Restrições para tabelas `historico_estabelecimentos`
+-- Constraints for table `historico_estabelecimentos`
 --
 ALTER TABLE `historico_estabelecimentos`
   ADD CONSTRAINT `fk_historico_estabelecimentos01` FOREIGN KEY (`id_estabelecimento`) REFERENCES `estabelecimentos` (`id_estabelecimento`);
 
 --
--- Restrições para tabelas `historico_profissionais`
+-- Constraints for table `historico_profissionais`
 --
 ALTER TABLE `historico_profissionais`
   ADD CONSTRAINT `fk_historico_profissionais01` FOREIGN KEY (`id_profissional`) REFERENCES `profissionais` (`id_profissional`);
 
 --
--- Restrições para tabelas `itens_pedido`
+-- Constraints for table `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
   ADD CONSTRAINT `fk_itens_pedido01` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   ADD CONSTRAINT `fk_itens_pedido02` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id_produto`);
 
 --
--- Restrições para tabelas `pedidos`
+-- Constraints for table `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `fk_pedidos01` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
@@ -1866,34 +1639,34 @@ ALTER TABLE `pedidos`
   ADD CONSTRAINT `fk_pedidos04` FOREIGN KEY (`id_status`) REFERENCES `status_pedidos` (`id_status`);
 
 --
--- Restrições para tabelas `produtos`
+-- Constraints for table `produtos`
 --
 ALTER TABLE `produtos`
   ADD CONSTRAINT `fk_produtos01` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_produto` (`id_categoria`),
   ADD CONSTRAINT `fk_produtos02` FOREIGN KEY (`id_estabelecimento`) REFERENCES `estabelecimentos` (`id_estabelecimento`);
 
 --
--- Restrições para tabelas `profissionais`
+-- Constraints for table `profissionais`
 --
 ALTER TABLE `profissionais`
   ADD CONSTRAINT `fk_profissionais01` FOREIGN KEY (`estabel_vinculado`) REFERENCES `estabelecimentos` (`id_estabelecimento`);
 
 --
--- Restrições para tabelas `profissionais_servicos`
+-- Constraints for table `profissionais_servicos`
 --
 ALTER TABLE `profissionais_servicos`
   ADD CONSTRAINT `profissionais_servicos_ibfk_1` FOREIGN KEY (`id_profissional`) REFERENCES `profissionais` (`id_profissional`),
   ADD CONSTRAINT `profissionais_servicos_ibfk_2` FOREIGN KEY (`id_servico`) REFERENCES `servicos` (`id_servico`);
 
 --
--- Restrições para tabelas `servicos`
+-- Constraints for table `servicos`
 --
 ALTER TABLE `servicos`
   ADD CONSTRAINT `fk_servicos01` FOREIGN KEY (`id_categoria`) REFERENCES `categorias_servico` (`id_categoria`),
   ADD CONSTRAINT `fk_servicos02` FOREIGN KEY (`id_estabelecimento`) REFERENCES `estabelecimentos` (`id_estabelecimento`);
 
 --
--- Restrições para tabelas `vinculos`
+-- Constraints for table `vinculos`
 --
 ALTER TABLE `vinculos`
   ADD CONSTRAINT `vinculo_fk01` FOREIGN KEY (`id_estabelecimento`) REFERENCES `estabelecimentos` (`id_estabelecimento`),
