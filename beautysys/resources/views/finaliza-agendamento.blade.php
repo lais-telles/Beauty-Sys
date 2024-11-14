@@ -98,6 +98,16 @@
                     </div>
 
                     <div class="mb-3">
+                    <label for="opcao_pag">Forma de pagamento</label>
+                        <select class="form-select" id="opcao_pag" name="opcao_pag" required>
+                            <option value="" disabled selected>Selecione uma forma de pagamento</option>
+                            @foreach ($formas_pagamento as $pag)
+                                <option value="{{ $pag->id_opcaopag }}">{{ $pag->descricao }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="opcao_pag" class="form-label">Escolha a forma de pagamento</label>
                         <select class="form-select" id="opcao_pag" name="opcao_pag" required>
                             <option value="" disabled selected>Selecione uma forma de pagamento</option>

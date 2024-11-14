@@ -268,9 +268,10 @@ class EstabelecimentoController extends Controller
    
         // Obtém o registro do estabelecimento
         $servicos = Servico::where('id_estabelecimento', $id_estabelecimento)->get();
+        $categorias = DB::table('categorias_servico')->get();
    
         // Retorna a view com o registro
-        return view('servicos-cad', compact('servicos'));
+        return view('servicos-cad', compact('servicos', 'categorias'));
     }   
 
     public function cadastrarServico(Request $request)

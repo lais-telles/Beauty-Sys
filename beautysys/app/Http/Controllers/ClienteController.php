@@ -304,9 +304,10 @@ class ClienteController extends Controller
         }
 
         $servicos = DB::select('CALL exibir_servicos_profissional(?)', [$id_profissional]);
+        $formas_pagamento = DB::select('SELECT * FROM formas_pagamentos');
 
         // Retorna a view com os dados carregados
-        return view('finaliza-agendamento', compact('estabelecimentos', 'profissional', 'id_estabelecimento', 'id_profissional', 'servicos'));
+        return view('finaliza-agendamento', compact('estabelecimentos', 'profissional', 'id_estabelecimento', 'id_profissional', 'servicos', 'formas_pagamento'));
     }
 
     

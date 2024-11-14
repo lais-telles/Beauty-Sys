@@ -91,10 +91,9 @@
                     <div class="form-floating mb-3">
                         <select id="id_categoria" name="id_categoria" class="form-select" required>
                             <option value="" disabled selected>Selecione uma categoria</option>
-                            <option value="1">Cabelo</option>
-                            <option value="2">Estética facial</option>
-                            <option value="3">Unhas</option>
-                            <option value="4">Combo</option>
+                            @foreach ($categorias as $categoria)
+                                <option value="{{ $categoria->id_categoria }}">{{ $categoria->descricao }}</option>
+                            @endforeach
                         </select>
                         <label for="id_categoria">Categoria</label>
                     </div>
