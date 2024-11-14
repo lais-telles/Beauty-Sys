@@ -12,16 +12,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="Razao_social">Razão Social</label>
-                                <input type="text" class="form-control" id="razao_social" name="razao_social" value="{{ $registro->razao_social }}" readonly required>
-                            </div>
-                            <div class="form-group">
                                 <label for="nome_fantasia">Nome Fantasia:</label>
                                 <input type="text" class="form-control" id="nome_fantasia" name="nome_fantasia" value="{{ $registro->nome_fantasia }}" readonly required>
-                            </div>
-                            <div class="form-group">
-                                <label for="nome_fantasia">CNPJ:</label>
-                                <input type="text" class="form-control" id="CNPJ" name="CNPJ" value="{{ $registro->CNPJ }}" readonly required>
                             </div>
                             <div class="form-group">
                                 <label for="email">E-mail:</label>
