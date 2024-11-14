@@ -189,17 +189,20 @@ class EstabelecimentoController extends Controller
         ]);
 
         $email_verificado = Estabelecimento::where('email', $validatedData['emailLoginProp'])->where('email_verificado', 1)->first();
-
-        if($email_verificado){
-            // Tentar autenticar o estabelecimento usando o guard 'estabelecimento'
-            if (Auth::guard('estabelecimento')->attempt(['email' => $request->input('emailLoginProp'), 'password' => $request->input('senhaLoginProp')])) {
-                // Login bem-sucedido, redirecionar para a página inicial do estabelecimento
+            
+        // Tentar autenticar o estabelecimento usando o guard 'estabelecimento'
+        if (Auth::guard('estabelecimento')->attempt(['email' => $request->input('emailLoginProp'), 'password' => $request->input('senhaLoginProp')])) {
+            if($email_verificado){
+                // Login bem-sucedido, redirecionar para a página inicial do profissional
                 return redirect()->route('paginaInicialPj')->with('success', 'Login realizado com sucesso!');
             } else {
-                // Login falhou, redirecionar de volta com uma mensagem de erro
-                return redirect()->back()->with('error', 'Email ou senha inválidos');
+                return redirect()->back()->with('error', 'Email não verificado!');
             }
+         } else {
+            // Login falhou, redirecionar de volta com uma mensagem de erro
+            return redirect()->back()->with('error', 'Email ou senha inválidos');
         }
+        
     }
 
     // Método de logout

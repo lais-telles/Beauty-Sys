@@ -187,18 +187,17 @@ class ClienteController extends Controller
 
         $email_verificado = Cliente::where('email', $validatedData['emailLogin'])->where('email_verificado', 1)->first();
 
-        if($email_verificado){
-            // Tentar autenticar o cliente usando o guard 'cliente'
-            if (Auth::guard('cliente')->attempt(['email' => $request->input('emailLogin'), 'password' => $request->input('senhaLogin')])) {
-                
-                // Chama o método para obter dados e retornar a view com os estabelecimentos populares
-                return $this->paginaInicialPf()->with('success', 'Login realizado com sucesso!');
+        // Tentar autenticar o cliente usando o guard 'cliente'
+        if (Auth::guard('cliente')->attempt(['email' => $request->input('emailLogin'), 'password' => $request->input('senhaLogin')])) {
+            if($email_verificado){
+                // Login bem-sucedido, redirecionar para a página inicial do profissional
+                return redirect()->route('paginaInicialPf')->with('success', 'Login realizado com sucesso!');
             } else {
-                // Login falhou, redirecionar de volta com uma mensagem de erro
-                return redirect()->back()->with('error', 'Email ou senha inválidos');
+                return redirect()->back()->with('error', 'Email não verificado!');
             }
         } else {
-            return redirect()->back()->with('error', 'Email não verificado!');
+            // Login falhou, redirecionar de volta com uma mensagem de erro
+            return redirect()->back()->with('error', 'Email ou senha inválidos');
         }
     }
 
