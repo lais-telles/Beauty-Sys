@@ -39,7 +39,7 @@ class EstabelecimentoController extends Controller
             'cep' => 'required|string|max:9',
             'inicio_expediente' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
             'termino_expediente' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
-            'emailCadasProp' => 'required|string|email|max:255|unique:estabelecimentos,email',
+            'emailCadasProp' => 'required|string|email|max:100|unique:estabelecimentos,email',
             'senhaCadasProp' => 'required|string|min:8',
         ]);
 
@@ -244,22 +244,36 @@ class EstabelecimentoController extends Controller
 
     public function alterarCadastro(Request $request)
     {
-        // Captura o id do estabelecimento da sessão
         $id_estabelecimento = Auth::guard('estabelecimento')->id();
+
+        $request->validate([
+            'nome_fantasia' => 'required|string|max:40',
+            'telefone' => ['required', new validaCelular],
+            'logradouro' => 'required|string|max:40',
+            'numero' => 'required|string|max:10',
+            'bairro' => 'required|string|max:40',
+            'cidade' => 'required|string|max:40',
+            'estado' => 'required|string|max:2',
+            'cep' => 'required|string|max:9',
+            'inicio_expediente' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
+            'termino_expediente' => 'required|string|max:255', //verificar a possibilidade, necessidade de mudar o tipo de dados
+            'email' => ['required', 'email', 'max:100', 'unique:estabelecimentos,email,' . $id_estabelecimento . ',id_estabelecimento',],
+        ]);
+
+        // Captura o id do estabelecimento da sessão
         $nome_fantasia = $request->input('nome_fantasia');
-        $telefone = $request->input('telefoneEstab');
+        $telefone = $request->input('telefone');
         $logradouro = $request->input('logradouro');
         $numero = $request->input('numero');
         $bairro = $request->input('bairro');
         $cidade = $request->input('cidade');
         $estado = $request->input('estado');
-        $CEP = $request->input('CEP');
+        $cep = $request->input('cep');
         $inicio_expediente = $request->input('inicio_expediente');
         $termino_expediente = $request->input('termino_expediente');
         $email = $request->input('email');
-        $senha = NULL;
 
-        Estabelecimento::atualizar_estabelecimento($id_estabelecimento, $nome_fantasia, $telefone, $logradouro, $numero, $bairro, $cidade, $estado, $CEP, $inicio_expediente, $termino_expediente, $email, $senha);
+        Estabelecimento::atualizar_estabelecimento($id_estabelecimento, $nome_fantasia, $telefone, $logradouro, $numero, $bairro, $cidade, $estado, $cep, $inicio_expediente, $termino_expediente, $email);
 
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }

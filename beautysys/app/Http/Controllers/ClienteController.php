@@ -32,7 +32,7 @@ class ClienteController extends Controller
             'data_nascimento' => 'required|date',
             'cpf' => ['required', new validaCPF],
             'telefone' => ['required', new validaCelular],
-            'email' => 'required|string|email|max:255|unique:clientes',
+            'email' => 'required|string|email|max:100|unique:clientes',
             'senha' => 'required|string|min:8',
         ]);
 
@@ -275,9 +275,18 @@ class ClienteController extends Controller
     {
         // Captura o id do cliente da sessão
         $id_cliente = Auth::guard('cliente')->id();
+
+        // Validação dos dados
+        $request->validate([
+            'telefone' => ['required', new validaCelular],
+            'email' => ['required', 'email', 'max:100', 'unique:clientes,email,' . $id_cliente . ',id_cliente',],
+        ]);
+
+        // Capturando os dados validados
         $telefone = $request->input('telefone');
         $email = $request->input('email');
 
+        // Atualizando os dados no modelo
         Cliente::atualizarCliente($id_cliente, $telefone, $email);
 
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');

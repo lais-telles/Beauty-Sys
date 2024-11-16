@@ -37,7 +37,7 @@ class ProfissionalController extends Controller
             'data_nascimento' => ['required', new validaData],
             'cpf' => ['required', new validaCPF],
             'telefone' => ['required', new validaCelular],
-            'emailCadasProf' => 'required|string|email|max:255|unique:profissionais,email',
+            'emailCadasProf' => 'required|string|email|max:100|unique:profissionais,email',
             'senhaCadasProf' => 'required|string|min:8',
         ]);
 
@@ -345,6 +345,13 @@ class ProfissionalController extends Controller
     {
         // Captura o id do profissional autenticado usando Auth
         $id_profissional = Auth::guard('profissional')->id();
+
+        // Validação dos dados
+        $request->validate([
+            'telefone' => ['required', new validaCelular],
+            'email' => ['required', 'email', 'max:100', 'unique:profissionais,email,' . $id_profissional . ',id_profissional',],
+        ]);
+
         $telefone = $request->input('telefone');
         $email = $request->input('email');
 

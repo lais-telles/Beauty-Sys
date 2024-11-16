@@ -47,7 +47,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="cep">CEP:</label>
-                                <input type="text" class="form-control" id="cep" name="CEP" value="{{ $registro->CEP }}" readonly required>
+                                <input type="text" class="form-control" id="cep" name="cep" value="{{ $registro->CEP }}" readonly required>
                             </div>
                             <div class="form-group">
                                 <label for="inicio_expediente">Início Expediente:</label>
