@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 14/11/2024 às 13:17
+-- Tempo de geração: 18/11/2024 às 11:53
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -25,15 +25,15 @@ DELIMITER $$
 --
 -- Procedimentos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_cliente` (IN `p_id_cliente` INT, IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_cliente` (IN `p_id_cliente` INT, IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(100))   BEGIN
 UPDATE clientes SET telefone = p_telefone, email = p_email WHERE id_cliente = p_id_cliente; 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_estabelecimento` (IN `p_id_estabelecimento` INT, IN `p_nome_fantasia` VARCHAR(40), IN `p_telefone` VARCHAR(15), IN `p_logradouro` VARCHAR(40), IN `p_numero` INT, IN `p_bairro` VARCHAR(40), IN `p_cidade` VARCHAR(40), IN `p_estado` VARCHAR(2), IN `p_cep` VARCHAR(9), IN `p_inicio_expediente` TIME, IN `p_termino_expediente` TIME, IN `p_email` VARCHAR(100), IN `p_senha` VARCHAR(255))   BEGIN  
-UPDATE estabelecimentos SET nome_fantasia = p_nome_fantasia, telefone = p_telefone, logradouro = p_logradouro, numero = p_numero, bairro = p_bairro, cidade = p_cidade, estado = p_estado, cep = p_cep, inicio_expediente = p_inicio_expediente, termino_expediente = p_termino_expediente, email = p_email, senha = p_senha WHERE id_estabelecimento = p_id_estabelecimento;   
+CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_estabelecimento` (IN `p_id_estabelecimento` INT, IN `p_nome_fantasia` VARCHAR(40), IN `p_telefone` VARCHAR(15), IN `p_logradouro` VARCHAR(40), IN `p_numero` INT, IN `p_bairro` VARCHAR(40), IN `p_cidade` VARCHAR(40), IN `p_estado` VARCHAR(2), IN `p_cep` VARCHAR(9), IN `p_inicio_expediente` TIME, IN `p_termino_expediente` TIME, IN `p_email` VARCHAR(100))   BEGIN  
+UPDATE estabelecimentos SET nome_fantasia = p_nome_fantasia, telefone = p_telefone, logradouro = p_logradouro, numero = p_numero, bairro = p_bairro, cidade = p_cidade, estado = p_estado, cep = p_cep, inicio_expediente = p_inicio_expediente, termino_expediente = p_termino_expediente, email = p_email WHERE id_estabelecimento = p_id_estabelecimento;   
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_profissional` (IN `p_id_profissional` INT, IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(30))   BEGIN 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `atualizar_profissional` (IN `p_id_profissional` INT, IN `p_telefone` VARCHAR(15), IN `p_email` VARCHAR(100))   BEGIN 
 UPDATE profissionais SET telefone = p_telefone, email = p_email WHERE id_profissional = p_id_profissional; 
 END$$
 
@@ -701,7 +701,7 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id_cliente`, `nome`, `data_nasc`, `CPF`, `telefone`, `email`, `senha`, `email_verificado`) VALUES
-(1, 'Rodrigo Oliveira Feitosa', '2001-03-02', '886.378.820-05', '(19) 98908-5358', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$sxZZPwskwqdJ0aE2L2KZ7uuaGYPBSKn6eaOju9mdIDpaQvkkXM6Oy', 1),
+(1, 'Rodrigo Oliveira Feitosa', '2001-03-02', '886.378.820-05', '(69) 1658-7236', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$sxZZPwskwqdJ0aE2L2KZ7uuaGYPBSKn6eaOju9mdIDpaQvkkXM6Oy', 1),
 (2, 'Luísa Ferreira Martins', '1993-01-01', '353.615.474-33', '(99) 98041-7101', 'luisa@exemplo.com', '$2y$12$/NSzvSiPrV4yb0che/aolOerGZhIvYnfgJqslMj94eYnnEZYKZy9O', 1),
 (3, 'Rafael Costa Almeida', '2000-05-06', '720.974.120-84', '(16) 97458-2913', 'rafael@exemplo.com', '$2y$12$.bgUxMcJ3eBg9xCt51aUpOEPlrGxyh4Jy.DlEftFwiORoQtUaoQe.', 1),
 (4, 'Trophozilda Alves de Assis', '1966-06-06', '675.092.432-89', '(87) 98406-0022', 'tropho.zilda@exemplo.com', '$2y$12$9SpZbJG7kLv5eZIAljmBqOvDtyn7uz9lJcVI6JIt6L30BNavWv70y', 1),
@@ -762,7 +762,8 @@ INSERT INTO `confirmacoes_emails` (`token`, `email`, `created_at`, `id_usuario`,
 ('WgkXVHEYbpkS4jFCr6MyZzsXoVExnIuULEEiiSGlkOEqTwos1Lx0tCt3XvWO', 'kings@exemplo.com', '2024-11-13 19:08:35', 2, 'estabelecimento'),
 ('PwOzovs67pEsh1NEEgmF970nCYMc0wAXUUzEMtq3oJfyfIUIDW8vYuGIbm22', 'urb@exemplo.com', '2024-11-13 19:11:20', 3, 'estabelecimento'),
 ('jtQeYso2rDdjNv9MgQar98jj2w4qI5XdjQySsuk5Cu8jTvrhLaNDLMqzhca9', 'arte@exemplo.com', '2024-11-13 19:13:18', 4, 'estabelecimento'),
-('J1GAYzc3smk7DKyjxdTB5HeOB3h4iBtt4uhVC3rYYzkNHzHylX9eNepVFXKH', 'barberf@exemplo.com', '2024-11-13 19:17:25', 5, 'estabelecimento');
+('J1GAYzc3smk7DKyjxdTB5HeOB3h4iBtt4uhVC3rYYzkNHzHylX9eNepVFXKH', 'barberf@exemplo.com', '2024-11-13 19:17:25', 5, 'estabelecimento'),
+('CPnZ9UTiX8yIam9WsvpRlLpDFSg0dWPBazesKtMpOOWDlLAkK8cpG0D3rN1K', 'rodrigo@exemplo.com', '2024-11-16 14:41:23', 1, 'cliente');
 
 -- --------------------------------------------------------
 
@@ -827,7 +828,7 @@ INSERT INTO `estabelecimentos` (`id_estabelecimento`, `razao_social`, `nome_fant
 (3, 'Beleza Urbana Estética ltda.', 'Studio Urbana', '(44) 2312-7234', '09.598.280/0001-56', 'Rua da Harmonia', 785, 'Vila Nova', 'Curitiba', 'PR', '80567-890', '08:00:00', '16:00:00', 'urb@exemplo.com', '$2y$12$1qrU6m1NFNtlz.YE3DpvWOz.mvUbVajWSHF/8x1DAfdfXs5Fdi3km', 1, '1731529381_images (1).png'),
 (4, 'Salão Cabelo & Arte S.A.', 'Arte dos Fios', '(38) 2851-7307', '27.444.476/0001-78', 'Alameda das Palmeiras', 569, 'Bosque Verde', 'Rio de Janeiro', 'RJ', '22345-678', '09:30:00', '14:30:00', 'arte@exemplo.com', '$2y$12$qAhpeyqIMCLwLiMM1q3I4O6XkoZ7mmDVh8MiQzXmoVCMTH7UyLzHe', 1, 'gtyertgdg.jpg'),
 (5, 'Barbearia RF ltda.', 'BarberShop', '(19) 98908-5358', '52.601.774/0001-71', '(63) 3257-6896', 698, 'Nossa Sra. Auxiliadora', 'Hortolândia', 'SP', '13183-287', '10:30:00', '22:30:00', 'barberf@exemplo.com', '$2y$12$f4/1NHE56t/Kr54SsQDSv.ny2GGWr5cKJ/JcyHQJYSIy0E7V0hO3G', 1, '1731529642_images (2).png'),
-(6, 'Barber Oficial ltda.', 'A Barbearia', '(19) 98908-5358', '28.283.482/0001-53', 'Alameda de Assis', 752, 'Remanso Hortolandense', 'Hortolândia', 'SP', '85236-954', '07:30:00', '22:00:00', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$Ilfwg57bS4NWFU4DskzDw.mGm3BYjKunPQ.2c1oMWBZzXf2P7pSPq', 1, '1731585025_58e4edebd8fd1f52b82809e522735d20.jpg');
+(6, 'Barber Oficial ltda.', 'A Barbearia', '(19) 3819-7016', '28.283.482/0001-53', 'Alameda de Assis Paiva', 610, 'Remanso Hortolandense', 'Hortolândia', 'SP', '85236-100', '07:30:00', '22:00:00', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$Ilfwg57bS4NWFU4DskzDw.mGm3BYjKunPQ.2c1oMWBZzXf2P7pSPq', 1, '1731585025_58e4edebd8fd1f52b82809e522735d20.jpg');
 
 --
 -- Acionadores `estabelecimentos`
@@ -998,8 +999,8 @@ CREATE TABLE `historico_clientes` (
   `id_alteracao` int(11) NOT NULL,
   `id_cliente` int(11) DEFAULT NULL,
   `campo_alterado` varchar(25) DEFAULT NULL,
-  `valor_antigo` varchar(30) DEFAULT NULL,
-  `valor_novo` varchar(30) DEFAULT NULL,
+  `valor_antigo` varchar(100) DEFAULT NULL,
+  `valor_novo` varchar(100) DEFAULT NULL,
   `data_alteracao` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1012,7 +1013,11 @@ INSERT INTO `historico_clientes` (`id_alteracao`, `id_cliente`, `campo_alterado`
 (2, 2, 'email', 'Luisa@gmail.com', 'luisa@exemplo.com', '2024-11-13 16:44:08'),
 (3, 3, 'email', 'rafael@gmail.com', 'rafael@exemplo.com', '2024-11-13 16:44:53'),
 (4, 4, 'email', 'tropho.zilda@gmail.com', 'tropho.zilda@exemplo.com', '2024-11-13 16:45:27'),
-(5, 5, 'email', 'mari@gmail.com', 'mari@exemplo.com', '2024-11-13 16:45:58');
+(5, 5, 'email', 'mari@gmail.com', 'mari@exemplo.com', '2024-11-13 16:45:58'),
+(6, 1, 'telefone', '(19) 98908-5358', '(19) 98908-5357', '2024-11-16 08:59:54'),
+(7, 1, 'telefone', '(19) 98908-5357', '(19) 98908-6469', '2024-11-16 09:35:56'),
+(8, 1, 'telefone', '(19) 98908-6469', '(11) 9685-4236', '2024-11-16 09:46:45'),
+(9, 1, 'telefone', '(11) 9685-4236', '(69) 1658-7236', '2024-11-16 09:47:08');
 
 -- --------------------------------------------------------
 
@@ -1024,8 +1029,8 @@ CREATE TABLE `historico_estabelecimentos` (
   `id_alteracao` int(11) NOT NULL,
   `id_estabelecimento` int(11) DEFAULT NULL,
   `campo_alterado` varchar(25) DEFAULT NULL,
-  `valor_antigo` varchar(30) DEFAULT NULL,
-  `valor_novo` varchar(30) DEFAULT NULL,
+  `valor_antigo` varchar(100) DEFAULT NULL,
+  `valor_novo` varchar(100) DEFAULT NULL,
   `data_alteracao` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1037,7 +1042,15 @@ INSERT INTO `historico_estabelecimentos` (`id_alteracao`, `id_estabelecimento`, 
 (1, 6, 'senha', '$2y$12$eoWpPEX5ZBwd7pTlAoM/E.i', '$2y$12$Ilfwg57bS4NWFU4DskzDw.m', '2024-11-13 16:21:15'),
 (2, 5, 'nome_fantasia', 'Barber Feitosa', 'BarberShop', '2024-11-13 16:22:03'),
 (3, 1, 'email', 'glamour@gmail.com', 'glamour@exemplo.com', '2024-11-13 17:12:44'),
-(4, 6, 'bairro', 'Remanso Campineiro', 'Remanso Hortolandense', '2024-11-14 09:16:30');
+(4, 6, 'bairro', 'Remanso Campineiro', 'Remanso Hortolandense', '2024-11-14 09:16:30'),
+(5, 6, 'telefone', '(19) 98908-5358', '(19) 98908-5389', '2024-11-16 09:14:06'),
+(6, 6, 'numero', '752', '759', '2024-11-16 09:30:09'),
+(7, 6, 'logradouro', 'Alameda de Assis', 'Alameda de Assis Paiva', '2024-11-16 09:30:29'),
+(8, 6, 'cep', '85236-954', '85236-989', '2024-11-16 09:30:29'),
+(9, 6, 'telefone', '(19) 98908-5389', '(19) 97208-5389', '2024-11-16 09:31:23'),
+(10, 6, 'numero', '759', '610', '2024-11-16 10:13:06'),
+(11, 6, 'telefone', '(19) 97208-5389', '(19) 3819-7016', '2024-11-16 10:13:36'),
+(12, 6, 'cep', '85236-989', '85236-100', '2024-11-16 10:13:36');
 
 -- --------------------------------------------------------
 
@@ -1049,8 +1062,8 @@ CREATE TABLE `historico_profissionais` (
   `id_alteracao` int(11) NOT NULL,
   `id_profissional` int(11) DEFAULT NULL,
   `campo_alterado` varchar(25) DEFAULT NULL,
-  `valor_antigo` varchar(30) DEFAULT NULL,
-  `valor_novo` varchar(30) DEFAULT NULL,
+  `valor_antigo` varchar(100) DEFAULT NULL,
+  `valor_novo` varchar(100) DEFAULT NULL,
   `data_alteracao` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1072,7 +1085,11 @@ INSERT INTO `historico_profissionais` (`id_alteracao`, `id_profissional`, `campo
 (11, 2, 'senha', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2', '2024-11-13 17:12:10'),
 (12, 3, 'senha', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2', '2024-11-13 17:12:14'),
 (13, 4, 'senha', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2', '2024-11-13 17:12:17'),
-(14, 5, 'senha', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2', '2024-11-13 17:12:20');
+(14, 5, 'senha', '$2y$12$7XIGkGN8S76gL2ojnFofZuy', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2', '2024-11-13 17:12:20'),
+(15, 5, 'telefone', '(68) 97323-6557', '(68) 97323-6558', '2024-11-16 09:01:21'),
+(16, 5, 'telefone', '(68) 97323-6558', '(68) 97323-6557', '2024-11-16 09:04:52'),
+(17, 5, 'telefone', '(68) 97323-6557', '(68) 97323-6469', '2024-11-16 09:34:14'),
+(18, 5, 'telefone', '(68) 97323-6469', '(19) 98908-5358', '2024-11-16 09:49:34');
 
 -- --------------------------------------------------------
 
@@ -1173,7 +1190,7 @@ INSERT INTO `profissionais` (`id_profissional`, `nome`, `data_nasc`, `CPF`, `tel
 (2, 'Amanda Pereira Torres', '2005-12-25', '025.948.848-80', '(97) 99175-9060', 'amandinha@exemplo.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', 4, 1, 'ytderty.jpg'),
 (3, 'Carolina Nogueira Lopes', '1998-09-30', '631.432.950-74', '(33) 98366-1972', 'carol@exemplo.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', 3, 1, 'hgfhrt.jpg'),
 (4, 'Larissa Mendes Araújo', '1995-11-23', '846.397.918-10', '(69) 99864-3244', 'lari@exemplo.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', 4, 1, 'hgfhrt.jpg'),
-(5, 'Rodrigo Oliveira Feitosa', '2001-03-02', '431.424.890-45', '(68) 97323-6557', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', 5, 1, NULL);
+(5, 'Rodrigo Oliveira Feitosa', '2001-03-02', '431.424.890-45', '(19) 98908-5358', 'rodrigooliveirafeitosa@gmail.com', '$2y$12$bBHA2XPVgaje7K2oqhm8KO2fC0VygV8JqWtyQVs1cY8ByTQhw8qWe', 5, 1, NULL);
 
 --
 -- Acionadores `profissionais`
@@ -1651,19 +1668,19 @@ ALTER TABLE `grades_horario`
 -- AUTO_INCREMENT de tabela `historico_clientes`
 --
 ALTER TABLE `historico_clientes`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `historico_estabelecimentos`
 --
 ALTER TABLE `historico_estabelecimentos`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `historico_profissionais`
 --
 ALTER TABLE `historico_profissionais`
-  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_alteracao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de tabela `logs_tokens`
