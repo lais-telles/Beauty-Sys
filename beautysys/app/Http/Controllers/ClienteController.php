@@ -385,10 +385,30 @@ class ClienteController extends Controller
         $horario_inicio = $request->input('horario_inicio');
         $id_servico = $request->input('servico');
 
-        DB::statement('CALL realizar_agendamento(?, ?, ?, ?, ?, ?)',[$id_cliente, $id_profissional, $id_pag, $data_realizacao, $horario_inicio, $id_servico]);
+        // Verificar se já existe um agendamento no mesmo dia e horário para o cliente
+        $agendamentoExistente = DB::table('agendamentos')
+            ->where('id_cliente', $id_cliente)
+            ->where('data_realizacao', $data_realizacao)
+            ->where('horario_inicio', $horario_inicio)
+            ->exists();
+
+        if ($agendamentoExistente) {
+            return redirect()->back()->with('error', 'Você já possui um agendamento nesse dia e horário.');
+        }
+
+        // Chamar a procedure para realizar o agendamento
+        DB::statement('CALL realizar_agendamento(?, ?, ?, ?, ?, ?)', [
+            $id_cliente,
+            $id_profissional,
+            $id_pag,
+            $data_realizacao,
+            $horario_inicio,
+            $id_servico,
+        ]);
 
         return redirect()->back()->with('success', 'Agendamento realizado com sucesso!');
     }
+
 
     public function listaProfissionais() 
     {
