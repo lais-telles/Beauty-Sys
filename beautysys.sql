@@ -607,16 +607,16 @@ DELIMITER ;
 
 CREATE TABLE `agendamentos` (
   `id_agendamento` int(11) NOT NULL,
-  `id_cliente` int(11) DEFAULT NULL,
-  `id_profissional` int(11) DEFAULT NULL,
-  `id_opcaopag` int(11) DEFAULT NULL,
-  `id_status` int(11) DEFAULT NULL,
-  `id_servico` int(11) DEFAULT NULL,
-  `data_realizacao` date DEFAULT NULL,
-  `data_agendamento` date DEFAULT NULL,
-  `horario_inicio` time DEFAULT NULL,
-  `horario_termino` time DEFAULT NULL,
-  `valor_total` float DEFAULT NULL
+  `id_cliente` int(11) NOT NULL,
+  `id_profissional` int(11) NOT NULL,
+  `id_opcaopag` int(11) NOT NULL,
+  `id_status` int(11) NOT NULL,
+  `id_servico` int(11) NOT NULL,
+  `data_realizacao` date NOT NULL,
+  `data_agendamento` date NOT NULL,
+  `horario_inicio` time NOT NULL,
+  `horario_termino` time NOT NULL,
+  `valor_total` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -640,9 +640,9 @@ INSERT INTO `agendamentos` (`id_agendamento`, `id_cliente`, `id_profissional`, `
 
 CREATE TABLE `avaliacoes` (
   `id_avaliacao` int(11) NOT NULL,
-  `id_pedido` int(11) DEFAULT NULL,
-  `id_cliente` int(11) DEFAULT NULL,
-  `nota` int(11) DEFAULT NULL
+  `id_pedido` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `nota` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -653,7 +653,7 @@ CREATE TABLE `avaliacoes` (
 
 CREATE TABLE `categorias_produto` (
   `id_categoria` int(11) NOT NULL,
-  `descricao` varchar(40) DEFAULT NULL
+  `descricao` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -664,7 +664,7 @@ CREATE TABLE `categorias_produto` (
 
 CREATE TABLE `categorias_servico` (
   `id_categoria` int(11) NOT NULL,
-  `descricao` varchar(40) DEFAULT NULL
+  `descricao` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -687,12 +687,12 @@ INSERT INTO `categorias_servico` (`id_categoria`, `descricao`) VALUES
 
 CREATE TABLE `clientes` (
   `id_cliente` int(11) NOT NULL,
-  `nome` varchar(50) DEFAULT NULL,
-  `data_nasc` date DEFAULT NULL,
-  `CPF` varchar(14) DEFAULT NULL,
-  `telefone` varchar(15) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `senha` varchar(255) DEFAULT NULL,
+  `nome` varchar(50) NOT NULL,
+  `data_nasc` date NOT NULL,
+  `CPF` varchar(14) NOT NULL,
+  `telefone` varchar(15) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `senha` varchar(255) NOT NULL,
   `email_verificado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -773,12 +773,12 @@ INSERT INTO `confirmacoes_emails` (`token`, `email`, `created_at`, `id_usuario`,
 
 CREATE TABLE `enderecos` (
   `id_endereco` int(11) NOT NULL,
-  `estado` varchar(40) DEFAULT NULL,
-  `cidade` varchar(40) DEFAULT NULL,
-  `bairro` varchar(40) DEFAULT NULL,
-  `logradouro` varchar(40) DEFAULT NULL,
-  `numero` int(11) DEFAULT NULL,
-  `CEP` varchar(9) DEFAULT NULL
+  `estado` varchar(40) NOT NULL,
+  `cidade` varchar(40) NOT NULL,
+  `bairro` varchar(40) NOT NULL,
+  `logradouro` varchar(40) NOT NULL,
+  `numero` int(11) NOT NULL,
+  `CEP` varchar(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -800,20 +800,20 @@ CREATE TABLE `enderecos_clientes` (
 
 CREATE TABLE `estabelecimentos` (
   `id_estabelecimento` int(11) NOT NULL,
-  `razao_social` varchar(40) DEFAULT NULL,
-  `nome_fantasia` varchar(40) DEFAULT NULL,
-  `telefone` varchar(15) DEFAULT NULL,
-  `CNPJ` varchar(18) DEFAULT NULL,
-  `logradouro` varchar(40) DEFAULT NULL,
-  `numero` int(11) DEFAULT NULL,
-  `bairro` varchar(40) DEFAULT NULL,
-  `cidade` varchar(40) DEFAULT NULL,
-  `estado` varchar(2) DEFAULT NULL,
-  `CEP` varchar(9) DEFAULT NULL,
-  `inicio_expediente` time DEFAULT NULL,
-  `termino_expediente` time DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `senha` varchar(255) DEFAULT NULL,
+  `razao_social` varchar(40) NOT NULL,
+  `nome_fantasia` varchar(40) NOT NULL,
+  `telefone` varchar(15) NOT NULL,
+  `CNPJ` varchar(18) NOT NULL,
+  `logradouro` varchar(40) NOT NULL,
+  `numero` int(11) NOT NULL,
+  `bairro` varchar(40) NOT NULL,
+  `cidade` varchar(40) NOT NULL,
+  `estado` varchar(2) NOT NULL,
+  `CEP` varchar(9) NOT NULL,
+  `inicio_expediente` time NOT NULL,
+  `termino_expediente` time NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `senha` varchar(255) NOT NULL,
   `email_verificado` tinyint(1) NOT NULL,
   `imagem_perfil` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -931,7 +931,7 @@ CREATE TABLE `estabelecimentos_populares` (
 
 CREATE TABLE `formas_pagamentos` (
   `id_opcaopag` int(11) NOT NULL,
-  `descricao` varchar(40) DEFAULT NULL
+  `descricao` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -952,10 +952,10 @@ INSERT INTO `formas_pagamentos` (`id_opcaopag`, `descricao`) VALUES
 
 CREATE TABLE `grades_horario` (
   `id_grade` int(11) NOT NULL,
-  `id_profissional` int(11) DEFAULT NULL,
-  `dia_semana` enum('1','2','3','4','5','6','7') DEFAULT NULL,
-  `hora_inicio` time DEFAULT NULL,
-  `hora_termino` time DEFAULT NULL
+  `id_profissional` int(11) NOT NULL,
+  `dia_semana` enum('1','2','3','4','5','6','7') NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_termino` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -997,11 +997,11 @@ INSERT INTO `grades_horario` (`id_grade`, `id_profissional`, `dia_semana`, `hora
 
 CREATE TABLE `historico_clientes` (
   `id_alteracao` int(11) NOT NULL,
-  `id_cliente` int(11) DEFAULT NULL,
-  `campo_alterado` varchar(25) DEFAULT NULL,
-  `valor_antigo` varchar(100) DEFAULT NULL,
-  `valor_novo` varchar(100) DEFAULT NULL,
-  `data_alteracao` datetime DEFAULT NULL
+  `id_cliente` int(11) NOT NULL,
+  `campo_alterado` varchar(25) NOT NULL,
+  `valor_antigo` varchar(100) NOT NULL,
+  `valor_novo` varchar(100) NOT NULL,
+  `data_alteracao` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1027,11 +1027,11 @@ INSERT INTO `historico_clientes` (`id_alteracao`, `id_cliente`, `campo_alterado`
 
 CREATE TABLE `historico_estabelecimentos` (
   `id_alteracao` int(11) NOT NULL,
-  `id_estabelecimento` int(11) DEFAULT NULL,
-  `campo_alterado` varchar(25) DEFAULT NULL,
-  `valor_antigo` varchar(100) DEFAULT NULL,
-  `valor_novo` varchar(100) DEFAULT NULL,
-  `data_alteracao` datetime DEFAULT NULL
+  `id_estabelecimento` int(11) NOT NULL,
+  `campo_alterado` varchar(25) NOT NULL,
+  `valor_antigo` varchar(100) NOT NULL,
+  `valor_novo` varchar(100) NOT NULL,
+  `data_alteracao` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1060,11 +1060,11 @@ INSERT INTO `historico_estabelecimentos` (`id_alteracao`, `id_estabelecimento`, 
 
 CREATE TABLE `historico_profissionais` (
   `id_alteracao` int(11) NOT NULL,
-  `id_profissional` int(11) DEFAULT NULL,
-  `campo_alterado` varchar(25) DEFAULT NULL,
-  `valor_antigo` varchar(100) DEFAULT NULL,
-  `valor_novo` varchar(100) DEFAULT NULL,
-  `data_alteracao` datetime DEFAULT NULL
+  `id_profissional` int(11) NOT NULL,
+  `campo_alterado` varchar(25) NOT NULL,
+  `valor_antigo` varchar(100) NOT NULL,
+  `valor_novo` varchar(100) NOT NULL,
+  `data_alteracao` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1100,7 +1100,7 @@ INSERT INTO `historico_profissionais` (`id_alteracao`, `id_profissional`, `campo
 CREATE TABLE `itens_pedido` (
   `id_pedido` int(11) NOT NULL,
   `id_produto` int(11) NOT NULL,
-  `qtd_item` int(11) DEFAULT NULL
+  `qtd_item` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1140,12 +1140,12 @@ INSERT INTO `logs_tokens` (`id_token`, `token`, `email`, `created_at`, `used_at`
 
 CREATE TABLE `pedidos` (
   `id_pedido` int(11) NOT NULL,
-  `id_cliente` int(11) DEFAULT NULL,
-  `id_endereco` int(11) DEFAULT NULL,
-  `id_opcaopag` int(11) DEFAULT NULL,
-  `id_status` int(11) DEFAULT NULL,
-  `data_compra` datetime DEFAULT NULL,
-  `valor_total` float DEFAULT NULL
+  `id_cliente` int(11) NOT NULL,
+  `id_endereco` int(11) NOT NULL,
+  `id_opcaopag` int(11) NOT NULL,
+  `id_status` int(11) NOT NULL,
+  `data_compra` datetime NOT NULL,
+  `valor_total` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1156,10 +1156,10 @@ CREATE TABLE `pedidos` (
 
 CREATE TABLE `produtos` (
   `id_produto` int(11) NOT NULL,
-  `nome` varchar(50) DEFAULT NULL,
-  `valor` float DEFAULT NULL,
-  `id_categoria` int(11) DEFAULT NULL,
-  `id_estabelecimento` int(11) DEFAULT NULL
+  `nome` varchar(50) NOT NULL,
+  `valor` float NOT NULL,
+  `id_categoria` int(11) NOT NULL,
+  `id_estabelecimento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1170,12 +1170,12 @@ CREATE TABLE `produtos` (
 
 CREATE TABLE `profissionais` (
   `id_profissional` int(11) NOT NULL,
-  `nome` varchar(50) DEFAULT NULL,
-  `data_nasc` date DEFAULT NULL,
-  `CPF` varchar(14) DEFAULT NULL,
-  `telefone` varchar(15) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `senha` varchar(255) DEFAULT NULL,
+  `nome` varchar(50) NOT NULL,
+  `data_nasc` date NOT NULL,
+  `CPF` varchar(14) NOT NULL,
+  `telefone` varchar(15) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `senha` varchar(255) NOT NULL,
   `estabel_vinculado` int(11) DEFAULT NULL,
   `email_verificado` tinyint(1) NOT NULL,
   `imagem_perfil` varchar(255) DEFAULT NULL
@@ -1300,11 +1300,11 @@ CREATE TABLE `resets_senhas` (
 
 CREATE TABLE `servicos` (
   `id_servico` int(11) NOT NULL,
-  `nome` varchar(50) DEFAULT NULL,
-  `valor` float DEFAULT NULL,
-  `duracao` time DEFAULT NULL,
-  `id_categoria` int(11) DEFAULT NULL,
-  `id_estabelecimento` int(11) DEFAULT NULL
+  `nome` varchar(50) NOT NULL,
+  `valor` float NOT NULL,
+  `duracao` time NOT NULL,
+  `id_categoria` int(11) NOT NULL,
+  `id_estabelecimento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1338,7 +1338,7 @@ INSERT INTO `servicos` (`id_servico`, `nome`, `valor`, `duracao`, `id_categoria`
 
 CREATE TABLE `status_agendamentos` (
   `id_status` int(11) NOT NULL,
-  `descricao` varchar(30) DEFAULT NULL
+  `descricao` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1360,7 +1360,7 @@ INSERT INTO `status_agendamentos` (`id_status`, `descricao`) VALUES
 
 CREATE TABLE `status_pedidos` (
   `id_status` int(11) NOT NULL,
-  `descricao` varchar(30) DEFAULT NULL
+  `descricao` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -1371,10 +1371,10 @@ CREATE TABLE `status_pedidos` (
 
 CREATE TABLE `vinculos` (
   `id_vinculo` int(11) NOT NULL,
-  `id_profissional` int(11) DEFAULT NULL,
-  `id_estabelecimento` int(11) DEFAULT NULL,
-  `status_vinculo` enum('pendente','aprovado','rejeitado','cancelado') DEFAULT NULL,
-  `data_vinculo` datetime DEFAULT NULL
+  `id_profissional` int(11) NOT NULL,
+  `id_estabelecimento` int(11) NOT NULL,
+  `status_vinculo` enum('pendente','aprovado','rejeitado','cancelado') NOT NULL,
+  `data_vinculo` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
