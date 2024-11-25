@@ -805,7 +805,7 @@ CREATE TABLE `estabelecimentos` (
   `telefone` varchar(15) NOT NULL,
   `CNPJ` varchar(18) NOT NULL,
   `logradouro` varchar(40) NOT NULL,
-  `numero` int(11) NOT NULL,
+  `numero` varchar(11) NOT NULL,
   `bairro` varchar(40) NOT NULL,
   `cidade` varchar(40) NOT NULL,
   `estado` varchar(2) NOT NULL,

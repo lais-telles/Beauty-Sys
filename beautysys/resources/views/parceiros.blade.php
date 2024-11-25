@@ -154,7 +154,7 @@
                         @enderror
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control rounded-3 @error('numero') is-invalid @enderror" id="floatingNumero" name="numero" placeholder="Número" value="{{ old('numero') }}" required>
+                        <input type="text" class="form-control rounded-3 @error('numero') is-invalid @enderror" id="floatingNumero" name="numero" placeholder="Número" value="{{ old('numero') }}" required>
                         <label for="floatingNumero">Número</label>
                         @error('numero')
                         <div class="invalid-feedback">{{ $message }}</div>
