@@ -476,7 +476,7 @@
     });
 
     document.addEventListener("DOMContentLoaded", function() {
-        flatpickr("#floatingDate", {
+        const flatpickrInstance = flatpickr("#floatingDate", {
             dateFormat: "Y-m-d",
             altInput: true, // Exibe um campo separado para visualização amigável
             altFormat: "d/m/Y", // Formato amigável para exibição
@@ -485,7 +485,12 @@
             allowInput: true, // Permite que o usuário digite a data
             yearRange: 100 // Intervalo de anos visível no seletor
         });
+
+        IMask(flatpickrInstance.altInput, {
+            mask: '00/00/0000'
+        });
     });
+
 
     document.addEventListener('DOMContentLoaded', function() {
         flatpickr("#floatingTerminoExpediente", {

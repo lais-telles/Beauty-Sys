@@ -14,6 +14,7 @@ use App\Models\LogsToken;
 use App\Models\ConfirmacaoEmail;
 use App\Rules\validaCPF;
 use App\Rules\validaCelular;
+use App\Rules\validaDataCliente;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -29,7 +30,7 @@ class ClienteController extends Controller
         // Valida os dados enviados pelo modal
         $validatedData = $request->validate([
             'nome' => 'required|string|max:50',
-            'data_nascimento' => 'required|date',
+            'data_nascimento' => ['required', new validaDataCliente],
             'cpf' => ['required', new validaCPF],
             'telefone' => ['required', new validaCelular],
             'email' => 'required|string|email|max:100|unique:clientes',

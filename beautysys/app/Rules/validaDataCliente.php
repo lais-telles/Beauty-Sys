@@ -5,7 +5,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use DateTime;
 
-class validaData implements Rule
+class validaDataCliente implements Rule
 {
     public function passes($attribute, $value)
     {
@@ -28,11 +28,11 @@ class validaData implements Rule
         $idade = $hoje->diff($nascimento);
 
         // Verifica se a idade está entre 18 e 125 anos
-        return ($idade->y >= 18 && $idade->y <= 125);
+        return ($idade->y >= 13 && $idade->y <= 125);
     }
 
     public function message()
     {
-        return 'A idade deve ser entre 18 e 125 anos.';
+        return 'A idade deve ser entre 13 e 125 anos.';
     }
 }
