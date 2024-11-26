@@ -250,22 +250,23 @@
         @endif
     });
 
-    document.addEventListener("DOMContentLoaded", function() {
-        flatpickr("#floatingDate", {
-            const flatpickrInstance = flatpickr("#floatingDate", {
-                dateFormat: "Y-m-d",
-                altInput: true, // Exibe um campo separado para visualização amigável
-                altFormat: "d/m/Y", // Formato amigável para exibição
-                maxDate: "today",
-                locale: "pt",
-                allowInput: true, // Permite que o usuário digite a data
-                yearRange: 100 // Intervalo de anos visível no seletor
+    document.addEventListener('DOMContentLoaded', function () {
+        const flatpickrInstance = flatpickr("#floatingDate", {
+            dateFormat: "Y-m-d", // Formato para o valor real
+            altInput: true,      // Campo visual amigável
+            altFormat: "d/m/Y",  // Formato para exibição amigável
+            maxDate: "today",    // Limite máximo de data
+            locale: "pt",        // Idioma para o calendário
+            allowInput: true,    // Permite entrada manual
         });
 
-        IMask(flatpickrInstance.altInput, {
-            mask: '00/00/0000'
-        });
+        if (flatpickrInstance.altInput) { // Verifica se o altInput foi criado
+            IMask(flatpickrInstance.altInput, {
+                mask: "00/00/0000"
+            });
+        }
     });
+
 
     IMask(
         document.getElementById('floatingTelefone'),
