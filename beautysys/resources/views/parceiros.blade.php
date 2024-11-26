@@ -83,19 +83,19 @@
                 <form>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Seu email">
+                        <input type="email" class="form-control" id="email" placeholder="Indisponível no momento" disabled>
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Mensagem</label>
-                        <textarea class="form-control" id="message" rows="3" placeholder="Sua mensagem"></textarea>
+                        <textarea class="form-control" id="message" rows="3" placeholder="Indisponível no momento" disabled></textarea>
                     </div>
                     <button type="submit" class="btn btn-custom disabled">Enviar</button>
                 </form>
             </div>
             <div class="col-md-6 mt-5">
                 <h3 style="color: #73005B">INFORMAÇÕES</h3>
-                <p>Email: contato@beautysys.com</p>
-                <p>Telefone: (11) 1234-5678</p>
+                <p>Email: <a href="mailto:beautysys.auth@gmail.com">beautysys.auth@gmail.com</a></p>
+                <p>Telefone: <a href="tel:+551112345678" class="disabled-link" aria-disabled="true" style="pointer-events: none; color: grey;">(11) 1234-5678</a></p>
                 <p>Redes Sociais:</p>
                 <ul class="list-unstyled">
                     <li><a href="#" class="disabled-link">Instagram</a></li>
