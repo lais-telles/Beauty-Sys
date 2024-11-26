@@ -152,12 +152,12 @@
     </div>
 </div>
 
-    @if ($errors->any())
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var modal = new bootstrap.Modal(document.getElementById('cadServico'));
-        modal.show();
-    });
-</script>
+@if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var modal = new bootstrap.Modal(document.getElementById('cadServico'));
+            modal.show();
+        });
+    </script>
 @endif
 

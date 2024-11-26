@@ -115,11 +115,11 @@
             <div class="d-flex flex-wrap justify-content-between align-items-center">
                 <p class="col-md-4 mb-0">&copy; 2024 BeautySys, Inc</p>
                 <ul class="nav col-md-4 justify-content-end">
-                    <li class="nav-item"><a href="#" class="nav-link px-2">Home</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2">Features</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2">Pricing</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2">FAQs</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2">About</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 disabled-link">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 disabled-link">Features</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 disabled-link">Pricing</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 disabled-link">FAQs</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link px-2 disabled-link">About</a></li>
                 </ul>
             </div>
         </div>
