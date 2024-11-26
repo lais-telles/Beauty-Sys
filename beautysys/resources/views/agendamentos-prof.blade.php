@@ -37,9 +37,6 @@
                             <button class="btn btn-primary" id="button-{{ $agendamento->id_agendamento }}" onclick="toggleSelect({{ $agendamento->id_agendamento }})">
                                 Alterar Status
                             </button>
-                                    <button class="btn btn-primary" id="button-edit-{{ $agendamento->id_agendamento }}" data-bs-toggle="modal" data-bs-target="#EditarAgendamento">
-                                        Editar
-                                    </button>
                                     <form action="{{ route('agendamentosStatus') }}" method="POST" id="form-status-{{ $agendamento->id_agendamento }}" style="display:none; margin-top: 10px;">
                                         @csrf
                                         <input type="hidden" name="id_agendamento" value="{{ $agendamento->id_agendamento }}">
