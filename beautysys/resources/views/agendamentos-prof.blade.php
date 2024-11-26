@@ -11,7 +11,6 @@
             <table class="table table-bordered text-center">
                 <thead>
                     <tr>
-                        <th class="d-none d-md-table-cell">ID</th>
                         <th>Cliente</th>
                         <th>Serviço</th>
                         <th>Data</th>
@@ -26,7 +25,6 @@
                 <tbody>
                     @foreach ($agendamentos as $agendamento)
                     <tr>
-                        <td class="d-none d-md-table-cell">{{ $agendamento->id_agendamento }}</td>
                         <td>{{ $agendamento->nome_cliente }}</td>
                         <td>{{ $agendamento->servico }}</td>
                         <td>{{ $agendamento->data_realizacao }}</td>

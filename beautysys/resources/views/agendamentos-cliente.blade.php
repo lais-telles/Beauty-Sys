@@ -11,7 +11,6 @@
                 @if(!empty($agendamentos))
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th class="d-none d-md-table-cell">Profissional</th> <!-- Oculto em telas menores que 'md' -->
                         <th>Serviço</th>
                         <th>Data</th>
@@ -25,7 +24,6 @@
                 <tbody>
                     @foreach ($agendamentos as $agendamento)
                         <tr>
-                            <td>{{ $agendamento->id_agendamento }}</td>
                             <td class="d-none d-md-table-cell">{{ $agendamento->profissional }}</td>
                             <td>{{ $agendamento->servico }}</td>
                             <td>{{ $agendamento->data_realizacao }}</td>

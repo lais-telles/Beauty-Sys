@@ -24,7 +24,6 @@
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr>
-                            <th class="d-none d-md-table-cell">Id Serviço</th>
                             <th>Nome</th>
                             <th>Valor</th>
                             <th>Duração</th>
@@ -35,7 +34,6 @@
                     @if(count($servicos) > 0)
                         @foreach($servicos as $servico)
                             <tr>
-                                <td class="d-none d-md-table-cell">{{ $servico->id_servico }}</td>
                                 <td>{{ $servico->nome }}</td>
                                 <td>{{ $servico->valor }}</td>
                                 <td>{{ $servico->duracao }}</td>
