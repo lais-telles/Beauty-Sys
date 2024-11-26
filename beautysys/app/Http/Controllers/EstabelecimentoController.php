@@ -296,13 +296,17 @@ class EstabelecimentoController extends Controller
         // Validação dos dados de entrada
         $request->validate([
             'nome' => 'required|string|max:30',
-            'valor' => 'required|numeric',
-            'duracao' => ['required', 'string', 'not_in:00:00:00'], // Garante que não seja 00:00
+            'valor' => 'required|numeric|min:0.01',
+            'duracao' => ['required', 'string', 'not_in:00:00'],
             'id_categoria' => 'required|integer',
         ], [
-            'duracao.not_in' => 'A duração não pode ser zero. Por favor, insira um valor válido.',
-            'duracao.date_format' => 'A duração não pode ser zero. Por favor, insira um valor válido.',
+            'nome.required' => 'O nome do serviço é obrigatório.',
+            'valor.min' => 'O valor deve ser maior que zero.',
+            'duracao.not_in' => 'A duração não pode ser zero.',
+            'id_categoria.required' => 'A categoria é obrigatória.',
         ]);
+        
+        
         
         // Captura o id do estabelecimento autenticado usando Auth
         $id_estabelecimento = Auth::guard('estabelecimento')->id();

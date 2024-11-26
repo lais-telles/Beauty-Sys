@@ -67,39 +67,99 @@
 
 
 <div class="modal fade" id="cadServico" tabindex="-1" aria-labelledby="cadServico" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content rounded-4 shadow">
-                <div class="modal-header p-5 pb-4 border-bottom-0">
-                    <h1 class="fw-bold mb-0 fs-2">Cadastro de Servicos</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+                <h1 class="fw-bold mb-0 fs-2">Cadastro de Servicos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-5 pt-0">
+            <form action="{{ route('cadastrarServico') }}" method="POST">
+                @csrf
+                <!-- Campo Nome -->
+                <div class="form-floating mb-3">
+                    <input 
+                        type="text" 
+                        class="form-control rounded-3 @error('nome') is-invalid @enderror" 
+                        id="floatingNome" 
+                        name="nome" 
+                        placeholder="Nome do Serviço" 
+                        value="{{ old('nome') }}" 
+                        required>
+                    <label for="floatingNome">Nome</label>
+                    @error('nome')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
-                <div class="modal-body p-5 pt-0">
-                <form action="{{ route('cadastrarServico') }}" method="POST">
-                    @csrf
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control rounded-3" id="floatingNome" name="nome" placeholder="nome do serviço" required>
-                        <label for="floatingNome">Nome</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="number" step="0.01" class="form-control rounded-3" id="floatingValor" name="valor" placeholder="R$ 0,00" required>
-                        <label for="floatingValor">Valor</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="time" class="form-control rounded-3" id="floatingDuracao" name="duracao" required step="1">
-                        <label for="floatingDuracao">Duração</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <select id="id_categoria" name="id_categoria" class="form-select" required>
-                            <option value="" disabled selected>Selecione uma categoria</option>
-                            @foreach ($categorias as $categoria)
-                                <option value="{{ $categoria->id_categoria }}">{{ $categoria->descricao }}</option>
-                            @endforeach
-                        </select>
-                        <label for="id_categoria">Categoria</label>
-                    </div>
-                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
-                </form>
+
+                <!-- Campo Valor -->
+                <div class="form-floating mb-3">
+                    <input 
+                        type="number" 
+                        step="0.01" 
+                        class="form-control rounded-3 @error('valor') is-invalid @enderror" 
+                        id="floatingValor" 
+                        name="valor" 
+                        placeholder="R$ 0,00" 
+                        value="{{ old('valor') }}" 
+                        required>
+                    <label for="floatingValor">Valor</label>
+                    @error('valor')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
+
+                <!-- Campo Duração -->
+                <div class="form-floating mb-3">
+                    <input 
+                        type="time" 
+                        class="form-control rounded-3 @error('duracao') is-invalid @enderror" 
+                        id="floatingDuracao" 
+                        name="duracao" 
+                        value="{{ old('duracao') }}" 
+                        required>
+                    <label for="floatingDuracao">Duração</label>
+                    @error('duracao')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Campo Categoria -->
+                <div class="form-floating mb-3">
+                    <select 
+                        id="id_categoria" 
+                        name="id_categoria" 
+                        class="form-select @error('id_categoria') is-invalid @enderror" 
+                        required>
+                        <option value="" disabled selected>Selecione uma categoria</option>
+                        @foreach ($categorias as $categoria)
+                            <option value="{{ $categoria->id_categoria }}" 
+                                {{ old('id_categoria') == $categoria->id_categoria ? 'selected' : '' }}>
+                                {{ $categoria->descricao }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <label for="id_categoria">Categoria</label>
+                    @error('id_categoria')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <!-- Botão de Cadastro -->
+                <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Cadastrar</button>
+            </form>
+
             </div>
         </div>
     </div>
+</div>
+
+    @if ($errors->any())
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = new bootstrap.Modal(document.getElementById('cadServico'));
+        modal.show();
+    });
+</script>
+@endif
+
