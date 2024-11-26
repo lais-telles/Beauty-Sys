@@ -95,10 +95,10 @@
                             <td>{{ $horario->hora_inicio }}</td>
                             <td>{{ $horario->hora_termino }}</td>
                             <td>
-                                <form action="{{ route('deletarHorario', $horario->id_grade) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este horário?');">
+                                <form id="delete-form" action="{{ route('deletarHorario', $horario->id_grade) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#confirmModal">Excluir</button>
                                 </form>
                             </td>
                         </tr>
@@ -113,5 +113,37 @@
     </div>
 </div>
 
+    <!-- Modal de Confirmação -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirmação de Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Tem certeza que deseja excluir este serviço?
+                </div>
+                <div class="modal-footer">
+                    <!-- Botão Cancelar com foco -->
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <!-- Formulário que será submetido ao clicar no botão Excluir -->
+                    <form id="delete-form" action="{{ route('deletarHorario', $horario->id_grade) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Excluir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 @endsection
+
+
+<script>
+    // Garantir que o foco inicial seja no botão Cancelar ao abrir o modal
+    $('#confirmModal').on('shown.bs.modal', function () {
+        $(this).find('button[data-bs-dismiss="modal"]').focus();  // Foco no botão de Cancelar
+    });
+</script>
