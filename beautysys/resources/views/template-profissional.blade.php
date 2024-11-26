@@ -31,6 +31,9 @@
                             <a class="nav-link text-nowrap" href="{{ route('servicosProf') }}">Meus serviços</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-nowrap" href="{{ route('gradeProf') }}">Meus horários</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-nowrap" href="{{ route('vinculoProf') }}">Vínculo</a>
                         </li>
                     </ul>
@@ -88,6 +91,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="{{ route('servicosProf') }}">Meus serviços</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ route('vinculoProf') }}">Meus Horários</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="{{ route('vinculoProf') }}">Vínculo</a>
