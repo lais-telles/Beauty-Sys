@@ -81,7 +81,7 @@
                         <label for="message" class="form-label">Mensagem</label>
                         <textarea class="form-control" id="message" rows="3" placeholder="Sua mensagem"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-custom">Enviar</button>
+                    <button type="submit" class="btn btn-custom disabled">Enviar</button>
                 </form>
             </div>
             <div class="col-md-6">
@@ -90,9 +90,9 @@
                 <p>Telefone: (11) 1234-5678</p>
                 <p>Redes Sociais:</p>
                 <ul class="list-unstyled">
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#" class="disabled-link">Instagram</a></li>
+                    <li><a href="#" class="disabled-link">Facebook</a></li>
+                    <li><a href="#" class="disabled-link">LinkedIn</a></li>
                 </ul>
             </div>
         </div>

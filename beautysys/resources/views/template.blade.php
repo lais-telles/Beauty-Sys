@@ -20,9 +20,15 @@
                 </button>
                 <div class="collapse navbar-collapse" id="nav-principal">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="">Ajuda</a></li>
-                        <li class="nav-item"><a class="nav-link" href="">Baixar</a></li>
-                        <li class="nav-item"><a class="nav-link" href="">Contate-nos</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Ajuda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Baixar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Contate-nos</a>
+                        </li>
                         @yield('nav-buttons')
                     </ul>
                 </div>

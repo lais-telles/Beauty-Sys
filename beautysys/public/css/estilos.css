@@ -171,3 +171,9 @@ h1, h2, h3 {
     border: 3px solid #ddd; /* Adiciona uma borda suave */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona uma sombra leve */
 }
+
+.disabled-link {
+    pointer-events: none; /* Desabilita interações com o link */
+    opacity: 0.5; /* Torna o link visualmente desabilitado */
+    color: gray; /* Altera a cor para um tom mais neutro */
+}
